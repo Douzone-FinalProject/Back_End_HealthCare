@@ -5,4 +5,16 @@
 		select *
 		from staffs
 	</select>
+	
+	<select id="compareHospitalId" resultType="int">
+		select count(*)
+		from staffs
+		where staff_login_id=#{staff_login_id} and hospital_id=#{hospital_id}
+	</select>
+	
+	<select id="compareRole" resultType="int">
+		select count(*)
+		from staffs
+		where staff_login_id=#{staff_login_id} and staff_role=#{staff_role}
+	</select>
 </mapper>

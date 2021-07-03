@@ -32,6 +32,7 @@ public class JwtUtil {
 			token = builder.compact();
 		} catch(Exception e) {
 			e.printStackTrace();
+			logger.info("JWT 생성 오류");
 		}
 		
 		return token;
@@ -50,6 +51,7 @@ public class JwtUtil {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("email 얻기 오류");
 		}
 		return email;
 	}
