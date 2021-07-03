@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DB 연결 설정 및 커넥션 풀 설정 -->
+	<bean id="dataSource"
+		 class="org.apache.commons.dbcp2.BasicDataSource"
+		 destroy-method="close">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://kosa3.iptime.org:3306/team3_douzone?characterEncoding=UTF-8"/>
+		<property name="username" value="team3_douzone"/>
+		<property name="password" value="team3_douzone_kosa"/>
+		<property name="initialSize" value="2"/>
+		<property name="maxTotal" value="5"/>
+		<property name="maxIdle" value="2"/>
+	</bean>
+	
+	   <!-- MyBatis -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+     	<property name="dataSource" ref="dataSource"/>
+     	<property name="configLocation" value="/WEB-INF/mybatis/mapper-config.xml"/>
+    	<property name="mapperLocations" value="/WEB-INF/mybatis/mapper/*.xml"/>
+    </bean>
+
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+      	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+
+
+</beans>
