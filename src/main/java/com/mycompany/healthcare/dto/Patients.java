@@ -21,6 +21,7 @@ public class Patients {
 	private String patient_guardian_phone;
 	private String patient_guardian_relationship;
 	private String patient_register_date;
+
 	public int getPatient_id() {
 		return patient_id;
 	}
