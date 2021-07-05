@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.mycompany.healthcare.dto.Medicines;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.Searchs;
@@ -25,7 +27,7 @@ public class DiagnosticController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DiagnosticController.class);
 	
-	@Autowired DiagnosticsService diagnosticsService;
+	@Autowired DiagnosticsService diagnosticsService; 
 	
 	
 	@GetMapping("/searchSymptom") //증상 검색
@@ -57,8 +59,9 @@ public class DiagnosticController {
 	
 	@GetMapping("/medicine")
 	public List<Medicines> searchMedicine(@RequestParam String keyword) {
+		logger.info(keyword);
 		return diagnosticsService.getMedicines(keyword); 
 	}
-	
+
 
 }

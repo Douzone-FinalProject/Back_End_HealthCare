@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.healthcare.dao.MedicinesDao;
+import com.mycompany.healthcare.dao.SearchsDao;
 import com.mycompany.healthcare.dao.ReceiptAndOpinionsDao;
 import com.mycompany.healthcare.dao.SearchsDao;
 import com.mycompany.healthcare.dto.Medicines;
@@ -19,15 +20,16 @@ public class DiagnosticsService {
 	
 	@Autowired
 	private MedicinesDao medicinesDao;
+
 	
 	@Autowired
 	private ReceiptAndOpinionsDao receiptAndOpinionsDao;
-	
+
 	public List<Searchs> getSearchList(String symptom_name) {
 		List<Searchs> searchList = searchsDao.selectSearchList(symptom_name);
 		return searchList;
 	}
-
+	
 	public List<ReceiptAndOpinions> getSearchPatientIdOpinionList(String patient_id) {
 		List<ReceiptAndOpinions> searchPatientIdOpinionList = receiptAndOpinionsDao.selectSearchPatientIdOpinionList(patient_id);
 		return searchPatientIdOpinionList;
