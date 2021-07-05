@@ -10,4 +10,35 @@
 		#{patient_blood_type},#{patient_max_bp},#{patient_min_bp},#{patient_pulse},#{patient_height},#{patient_weight},
 		#{patient_guardian_name},#{patient_guardian_phone},#{patient_guardian_relationship})
 	</insert>
+	
+	<select id="selectAllPatient" resultType="patients">
+		select patient_id,patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
+			   patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,
+			   patient_guardian_relationship, patient_register_date
+		from patients
+	</select>
+	
+	<select id="selectPatientById" resultType="patients">
+		select patient_id,patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
+			   patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,
+			   patient_guardian_relationship, patient_register_date
+		from patients
+		where patient_id=#{patient_Id}
+	</select>
+	
+	<delete id="deletePatientById">
+		delete from patients
+		where patient_id=#{patient_Id}
+	</delete>
+	
+	<update id="updatePatient">
+		update patients
+		set patient_name=#{patient_name},
+			patient_ssn=#{patient_ssn},patient_sex=#{patient_sex},patient_phone=#{patient_phone},
+			patient_zipcode=#{patient_zipcode}, patient_address=#{patient_address}, patient_detail_address=#{patient_detail_address}, 
+			patient_blood_type=#{patient_blood_type}, patient_max_bp=#{patient_max_bp}, patient_min_bp=#{patient_min_bp}, patient_pulse=#{patient_pulse},
+			patient_height=#{patient_height}, patient_weight=#{patient_weight}, patient_guardian_name=#{patient_guardian_name}, patient_guardian_phone=#{patient_guardian_phone},
+			patient_guardian_relationship=#{patient_guardian_relationship}, patient_register_date=#{patient_register_date}
+		where patient_id=#{patient_id}
+	</update>
 </mapper>

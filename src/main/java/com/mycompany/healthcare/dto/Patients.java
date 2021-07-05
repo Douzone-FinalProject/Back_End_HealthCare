@@ -20,7 +20,9 @@ public class Patients {
 	private String patient_guardian_name;
 	private String patient_guardian_phone;
 	private String patient_guardian_relationship;
-	private Date patient_register_date;
+	private String patient_register_date;
+	
+	
 	public int getPatient_id() {
 		return patient_id;
 	}
@@ -123,10 +125,10 @@ public class Patients {
 	public void setPatient_guardian_relationship(String patient_guardian_relationship) {
 		this.patient_guardian_relationship = patient_guardian_relationship;
 	}
-	public Date getPatient_register_date() {
+	public String getPatient_register_date() {
 		return patient_register_date;
 	}
-	public void setPatient_register_date(Date patient_register_date) {
+	public void setPatient_register_date(String patient_register_date) {
 		this.patient_register_date = patient_register_date;
 	}
 	@Override
