@@ -19,6 +19,4 @@ public class DiagnosticController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DiagnosticController.class);
 	
-	
-
 }
