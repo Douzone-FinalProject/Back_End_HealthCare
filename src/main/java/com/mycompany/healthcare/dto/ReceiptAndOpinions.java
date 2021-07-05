@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReceiptAndOpinions {
 	private int receipt_id;
-	private Date receipt_datetime;
+	private String receipt_datetime;
 	private String receipt_state;
 	private String diagnostic_test_state;
 	private String receipt_opinion;
@@ -16,10 +16,10 @@ public class ReceiptAndOpinions {
 	public void setReceipt_id(int receipt_id) {
 		this.receipt_id = receipt_id;
 	}
-	public Date getReceipt_datetime() {
+	public String getReceipt_datetime() {
 		return receipt_datetime;
 	}
-	public void setReceipt_datetime(Date receipt_datetime) {
+	public void setReceipt_datetime(String receipt_datetime) {
 		this.receipt_datetime = receipt_datetime;
 	}
 	public String getReceipt_state() {

@@ -35,6 +35,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public Map<String, String> login(@RequestBody Map<String, String> userInfo) {
 		Map<String, String> map = new HashMap<>();
+		logger.info("!!!!!!!!!!!");
 		try {
 			String staff_login_id = userInfo.get("staff_login_id");
 			String staff_login_pwd = userInfo.get("staff_login_pwd");
