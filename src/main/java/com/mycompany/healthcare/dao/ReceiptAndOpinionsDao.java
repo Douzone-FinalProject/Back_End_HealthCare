@@ -4,9 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mycompany.healthcare.dto.Staffs;
+import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 
 @Mapper
 public interface ReceiptAndOpinionsDao {
-	public List<Staffs> selectAllStaff();
+	public int insertReceipt(ReceiptAndOpinions receipt);
+	public List<ReceiptAndOpinions> selectAllReceipt();
+	public int deleteReceiptById(int receipt_id);
+	public int updateReceipt(int patient_id);
+
+	public List<ReceiptAndOpinions> selectSearchPatientIdOpinionList(String patient_id);
+	public List<ReceiptAndOpinions> selectSearchDateOpinionList(String receipt_datetime);
 }

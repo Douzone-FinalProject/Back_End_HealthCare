@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.mycompany.healthcare.dto.Medicines;
+import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.Searchs;
 import com.mycompany.healthcare.services.DiagnosticsService;
 
@@ -30,26 +30,32 @@ public class DiagnosticController {
 	@Autowired DiagnosticsService diagnosticsService; 
 	
 	
-	@GetMapping("/searchSymptom")
+	@GetMapping("/searchSymptom") //증상 검색
 	public Map<String, Object> searchSymptom(String symptom_name) {
-		logger.info("111111");
 		List<Searchs> searchList = diagnosticsService.getSearchList(symptom_name);
-		logger.info(searchList+"");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", searchList);
 		
+		return map;
+	}
+	
+	@GetMapping("/searchPatientIdOpinion")
+	public Map<String, Object> searchPatientId(String patient_id) {
+		List<ReceiptAndOpinions> searchPatientIdOpinionList = diagnosticsService.getSearchPatientIdOpinionList(patient_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchPatientIdOpinionList", searchPatientIdOpinionList);
 
 		return map;
 	}
 	
-//	@GetMapping("/medicine")
-//	public Map<String, Object> searchMedicine(@RequestParam String keyword) {
-//		logger.info(keyword);
-//		Map<String, Object> medicines = new HashMap<>();
-//		List<Medicines> medicineList =  diagnosticsService.getMedicines(keyword);
-//		medicines.put("medicines", medicineList);
-//		return medicines; 
-//	}
+	@GetMapping("/searchDateOpinion")
+	public Map<String, Object> searchDateOpinion(String receipt_datetime) {
+		List<ReceiptAndOpinions> searchDateOpinionList = diagnosticsService.getSearchDateOpinionList(receipt_datetime);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchDateOpinionList", searchDateOpinionList);
+
+		return map;
+	}
 	
 	@GetMapping("/medicine")
 	public List<Medicines> searchMedicine(@RequestParam String keyword) {
