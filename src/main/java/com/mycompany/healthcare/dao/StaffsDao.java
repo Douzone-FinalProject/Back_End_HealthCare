@@ -14,5 +14,7 @@ public interface StaffsDao {
 	public int compareRole(@Param("staff_login_id") String staff_login_id, @Param("staff_role") String staff_role);
 	public int getHospitalIdByLoginId(String staff_login_id);
 	public List<Staffs> getStaffListByHospitalId(int hospital_id);
+	public String selectStaffName(String staff_login_id);
+	public String selectStaffRole(String staff_login_id);
 	
 }

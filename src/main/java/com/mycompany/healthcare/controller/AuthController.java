@@ -1,6 +1,7 @@
 package com.mycompany.healthcare.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.healthcare.dto.Staffs;
 import com.mycompany.healthcare.security.JwtUtil;
 import com.mycompany.healthcare.services.AuthService;
 
@@ -52,6 +54,9 @@ public class AuthController {
 			// JWT 생성
 			String jwtToken = JwtUtil.createToken(staff_login_id);
 			
+			//스태프 이름, 권한 가져오기
+			String staffName = authService.getStaffName(staff_login_id);
+			String staffRole = authService.getStaffRole(staff_login_id);
 			
 			//DB에서 병원코드, 권한 비교
 			int hospitalCount = authService.compareHospitalCode(staff_login_id, hospital_id);
@@ -61,6 +66,8 @@ public class AuthController {
 				map.put("staff_login_id", staff_login_id);
 				map.put("authToken", jwtToken);
 				map.put("login_status", "success");
+				map.put("staffName", staffName);
+				map.put("staffRole", staffRole);
 			} else if(hospitalCount == 0) {
 				map.put("login_status", "hospitalIdFailure");
 			} else {
