@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.expressionHandler(securityExpressionHandler()) // 권한 계층 설정
 			// 요청 경고 권한 설정
-
+			
 			// 그 이외의 모든 경로 허가
 			.antMatchers("/**").permitAll();
 	}
@@ -90,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	// 권한 계층 설정 객체 생성
 	public RoleHierarchyImpl roleHierarchyImpl() {
 		RoleHierarchyImpl roleHierarchyImpl = new RoleHierarchyImpl();
-//		roleHierarchyImpl.setHierarchy("ROLE_ADMIN > ROLE_USER");
+		roleHierarchyImpl.setHierarchy("ROLE_DOCTOR > ROLE_NURSE");
 		return roleHierarchyImpl;
 	}
 	

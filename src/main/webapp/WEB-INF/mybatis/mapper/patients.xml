@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.PatientsDao">
-	
+	<insert id="insertPatient" parameterType="patients">
+		insert into patients
+		(patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
+		patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,patient_guardian_relationship)
+		values
+		(#{patient_name}, #{patient_ssn}, #{patient_sex},#{patient_phone},#{patient_zipcode},#{patient_address},#{patient_detail_address},
+		#{patient_blood_type},#{patient_max_bp},#{patient_min_bp},#{patient_pulse},#{patient_height},#{patient_weight},
+		#{patient_guardian_name},#{patient_guardian_phone},#{patient_guardian_relationship})
+	</insert>
 </mapper>

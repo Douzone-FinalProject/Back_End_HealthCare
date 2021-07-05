@@ -4,6 +4,19 @@
 
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.mycompany.healthcare.dto.Bundles" alias="bundles"/>
+		<typeAlias type="com.mycompany.healthcare.dto.DiagnosticImgs" alias="diagnosticImgs"/>
+		<typeAlias type="com.mycompany.healthcare.dto.DiagnosticLists" alias="diagnosticLists"/>
+		<typeAlias type="com.mycompany.healthcare.dto.DiagnosticResults" alias="diagnosticResults"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Hospitals" alias="hospitals"/>
+		<typeAlias type="com.mycompany.healthcare.dto.MedicinePres" alias="medicinePres"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Medicines" alias="medicines"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Messages" alias="messages"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Patients" alias="patients"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Prescriptions" alias="prescriptions"/>
+		<typeAlias type="com.mycompany.healthcare.dto.ReceiptAndOpinions" alias="receiptAndOpinions"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Reservations" alias="reservations"/>
+		<typeAlias type="com.mycompany.healthcare.dto.Searchs" alias="searchs"/>
 		<typeAlias type="com.mycompany.healthcare.dto.Staffs" alias="staffs"/>
 	</typeAliases>
 </configuration>
