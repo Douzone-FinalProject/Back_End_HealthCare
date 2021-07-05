@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Reservations {
 	private int reservation_id;
-	private Date reservation_datetime;
+	private String reservation_datetime;
 	private String reservation_name;
 	private String reservation_phone;
 	private String reservation_reason;
@@ -15,10 +15,10 @@ public class Reservations {
 	public void setReservation_id(int reservation_id) {
 		this.reservation_id = reservation_id;
 	}
-	public Date getReservation_datetime() {
+	public String getReservation_datetime() {
 		return reservation_datetime;
 	}
-	public void setReservation_datetime(Date reservation_datetime) {
+	public void setReservation_datetime(String reservation_datetime) {
 		this.reservation_datetime = reservation_datetime;
 	}
 	public String getReservation_name() {
