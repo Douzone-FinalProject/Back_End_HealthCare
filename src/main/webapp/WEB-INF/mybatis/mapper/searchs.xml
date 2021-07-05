@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.SearchsDao">
-	
+	<select id="selectSearchList" resultType="searchs">
+		select s.search_id, s.symptom_name, s.symptom_id, s.bundle_id, s.bundle_name, b.bundle_specimen, b.bundle_bottle, b.bundle_lab
+		from searchs s, bundles b
+		where s.bundle_id = b.bundle_id and s.symptom_name = #{symptom_name}
+	</select>
 </mapper>
