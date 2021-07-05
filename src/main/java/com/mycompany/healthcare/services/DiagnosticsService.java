@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mycompany.healthcare.dao.MedicinesDao;
 import com.mycompany.healthcare.dao.ReceiptAndOpinionsDao;
 import com.mycompany.healthcare.dao.SearchsDao;
+import com.mycompany.healthcare.dto.Medicines;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.Searchs;
 
@@ -14,6 +16,9 @@ import com.mycompany.healthcare.dto.Searchs;
 public class DiagnosticsService {
 	@Autowired
 	private SearchsDao searchsDao;
+	
+	@Autowired
+	private MedicinesDao medicinesDao;
 	
 	@Autowired
 	private ReceiptAndOpinionsDao receiptAndOpinionsDao;
@@ -31,6 +36,10 @@ public class DiagnosticsService {
 	public List<ReceiptAndOpinions> getSearchDateOpinionList(String receipt_datetime) {
 		List<ReceiptAndOpinions> searchDateOpinionList = receiptAndOpinionsDao.selectSearchDateOpinionList(receipt_datetime);
 		return searchDateOpinionList;
+	}
+	
+	public List<Medicines> getMedicines(String keyword) {
+		return medicinesDao.searchMedicines(keyword);
 	}
 
 }

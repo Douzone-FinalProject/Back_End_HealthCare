@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.healthcare.dto.Medicines;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.Searchs;
 import com.mycompany.healthcare.services.DiagnosticsService;
@@ -52,5 +54,11 @@ public class DiagnosticController {
 
 		return map;
 	}
+	
+	@GetMapping("/medicine")
+	public List<Medicines> searchMedicine(@RequestParam String keyword) {
+		return diagnosticsService.getMedicines(keyword); 
+	}
+	
 
 }
