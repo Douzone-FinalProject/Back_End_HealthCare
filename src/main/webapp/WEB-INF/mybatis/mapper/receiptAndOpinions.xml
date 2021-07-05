@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.ReceiptAndOpinionsDao">
+	<select id="selectSearchPatientIdOpinionList" resultType="receiptAndOpinions">
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		from receipt_and_opinions
+		where patient_id = #{patient_id}
+	</select>
 	
+	<select id="selectSearchDateOpinionList" resultType="receiptAndOpinions">
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		from receipt_and_opinions
+		where receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
+	</select>
 </mapper>

@@ -12,4 +12,6 @@ public interface PatientsDao {
 	public List<Staffs> selectAllStaff();
 
 	public int insertPatient(Patients patients);
+
+	public List<Patients> selectSearchPatientIdList(String patient_id);
 }

@@ -21,4 +21,12 @@ public class AuthService {
 	public int compareRole(String staff_login_id, String staff_role) {
 		return staffsDao.compareRole(staff_login_id, staff_role);
 	}
+
+	public String getStaffName(String staff_login_id) {
+		return staffsDao.selectStaffName(staff_login_id);
+	}
+
+	public String getStaffRole(String staff_login_id) {
+		return staffsDao.selectStaffRole(staff_login_id);
+	}
 }
