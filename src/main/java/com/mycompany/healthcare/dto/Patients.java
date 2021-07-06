@@ -21,6 +21,8 @@ public class Patients {
 	private String patient_guardian_phone;
 	private String patient_guardian_relationship;
 	private String patient_register_date;
+	private String firstReceiptDate; // 최초 진료 날짜 
+	private String lastReceiptDate; // 최근 진료 날짜 
 
 	public int getPatient_id() {
 		return patient_id;
@@ -130,6 +132,19 @@ public class Patients {
 	public void setPatient_register_date(String patient_register_date) {
 		this.patient_register_date = patient_register_date;
 	}
+	
+	public String getFirstReceiptDate() {
+		return firstReceiptDate;
+	}
+	public void setFirstReceiptDate(String firstReceiptDate) {
+		this.firstReceiptDate = firstReceiptDate;
+	}
+	public String getLastReceiptDate() {
+		return lastReceiptDate;
+	}
+	public void setLastReceiptDate(String lastReceiptDate) {
+		this.lastReceiptDate = lastReceiptDate;
+	}
 	@Override
 	public String toString() {
 		return "Patients [patient_id=" + patient_id + ", patient_name=" + patient_name + ", patient_ssn=" + patient_ssn
@@ -140,9 +155,9 @@ public class Patients {
 				+ ", patient_height=" + patient_height + ", patient_weight=" + patient_weight
 				+ ", patient_guardian_name=" + patient_guardian_name + ", patient_guardian_phone="
 				+ patient_guardian_phone + ", patient_guardian_relationship=" + patient_guardian_relationship
-				+ ", patient_register_date=" + patient_register_date + "]";
+				+ ", patient_register_date=" + patient_register_date + ", firstReceiptDate=" + firstReceiptDate
+				+ ", lastReceiptDate=" + lastReceiptDate + "]";
 	}
-	
 	
 	
 }

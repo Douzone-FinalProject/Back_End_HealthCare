@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mycompany.healthcare.dto.Staffs;
+import com.mycompany.healthcare.dto.MedicinePres;
+
 
 @Mapper
 public interface MedicinePresDao {
-	public List<Staffs> selectAllStaff();
+
+	void insertMedicinesList(List<MedicinePres> cmlist);
+
 }

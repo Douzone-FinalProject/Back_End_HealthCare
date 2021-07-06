@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.DiagnosticListsDao">
+	<!--  
+	<resultMap id="detailData" type="diagnosticLists">
+		<result property="diagnostic_list_id" column="diagnostic_list_id"/>
+		<result property="diagnostic_list_barcode" column="diagnostic_list_barcode"/>
+		<result property="diagnostic_list_state" column="diagnostic_list_state"/>
+		<result property="diagnostic_specimen_number" column="diagnostic_specimen_number"/>
+		<result property="receipt_id" column="receipt_id"/>
+		<result property="search_id" column="search_id"/>
+		<association property="searchs" javaType="Searchs">
+			<id property="search_id" column="search_id"/>
+			<result property="symptom_id" column="symptom_id"/> 
+		</association>
+		<collection property="bundles" ofType="bundles"/>
+	</resultMap>
+	-->
+	
+	<insert id="insertRequestTest" parameterType="java.util.List">
+		insert into diagnostic_lists
+		(receipt_id, search_id)
+		values
+		<foreach collection="list" item="item" separator=" , ">
+			(
+				#{item.receipt_id},
+				#{item.search_id}
+			)
+		</foreach>
+	</insert>
+	
+	<select id="selectTestStateDetailLIst" parameterType="int" resultType="testStateDetail">
+		select dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
+			   dl.diagnostic_specimen_number, dl.receipt_id, dl.staff_id, dl.staff_name, s.search_id,
+			   s.symptom_id, b.bundle_id, b.bundle_name, b.bundle_specimen, b.bundle_bottle, b.bundle_lab
+		from diagnostic_lists as dl, searchs as s, bundles as b
+		where dl.receipt_id = #{receiptId} and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+	</select>
+	
+	<update id="updateStateDetail">
+		update diagnostic_lists SET diagnostic_list_state = #{state} 
+		where diagnostic_list_id in
+		<foreach collection="rowKeys" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
 
+	</update> 
+	
 </mapper>
