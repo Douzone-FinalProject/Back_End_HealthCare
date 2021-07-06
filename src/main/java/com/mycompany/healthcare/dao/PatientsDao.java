@@ -15,8 +15,9 @@ public interface PatientsDao {
 	public List<Patients> selectAllPatient();
 	public Patients selectPatientById(int patient_id);
 	public int deletePatientById(int patient_id);
-	public Patients updatePatient(Patients patient);
+	public int updatePatient(Patients patient);
 	public List<Patients> selectSearchPatientIdList(String patient_id);
 	public List<Patients> selectPatientsByName(String patient_name);
+	public String selectFirstReceiptDate(int patient_id);
 	public String selectLastReceiptDate(int patient_id);
 }

@@ -23,7 +23,7 @@
 	<update id="updateReceipt">
 		update receipt_and_opinions
 		set receipt_state = #{nextState}
-		where patient_id = #{patient_id}
+		where receipt_id = #{receipt_id}
 	</update>
 	
 	<select id="selectSearchPatientIdOpinionList" resultType="receiptAndOpinions">

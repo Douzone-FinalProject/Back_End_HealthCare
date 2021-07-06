@@ -12,7 +12,7 @@ public interface ReceiptAndOpinionsDao {
 	public int insertReceipt(ReceiptAndOpinions receipt);
 	public List<ReceiptAndOpinions> selectAllReceipt();
 	public int deleteReceiptById(int receipt_id);
-	public int updateReceipt(@Param("patient_id")int patient_id, @Param("nextState")String nextState);
+	public int updateReceipt(@Param("receipt_id")int receipt_id, @Param("nextState")String nextState);
  
 	public List<ReceiptAndOpinions> selectSearchPatientIdOpinionList(String patient_id);
 	public List<ReceiptAndOpinions> selectSearchDateOpinionList(String receipt_datetime);

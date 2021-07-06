@@ -21,6 +21,7 @@ public class Patients {
 	private String patient_guardian_phone;
 	private String patient_guardian_relationship;
 	private String patient_register_date;
+	private String firstReceiptDate; // 최초 진료 날짜 
 	private String lastReceiptDate; // 최근 진료 날짜 
 
 	public int getPatient_id() {
@@ -132,13 +133,18 @@ public class Patients {
 		this.patient_register_date = patient_register_date;
 	}
 	
+	public String getFirstReceiptDate() {
+		return firstReceiptDate;
+	}
+	public void setFirstReceiptDate(String firstReceiptDate) {
+		this.firstReceiptDate = firstReceiptDate;
+	}
 	public String getLastReceiptDate() {
 		return lastReceiptDate;
 	}
 	public void setLastReceiptDate(String lastReceiptDate) {
 		this.lastReceiptDate = lastReceiptDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "Patients [patient_id=" + patient_id + ", patient_name=" + patient_name + ", patient_ssn=" + patient_ssn
@@ -149,20 +155,8 @@ public class Patients {
 				+ ", patient_height=" + patient_height + ", patient_weight=" + patient_weight
 				+ ", patient_guardian_name=" + patient_guardian_name + ", patient_guardian_phone="
 				+ patient_guardian_phone + ", patient_guardian_relationship=" + patient_guardian_relationship
-				+ ", patient_register_date=" + patient_register_date + ", lastReceiptDate=" + lastReceiptDate
-				+ ", getPatient_id()=" + getPatient_id() + ", getPatient_name()=" + getPatient_name()
-				+ ", getPatient_ssn()=" + getPatient_ssn() + ", getPatient_sex()=" + getPatient_sex()
-				+ ", getPatient_phone()=" + getPatient_phone() + ", getPatient_zipcode()=" + getPatient_zipcode()
-				+ ", getPatient_address()=" + getPatient_address() + ", getPatient_detail_address()="
-				+ getPatient_detail_address() + ", getPatient_blood_type()=" + getPatient_blood_type()
-				+ ", getPatient_max_bp()=" + getPatient_max_bp() + ", getPatient_min_bp()=" + getPatient_min_bp()
-				+ ", getPatient_pulse()=" + getPatient_pulse() + ", getPatient_height()=" + getPatient_height()
-				+ ", getPatient_weight()=" + getPatient_weight() + ", getPatient_guardian_name()="
-				+ getPatient_guardian_name() + ", getPatient_guardian_phone()=" + getPatient_guardian_phone()
-				+ ", getPatient_guardian_relationship()=" + getPatient_guardian_relationship()
-				+ ", getPatient_register_date()=" + getPatient_register_date() + ", getLastReceiptDate()="
-				+ getLastReceiptDate() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ ", patient_register_date=" + patient_register_date + ", firstReceiptDate=" + firstReceiptDate
+				+ ", lastReceiptDate=" + lastReceiptDate + "]";
 	}
 	
 	

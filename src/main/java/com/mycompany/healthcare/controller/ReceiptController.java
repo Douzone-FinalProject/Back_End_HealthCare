@@ -3,7 +3,6 @@ package com.mycompany.healthcare.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +36,6 @@ public class ReceiptController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<Patients> patientList = receiptService.getPatientList();
-			// 최근 진료 기록 
-			for(int i=0; i<patientList.size(); i++) {
-				String lastReceiptDate = receiptService.getLastReceiptDate(patientList.get(i).getPatient_id());
-				if(lastReceiptDate == null) {
-					lastReceiptDate = "기록 없음";
-				}
-				patientList.get(i).setLastReceiptDate(lastReceiptDate);
-			}			
 			map.put("patientList", patientList);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -58,14 +49,6 @@ public class ReceiptController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<Patients> patientList = receiptService.getPatientListByName(patient_name);
-			// 최근 진료 기록 
-			for(int i=0; i<patientList.size(); i++) {
-				String lastReceiptDate = receiptService.getLastReceiptDate(patientList.get(i).getPatient_id());
-				if(lastReceiptDate == null) {
-					lastReceiptDate = "기록 없음";
-				}
-				patientList.get(i).setLastReceiptDate(lastReceiptDate);
-			}
 			map.put("patientList", patientList);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -102,18 +85,18 @@ public class ReceiptController {
 	public Map<String, Object> updatePatient(@RequestBody Patients patient) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			Patients updatePatient = receiptService.updatePatient(patient);
-			map.put("updatePatient", updatePatient);
+			int row = receiptService.updatePatient(patient);
+			map.put("row", row);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
 	
+	
 	// 접수 
 	@PostMapping("")
 	public Map<String, Object> insertReceipt(@RequestBody ReceiptAndOpinions receipt) {
-		logger.info("insertReceipt123: "+ receipt);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			int row = receiptService.insertReceipt(receipt);
@@ -124,10 +107,9 @@ public class ReceiptController {
 		return map;
 	}
 	
-	// 접수 리스트 불러오기 
+	// 접수 리스트 불러오기 - 완료상태 제외
 	@GetMapping("")
 	public Map<String, Object> getReceiptList() {
-		// receipt_state 완료 아닌 상태만 불러오기 
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<ReceiptAndOpinions> receiptList = receiptService.getReceiptList();
@@ -153,10 +135,10 @@ public class ReceiptController {
 	
 	// 진료 보내기 receipt_state [대기 -> 진료중], [수납전 -> 완료]
 	@PutMapping("/{id}/{nextState}")
-	public Map<String, Object> updateReceipt(@PathVariable("id") int patient_id, @PathVariable("nextState") String nextState) {
+	public Map<String, Object> updateReceipt(@PathVariable("id") int receipt_id, @PathVariable("nextState") String nextState) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			int row = receiptService.updateReceipt(patient_id, nextState);
+			int row = receiptService.updateReceipt(receipt_id, nextState);
 			map.put("row", row);
 		} catch(Exception e) {
 			e.printStackTrace();
