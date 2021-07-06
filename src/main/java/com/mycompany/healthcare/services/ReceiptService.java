@@ -26,6 +26,10 @@ public class ReceiptService {
 	public List<Patients> getPatientListByName(String patient_name) {
 		return patientsDao.selectPatientsByName(patient_name);
 	}
+	
+	public String getLastReceiptDate(int patient_id) {
+		return patientsDao.selectLastReceiptDate(patient_id);
+	}
 
 	public Patients getPatientById(int patient_id) {
 		return patientsDao.selectPatientById(patient_id);
@@ -54,6 +58,7 @@ public class ReceiptService {
 	public int updateReceipt(int patient_id, String nextState) {
 		return receiptDao.updateReceipt(patient_id, nextState);
 	}
+
 
 	
 

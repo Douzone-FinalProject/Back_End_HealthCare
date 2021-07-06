@@ -37,6 +37,14 @@ public class ReceiptController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<Patients> patientList = receiptService.getPatientList();
+			// 최근 진료 기록 
+			for(int i=0; i<patientList.size(); i++) {
+				String lastReceiptDate = receiptService.getLastReceiptDate(patientList.get(i).getPatient_id());
+				if(lastReceiptDate == null) {
+					lastReceiptDate = "기록 없음";
+				}
+				patientList.get(i).setLastReceiptDate(lastReceiptDate);
+			}			
 			map.put("patientList", patientList);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -50,13 +58,20 @@ public class ReceiptController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<Patients> patientList = receiptService.getPatientListByName(patient_name);
+			// 최근 진료 기록 
+			for(int i=0; i<patientList.size(); i++) {
+				String lastReceiptDate = receiptService.getLastReceiptDate(patientList.get(i).getPatient_id());
+				if(lastReceiptDate == null) {
+					lastReceiptDate = "기록 없음";
+				}
+				patientList.get(i).setLastReceiptDate(lastReceiptDate);
+			}
 			map.put("patientList", patientList);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return map;
 	}
-	
 	
 	@GetMapping("/patient/{id}")
 	public Map<String, Object> getPatientById(@PathVariable("id") int patient_id) {

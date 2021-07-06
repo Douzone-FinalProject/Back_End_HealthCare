@@ -18,4 +18,5 @@ public interface PatientsDao {
 	public Patients updatePatient(Patients patient);
 	public List<Patients> selectSearchPatientIdList(String patient_id);
 	public List<Patients> selectPatientsByName(String patient_name);
+	public String selectLastReceiptDate(int patient_id);
 }

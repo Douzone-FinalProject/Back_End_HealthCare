@@ -26,6 +26,14 @@
 		where patient_name like CONCAT('%',#{patient_name},'%')
 	</select>
 	
+	<select id="selectLastReceiptDate" resultType="String">
+		select receipt_datetime as lastReceiptDate
+		from receipt_and_opinions
+		where patient_id=#{patient_Id}
+		order by receipt_datetime desc
+		limit 1;
+	</select>
+	
 	<select id="selectPatientById" resultType="patients">
 		select patient_id,patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
 			   patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,
