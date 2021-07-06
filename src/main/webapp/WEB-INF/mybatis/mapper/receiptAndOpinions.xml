@@ -44,4 +44,26 @@
 		where receipt_id = #{receipt_id}
 	</update>
 	
+	<select id="selectPatientStateList" parameterType="string" resultType="receiptAndOpinions">
+		select distinct rao.receipt_id, rao.receipt_state, rao.diagnostic_test_state, p.patient_id, p.patient_name, p.patient_sex, 
+		cast(date_format(now(), '%Y') as unsigned) - cast(case 
+			when substring(patient_ssn, 8, 1) in ('1', '2', '5', '6') then '1900' + substring(patient_ssn, 1, 2)
+			when substring(patient_ssn, 8, 1) in ('3', '4', '7', '8') then '2000' + substring(patient_ssn, 1, 2)
+			end as unsigned) + 1 as patient_age  
+		<if test="type == '전체'">
+			from receipt_and_opinions as rao, patients as p
+			where rao.patient_id = p.patient_id and receipt_state = '검사중'
+		</if>
+		<if test="type != '전체'">
+			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b, patients as p
+			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id
+		</if>
+		<if test="state == 'whole'">
+			and diagnostic_test_state != '검사완료'
+		</if>
+		<if test="state != 'whole'">
+			and diagnostic_test_state = #{state}
+		</if>
+	</select>
+	
 </mapper>
