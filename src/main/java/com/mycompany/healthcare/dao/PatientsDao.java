@@ -17,4 +17,5 @@ public interface PatientsDao {
 	public int deletePatientById(int patient_id);
 	public Patients updatePatient(Patients patient);
 	public List<Patients> selectSearchPatientIdList(String patient_id);
+	public List<Patients> selectPatientsByName(String patient_name);
 }

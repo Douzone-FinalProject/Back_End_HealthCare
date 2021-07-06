@@ -22,6 +22,10 @@ public class ReceiptService {
 	public List<Patients> getPatientList() {
 		return patientsDao.selectAllPatient();
 	}
+	
+	public List<Patients> getPatientListByName(String patient_name) {
+		return patientsDao.selectPatientsByName(patient_name);
+	}
 
 	public Patients getPatientById(int patient_id) {
 		return patientsDao.selectPatientById(patient_id);
@@ -47,8 +51,10 @@ public class ReceiptService {
 		return receiptDao.deleteReceiptById(receipt_id);
 	}
 
-	public int updateReceipt(int patient_id) {
-		return receiptDao.updateReceipt(patient_id);
+	public int updateReceipt(int patient_id, String nextState) {
+		return receiptDao.updateReceipt(patient_id, nextState);
 	}
+
+	
 
 }

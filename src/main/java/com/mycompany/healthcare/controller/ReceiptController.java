@@ -31,7 +31,7 @@ public class ReceiptController {
 	@Autowired
 	private ReceiptService receiptService;
 	
-	
+	// 모든 환자 리스트 
 	@GetMapping("/patients")
 	public Map<String, Object> getPatientList() {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -43,6 +43,20 @@ public class ReceiptController {
 		}
 		return map;
 	}
+	
+	// 환자 이름 검색 
+	@GetMapping("/patients/name/{name}")
+	public Map<String, Object> getPatientList(@PathVariable("name") String patient_name) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Patients> patientList = receiptService.getPatientListByName(patient_name);
+			map.put("patientList", patientList);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 	
 	@GetMapping("/patient/{id}")
 	public Map<String, Object> getPatientById(@PathVariable("id") int patient_id) {
@@ -122,12 +136,12 @@ public class ReceiptController {
 		return map;
 	}
 	
-	// 진료 보내기 receipt_state [대기 -> 진료중]
-	@PutMapping("/{id}")
-	public Map<String, Object> updateReceipt(@PathVariable("id") int patient_id) {
+	// 진료 보내기 receipt_state [대기 -> 진료중], [수납전 -> 완료]
+	@PutMapping("/{id}/{nextState}")
+	public Map<String, Object> updateReceipt(@PathVariable("id") int patient_id, @PathVariable("nextState") String nextState) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			int row = receiptService.updateReceipt(patient_id);
+			int row = receiptService.updateReceipt(patient_id, nextState);
 			map.put("row", row);
 		} catch(Exception e) {
 			e.printStackTrace();

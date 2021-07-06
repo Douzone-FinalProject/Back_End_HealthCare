@@ -18,6 +18,14 @@
 		from patients
 	</select>
 	
+	<select id="selectPatientsByName" resultType="patients">
+		select patient_id,patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
+			   patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,
+			   patient_guardian_relationship, patient_register_date
+		from patients
+		where patient_name like CONCAT('%',#{patient_name},'%')
+	</select>
+	
 	<select id="selectPatientById" resultType="patients">
 		select patient_id,patient_name,patient_ssn,patient_sex,patient_phone,patient_zipcode,patient_address,patient_detail_address,patient_blood_type,
 			   patient_max_bp,patient_min_bp,patient_pulse,patient_height,patient_weight,patient_guardian_name,patient_guardian_phone,
@@ -41,4 +49,6 @@
 			patient_guardian_relationship=#{patient_guardian_relationship}, patient_register_date=#{patient_register_date}
 		where patient_id=#{patient_id}
 	</update>
+	
+	
 </mapper>
