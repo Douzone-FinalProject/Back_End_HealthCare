@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.healthcare.dto.Medicines;
 import com.mycompany.healthcare.dto.Staffs;
 
 @Mapper
 public interface MedicinesDao {
-	public List<Staffs> selectAllStaff();
+	public List<Medicines> searchMedicines(String keyword);
 }

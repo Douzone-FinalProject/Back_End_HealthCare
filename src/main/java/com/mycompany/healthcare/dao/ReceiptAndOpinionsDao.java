@@ -15,4 +15,5 @@ public interface ReceiptAndOpinionsDao {
 
 	public List<ReceiptAndOpinions> selectSearchPatientIdOpinionList(String patient_id);
 	public List<ReceiptAndOpinions> selectSearchDateOpinionList(String receipt_datetime);
+	public void updateReceiptState(int receipt_id);
 }
