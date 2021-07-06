@@ -12,7 +12,7 @@
  		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
  		 		rao.receipt_id, rao.receipt_state, rao.receipt_datetime
 		from receipt_and_opinions rao, patients p
-		where rao.patient_id = p.patient_id
+		where rao.patient_id = p.patient_id and rao.receipt_state != '완료'
 	</select>
 	
 	<delete id="deleteReceiptById">
@@ -22,8 +22,8 @@
 	
 	<update id="updateReceipt">
 		update receipt_and_opinions
-		set receipt_state = '진료중'
-		where patient_id = #{patient_id}
+		set receipt_state = #{nextState}
+		where receipt_id = #{receipt_id}
 	</update>
 	
 	<select id="selectSearchPatientIdOpinionList" resultType="receiptAndOpinions">
