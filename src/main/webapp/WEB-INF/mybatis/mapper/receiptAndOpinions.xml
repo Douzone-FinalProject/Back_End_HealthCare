@@ -38,4 +38,10 @@
 		where receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
 	</select>
 	
+	<update id="updateReceiptState">
+		update receipt_and_opinions
+		set receipt_state = '검사중'
+		where receipt_id = #{receipt_id}
+	</update>
+	
 </mapper>

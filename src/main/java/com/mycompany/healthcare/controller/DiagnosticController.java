@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mycompany.healthcare.dto.DiagnosticLists;
 import com.mycompany.healthcare.dto.Medicines;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.Searchs;
@@ -41,6 +43,8 @@ public class DiagnosticController {
 	
 	@GetMapping("/searchPatientIdOpinion")
 	public Map<String, Object> searchPatientId(String patient_id) {
+		logger.info("34343434");
+		logger.info(""+patient_id);
 		List<ReceiptAndOpinions> searchPatientIdOpinionList = diagnosticsService.getSearchPatientIdOpinionList(patient_id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchPatientIdOpinionList", searchPatientIdOpinionList);
@@ -50,6 +54,8 @@ public class DiagnosticController {
 	
 	@GetMapping("/searchDateOpinion")
 	public Map<String, Object> searchDateOpinion(String receipt_datetime) {
+		logger.info("121212");
+		logger.info(""+receipt_datetime);
 		List<ReceiptAndOpinions> searchDateOpinionList = diagnosticsService.getSearchDateOpinionList(receipt_datetime);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchDateOpinionList", searchDateOpinionList);
@@ -61,6 +67,20 @@ public class DiagnosticController {
 	public List<Medicines> searchMedicine(@RequestParam String keyword) {
 		logger.info(keyword);
 		return diagnosticsService.getMedicines(keyword); 
+	}
+	
+	@PostMapping("/createRequestTest")
+	public void createRequestTest(@RequestBody List<DiagnosticLists> keyword) {
+		logger.info(keyword+"");
+		int receipt_id = keyword.get(0).getReceipt_id();
+		diagnosticsService.getCreateRequestTestList(keyword);
+		diagnosticsService.updateReceiptState(receipt_id);
+		
+		
+		
+		
+		
+		
 	}
 
 
