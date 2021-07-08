@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.DiagnosticResultsDao">
+	<select id="getResultDataByReceipt" resultType="resultData">
+ 		select dl.diagnostic_list_id,
+ 				dl.diagnostic_specimen_number, dl.search_id, pr.prescription_name, pr.prescription_reference_value,
+ 				pr.prescription_unit, s.symptom_name, b.bundle_id, b.bundle_specimen, pr.prescription_id,
+ 		 		dl.receipt_id
+		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b
+		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+	</select>
+	
+	<select id="getResultDataBySpecimen" resultType="resultData">
+ 		select dl.diagnostic_list_id,
+ 				dl.diagnostic_specimen_number, dl.search_id, pr.prescription_name, pr.prescription_reference_value,
+ 				pr.prescription_unit, s.symptom_name, b.bundle_id, b.bundle_specimen, pr.prescription_id,
+ 		 		dl.receipt_id
+		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b
+		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number} and b.bundle_specimen != ''
+	</select>
 	
 </mapper>
