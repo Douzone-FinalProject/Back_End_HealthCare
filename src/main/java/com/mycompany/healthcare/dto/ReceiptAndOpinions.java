@@ -8,7 +8,8 @@ public class ReceiptAndOpinions {
 	private String receipt_opinion;
 	private String receipt_uniqueness;
 	private int patient_id;
-//	/* 1:1  */
+	private String receipt_result_state;
+	//	/* 1:1  */
 	private String patient_name;
 	private String patient_sex;
 	private String patient_phone;
@@ -80,6 +81,12 @@ public class ReceiptAndOpinions {
 	}
 	public void setPatient_age(int patient_age) {
 		this.patient_age = patient_age;
+	}
+	public String getReceipt_result_state() {
+		return receipt_result_state;
+	}
+	public void setReceipt_result_state(String receipt_result_state) {
+		this.receipt_result_state = receipt_result_state;
 	}
 	@Override
 	public String toString() {
