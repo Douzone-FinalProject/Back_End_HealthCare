@@ -109,4 +109,17 @@
 		</if>
 	</select>
 	
+	<select id="getReceiptDataByDate" resultType="receiptAndOpinions">
+ 		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p
+		where rao.patient_id = p.patient_id and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
+	</select>
+	
+	<select id="getReceiptDataByName" resultType="receiptAndOpinions">
+ 		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p
+		where rao.patient_id = p.patient_id and p.patient_name Like CONCAT('%', #{patient_name}, '%') and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
+	</select>
 </mapper>

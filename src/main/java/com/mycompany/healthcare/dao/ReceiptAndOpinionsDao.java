@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.mycompany.healthcare.dto.DiagnosticData;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 
 @Mapper
@@ -27,6 +28,7 @@ public interface ReceiptAndOpinionsDao {
 	public List<ReceiptAndOpinions> selectPatientStateList(@Param("type") String type, @Param("state") String state);
 	public List<ReceiptAndOpinions> selectFatientOpinionsList(String patient_id);
 	public void updateInsertOpinion(@Param("receipt_id") int receipt_id, @Param("receipt_opinion") String receipt_opinion, @Param("receipt_uniqueness") String receipt_uniqueness);
-	
+	public List<ReceiptAndOpinions> getReceiptDataByDate(String receipt_datetime);
+	public List<ReceiptAndOpinions> getReceiptDataByName(@Param("patient_name") String patient_name,@Param("receipt_datetime") String receipt_datetime);
 
 }

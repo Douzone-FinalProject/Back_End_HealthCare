@@ -44,6 +44,38 @@
 			#{item}
 		</foreach>
 
-	</update> 
+	</update>
+	
+	<select id="getDiagnosticDataByDate" resultType="diagnosticData">
+ 		select p.patient_id, p.patient_name, dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
+ 				dl.diagnostic_specimen_number, dl.staff_id, dl.search_id, dl.staff_name, dl.diagnostic_result_state,
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p, diagnostic_lists dl
+		where rao.patient_id = p.patient_id and dl.receipt_id = rao.receipt_id and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%') and dl.diagnostic_specimen_number != '' and dl.diagnostic_specimen_number is not null
+	</select>
+	
+	<select id="getDiagnosticDataByName" resultType="diagnosticData">
+ 		select p.patient_id, p.patient_name, dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
+ 				dl.diagnostic_specimen_number, dl.staff_id, dl.search_id, dl.staff_name, dl.diagnostic_result_state,
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p, diagnostic_lists dl
+		where rao.patient_id = p.patient_id and dl.receipt_id = rao.receipt_id and p.patient_name Like CONCAT('%', #{patient_name}, '%')
+				and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%') and dl.diagnostic_specimen_number != '' and dl.diagnostic_specimen_number is not null
+	</select>
+	
+	<select id="getPatientData" resultType="patientData">
+ 		select distinct rao.receipt_id, date_format(rao.receipt_datetime, '%Y-%m-%d') as receipt_datetime, p.patient_name, s.symptom_name,
+ 				p.patient_sex, substring(p.patient_ssn,1,6) as ssn, date_format(rao.receipt_datetime, '%Y-%m-%d') as blood_datetime
+		from patients p, receipt_and_opinions rao, diagnostic_lists dl, searchs s
+		where p.patient_id = rao.patient_id and rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and rao.receipt_id='100007';
+	</select>
+	
+	<select id="getSpecimenData" resultType="diagnosticData">
+ 		select p.patient_id, p.patient_name, dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
+ 				dl.diagnostic_specimen_number, dl.staff_id, dl.search_id, dl.staff_name, dl.diagnostic_result_state,
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p, diagnostic_lists dl
+		where rao.patient_id = p.patient_id and dl.receipt_id = rao.receipt_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number}
+	</select>
 	
 </mapper>
