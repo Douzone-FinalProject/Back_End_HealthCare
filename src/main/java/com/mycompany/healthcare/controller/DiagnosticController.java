@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,11 +137,53 @@ public class DiagnosticController {
 	
 	@PostMapping("/createMedicines")
 	public void createMedicines(@RequestBody List<MedicinePres> cmlist) {
-		logger.info(""+ cmlist);
-		int receipt_id = cmlist.get(0).getReceipt_id();
-		logger.info(""+receipt_id);
+		
 		diagnosticsService.createMedicinesList(cmlist);
+		
 	}
+	
+	@GetMapping("/readOpinion")
+	public Map<String, Object> readOpinion(@RequestParam int receipt_id) {
+		
+		ReceiptAndOpinions readReceiptOpinion = diagnosticsService.getReadOpinion(receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("readReceiptOpinion", readReceiptOpinion);
+
+		return map;
+	}
+	
+	@GetMapping("/receiptMedicines")
+	public Map<String, Object> receiptMedicines(@RequestParam int receipt_id) {
+		
+		List<Medicines> readReceiptMedicines = diagnosticsService.getReadReceiptMedicines(receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("readReceiptMedicines", readReceiptMedicines);
+
+		return map;
+	}
+	
+	@PutMapping("/updateOpinion")
+	public void updateOpinion(@RequestBody ReceiptAndOpinions handleOpinion) {
+		
+		diagnosticsService.updateOpinion(handleOpinion);
+		
+	}
+	
+	@PostMapping("/updateOpinionOfMedicines")
+	public void updateOpinionOfMedicines(@RequestBody List<MedicinePres> handleMedicines, @RequestParam int receipt_id) {
+		
+		diagnosticsService.deleteMedicinePres(receipt_id);
+		diagnosticsService.updateMedicinePres(handleMedicines);
+
+	}
+	
+	@PutMapping("/updateTestAndReceiptState/{receipt_id}")
+	public void updateTestAndReceiptState(@PathVariable("receipt_id") int receipt_id) {
+		logger.info(""+receipt_id);
+		diagnosticsService.updateTestAndReceiptState(receipt_id);
+		
+	}
+	
 
 
 }

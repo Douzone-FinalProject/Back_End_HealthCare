@@ -5,6 +5,8 @@ public class Medicines {
 	private String medicine_name;
 	private String medicine_type;
 	private String medicine_unit;
+	private String quantity;
+	
 	public String getMedicine_id() {
 		return medicine_id;
 	}
@@ -29,11 +31,20 @@ public class Medicines {
 	public void setMedicine_unit(String medicine_unit) {
 		this.medicine_unit = medicine_unit;
 	}
+	public String getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
 	@Override
 	public String toString() {
 		return "Medicines [medicine_id=" + medicine_id + ", medicine_name=" + medicine_name + ", medicine_type="
-				+ medicine_type + ", medicine_unit=" + medicine_unit + "]";
+				+ medicine_type + ", medicine_unit=" + medicine_unit + ", quantity=" + quantity + "]";
 	}
+	
+	
+	
 	
 	
 	

@@ -3,14 +3,34 @@
 <mapper namespace="com.mycompany.healthcare.dao.MedicinePresDao">
 	<insert id="insertMedicinesList" parameterType="java.util.List">
 		insert into medicine_pres
-		(medicine_pre_quantity, receipt_id, medicine_id)
+		(quantity, receipt_id, medicine_id)
 		values
 		<foreach collection="list" item="item" separator=" , ">
 			(
-				#{item.medicine_pre_quantity},
+				#{item.quantity},
 				#{item.receipt_id},
 				#{item.medicine_id}
 			)
 		</foreach>
 	</insert>
+	
+	<delete id="deleteMedicinesList">
+		delete from medicine_pres
+		where receipt_id=#{receipt_id}
+	</delete>
+	
+	<insert id="updateMedicinesList" parameterType="java.util.List">
+		insert into medicine_pres
+		(quantity, receipt_id, medicine_id)
+		values
+		<foreach collection="list" item="item" separator=" , ">
+			(
+				#{item.quantity},
+				#{item.receipt_id},
+				#{item.medicine_id}
+			)
+		</foreach>
+	</insert>
+	
+	
 </mapper>

@@ -22,5 +22,6 @@
 		<typeAlias type="com.mycompany.healthcare.dto.DiagnosticData" alias="diagnosticData"/>
 		<typeAlias type="com.mycompany.healthcare.dto.ResultData" alias="resultData"/>
 		<typeAlias type="com.mycompany.healthcare.dto.PatientData" alias="patientData"/>
+		<typeAlias type="com.mycompany.healthcare.dto.StateCharts" alias="stateCharts"/>
 	</typeAliases>
 </configuration>
