@@ -10,4 +10,6 @@ import com.mycompany.healthcare.dto.Staffs;
 @Mapper
 public interface MedicinesDao {
 	public List<Medicines> searchMedicines(String keyword);
+
+	public List<Medicines>  selectReadReceiptMedicines(int receipt_id);
 }
