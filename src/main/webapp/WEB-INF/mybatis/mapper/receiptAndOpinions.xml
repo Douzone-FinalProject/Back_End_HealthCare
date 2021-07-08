@@ -81,9 +81,33 @@
 		order by receipt_id DESC
 	</select>
 	
+	<select id="selectOpinion" resultType="receiptAndOpinions">
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		from receipt_and_opinions
+		where receipt_id = #{receipt_id}
+	</select>
+	
 	<update id="updateInsertOpinion">
 		update receipt_and_opinions
 		set receipt_opinion = #{receipt_opinion}, receipt_uniqueness = #{receipt_uniqueness}, receipt_state = '수납전'
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<update id="updateReceiptOpinion">
+		update receipt_and_opinions
+		set receipt_opinion = #{receipt_opinion}
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<update id="updateReceiptUniqueness">
+		update receipt_and_opinions
+		set receipt_uniqueness = #{receipt_uniqueness}
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<update id="updateTestAndReceiptState">
+		update receipt_and_opinions
+		set diagnostic_test_state = '처방완료', receipt_state = '수납전'
 		where receipt_id = #{receipt_id}
 	</update>
 	

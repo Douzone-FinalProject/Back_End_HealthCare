@@ -5,4 +5,10 @@
 		select * from medicines
 		where medicine_id REGEXP #{keyword} or medicine_name REGEXP #{keyword}
 	</select>
+	
+	<select id="selectReadReceiptMedicines" resultType="medicines">
+		select p.receipt_id, p.medicine_id, m.medicine_name, m.medicine_unit, p.quantity 
+		from medicines m, medicine_pres p
+		where m.medicine_id = p.medicine_id and p.receipt_id = #{receipt_id}
+	</select>
 </mapper>
