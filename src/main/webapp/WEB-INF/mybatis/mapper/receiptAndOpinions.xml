@@ -81,10 +81,76 @@
 		order by receipt_id DESC
 	</select>
 	
+	<select id="selectOpinion" resultType="receiptAndOpinions">
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		from receipt_and_opinions
+		where receipt_id = #{receipt_id}
+	</select>
+	
 	<update id="updateInsertOpinion">
 		update receipt_and_opinions
 		set receipt_opinion = #{receipt_opinion}, receipt_uniqueness = #{receipt_uniqueness}, receipt_state = '수납전'
 		where receipt_id = #{receipt_id}
 	</update>
 	
+	<update id="updateReceiptOpinion">
+		update receipt_and_opinions
+		set receipt_opinion = #{receipt_opinion}
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<update id="updateReceiptUniqueness">
+		update receipt_and_opinions
+		set receipt_uniqueness = #{receipt_uniqueness}
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<update id="updateTestAndReceiptState">
+		update receipt_and_opinions
+		set diagnostic_test_state = '처방완료', receipt_state = '수납전'
+		where receipt_id = #{receipt_id}
+	</update>
+	
+	<select id="selectPatientStateList" parameterType="string" resultType="receiptAndOpinions">
+		select distinct rao.receipt_id, rao.receipt_state, rao.diagnostic_test_state, p.patient_id, p.patient_name, p.patient_sex, 
+		cast(date_format(now(), '%Y') as unsigned) - cast(case 
+			when substring(patient_ssn, 8, 1) in ('1', '2', '5', '6') then '1900' + substring(patient_ssn, 1, 2)
+			when substring(patient_ssn, 8, 1) in ('3', '4', '7', '8') then '2000' + substring(patient_ssn, 1, 2)
+			end as unsigned) + 1 as patient_age  
+		<if test="type == '전체'">
+			from receipt_and_opinions as rao, patients as p
+			where rao.patient_id = p.patient_id and receipt_state = '검사중'
+		</if>
+		<if test="type != '전체'">
+			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b, patients as p
+			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id
+		</if>
+		<if test="state == 'whole'">
+			and diagnostic_test_state != '검사완료' and diagnostic_test_state != ""
+		</if>
+		<if test="state != 'whole'">
+			and diagnostic_test_state = #{state}
+		</if>
+	</select>
+	
+	<select id="getReceiptDataByDate" resultType="receiptAndOpinions">
+ 		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p
+		where rao.patient_id = p.patient_id and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
+	</select>
+	
+	<select id="getReceiptDataByName" resultType="receiptAndOpinions">
+ 		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p
+		where rao.patient_id = p.patient_id and p.patient_name Like CONCAT('%', #{patient_name}, '%') and rao.receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
+	</select>
+
+	<select id="selectStateChart" resultType="stateCharts">
+		select count(case when diagnostic_test_state = '검사대기' then 1 end) as waiting,
+			   count(case when diagnostic_test_state = '검사중' then 1 end) as doing,
+			   count(case when diagnostic_test_state = '검사완료' then 1 end) as complete
+		 from receipt_and_opinions
+	</select>
 </mapper>

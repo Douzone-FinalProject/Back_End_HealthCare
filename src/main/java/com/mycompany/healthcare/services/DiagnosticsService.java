@@ -32,6 +32,7 @@ public class DiagnosticsService {
 	
 	@Autowired
 	private MedicinePresDao medicinePresDao;
+	
 
 	public List<Searchs> getSearchList(String symptom_name) {
 		List<Searchs> searchList = searchsDao.selectSearchList(symptom_name);
@@ -104,6 +105,41 @@ public class DiagnosticsService {
 		medicinePresDao.insertMedicinesList(cmlist);
 		
 	}
+
+	public ReceiptAndOpinions getReadOpinion(int receipt_id) {
+		ReceiptAndOpinions readOpinion = receiptAndOpinionsDao.selectOpinion(receipt_id);
+		return readOpinion;
+	}
+
+	public List<Medicines>  getReadReceiptMedicines(int receipt_id) {
+		List<Medicines>  readReceiptMedicines = medicinesDao.selectReadReceiptMedicines(receipt_id);
+		return readReceiptMedicines;
+	}
+
+	public void updateOpinion(ReceiptAndOpinions handleOpinion) {
+		int receipt_id = handleOpinion.getReceipt_id();
+		String receipt_opinion = handleOpinion.getReceipt_opinion();
+		String receipt_uniqueness = handleOpinion.getReceipt_uniqueness();
+		receiptAndOpinionsDao.updateReceiptOpinion(receipt_id, receipt_opinion);
+		receiptAndOpinionsDao.updateReceiptUniqueness(receipt_id, receipt_uniqueness);
+		
+	}
+
+	public void deleteMedicinePres(int receipt_id) {
+		medicinePresDao.deleteMedicinesList(receipt_id);
+		
+	}
+
+	public void updateMedicinePres(List<MedicinePres> handleMedicines) {
+		medicinePresDao.updateMedicinesList(handleMedicines);
+		
+	}
+
+	public void updateTestAndReceiptState(int receipt_id) {
+		receiptAndOpinionsDao.updateTestAndReceiptState(receipt_id);
+		
+	}
+
 
 
 	
