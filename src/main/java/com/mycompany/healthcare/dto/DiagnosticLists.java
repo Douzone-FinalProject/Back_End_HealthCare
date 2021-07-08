@@ -10,6 +10,7 @@ public class DiagnosticLists {
 	private int search_id;
 	private String staff_name;
 	private String diagnostic_result_state;
+	private String doctor_name;
 //	private Searchs searchs;
 //	private String sympton_id;
 //	private Bundles bundles;
@@ -68,6 +69,14 @@ public class DiagnosticLists {
 	public void setDiagnostic_result_state(String diagnostic_result_state) {
 		this.diagnostic_result_state = diagnostic_result_state;
 	}
+	
+	public String getDoctor_name() {
+		return doctor_name;
+	}
+	public void setDoctor_name(String doctor_name) {
+		this.doctor_name = doctor_name;
+	}
+	
 	//	public String getSympton_id() {
 //		return sympton_id;
 //	}
@@ -92,6 +101,8 @@ public class DiagnosticLists {
 		return "DiagnosticLists [diagnostic_list_id=" + diagnostic_list_id + ", diagnostic_list_barcode="
 				+ diagnostic_list_barcode + ", diagnostic_list_state=" + diagnostic_list_state
 				+ ", diagnostic_specimen_number=" + diagnostic_specimen_number + ", receipt_id=" + receipt_id
-				+ ", staff_id=" + staff_id + ", search_id=" + search_id + "]";
+				+ ", staff_id=" + staff_id + ", search_id=" + search_id + ", staff_name=" + staff_name
+				+ ", diagnostic_result_state=" + diagnostic_result_state + ", doctor_name=" + doctor_name + "]";
 	}
+	
 }

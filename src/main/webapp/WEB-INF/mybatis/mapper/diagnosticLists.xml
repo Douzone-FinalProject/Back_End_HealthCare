@@ -19,12 +19,13 @@
 	
 	<insert id="insertRequestTest" parameterType="java.util.List">
 		insert into diagnostic_lists
-		(receipt_id, search_id)
+		(receipt_id, search_id, doctor_name)
 		values
 		<foreach collection="list" item="item" separator=" , ">
 			(
 				#{item.receipt_id},
-				#{item.search_id}
+				#{item.search_id},
+				#{item.doctor_name}
 			)
 		</foreach>
 	</insert>
