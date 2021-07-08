@@ -1,12 +1,8 @@
 package com.mycompany.healthcare.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-
-import com.mycompany.healthcare.dto.Staffs;
 
 @Mapper
 public interface HospitalsDao {
-	public List<Staffs> selectAllStaff();
+	public String selectHospitalName(int hospital_id);
 }

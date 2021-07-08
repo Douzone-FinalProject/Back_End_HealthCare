@@ -88,9 +88,9 @@ public class RedisWebSocket extends TextWebSocketHandler
 		TextMessage message = new TextMessage(jsonObject.toString()); 
 		for(Client client : clients) {
 			try {
-				if(client.topic.endsWith("#")) {
-					String t = client.topic.split("#")[0];
-					if(topic.startsWith(t)) {
+				if(topic.endsWith("#")) {
+					String t = topic.split("#")[0];
+					if(client.topic.startsWith(t)) {
 						client.session.sendMessage(message);
 					}
 				} else {
@@ -98,6 +98,16 @@ public class RedisWebSocket extends TextWebSocketHandler
 						client.session.sendMessage(message);
 					}
 				}
+//				if(client.topic.endsWith("#")) {
+//					String t = client.topic.split("#")[0];
+//					if(topic.startsWith(t)) {
+//						client.session.sendMessage(message);
+//					}
+//				} else {
+//					if(topic.equals(client.topic)) {
+//						client.session.sendMessage(message);
+//					}
+//				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

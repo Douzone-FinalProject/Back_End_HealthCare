@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mycompany.healthcare.dao.HospitalsDao;
 import com.mycompany.healthcare.dao.StaffsDao;
 import com.mycompany.healthcare.dto.Staffs;
 
@@ -13,6 +14,9 @@ public class AuthService {
 	
 	@Autowired
 	private StaffsDao staffsDao;
+	
+	@Autowired
+	private HospitalsDao hospitalsDao;
 	
 	public int compareHospitalCode(String staff_login_id, int hospital_id) {
 		return staffsDao.compareHospitalId(staff_login_id, hospital_id);
@@ -28,5 +32,9 @@ public class AuthService {
 
 	public String getStaffRole(String staff_login_id) {
 		return staffsDao.selectStaffRole(staff_login_id);
+	}
+
+	public String getHosiptalName(int hospital_id) {
+		return hospitalsDao.selectHospitalName(hospital_id);
 	}
 }
