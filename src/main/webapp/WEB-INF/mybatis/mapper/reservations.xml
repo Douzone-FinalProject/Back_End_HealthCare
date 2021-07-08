@@ -2,4 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.ReservationsDao">
 	
+	<select id="selectAllReservation" resultType="reservations">
+		select reservation_id, reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id
+		from reservations
+	</select>
+	
+	<select id="selectReservationById" resultType="reservations">
+		select reservation_id, reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id
+		from reservations
+		where reservation_id=#{reservation_id}
+	</select>
+	
+	<select id="selectReservationByName" resultType="reservations">
+		select reservation_id, reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id
+		from reservations
+		where reservation_name=#{reservation_name}
+	</select>
+	
+	<insert id="insertReservation">
+		<!-- <if test='patient_id != null'>
+			insert into reservations 
+			(reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id)
+			values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason}, #{patient_id})
+		</if> -->
+		
+			insert into reservations 
+			(reservation_datetime, reservation_name, reservation_phone, reservation_reason)
+			values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason})
+	
+	</insert>
+	
+	<delete id="deleteReservationById">
+		delete from reservations
+		where reservation_id=#{reservation_id}
+	</delete>
+	
+	<update id="updateReservation">
+		update reservations
+		set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
+			reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason}
+		where reservation_id=#{reservation_id}
+		
+		<!--
+		update reservations
+		set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
+			reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason},
+			patient_id=#{patient_id}
+		where reservation_id=#{reservation_id}
+		
+		  -->
+	</update>
+	
 </mapper>
