@@ -19,5 +19,6 @@
 		<typeAlias type="com.mycompany.healthcare.dto.Searchs" alias="searchs"/>
 		<typeAlias type="com.mycompany.healthcare.dto.Staffs" alias="staffs"/>
 		<typeAlias type="com.mycompany.healthcare.dto.TestStateDetail" alias="testStateDetail"/>
+		<typeAlias type="com.mycompany.healthcare.dto.StateCharts" alias="stateCharts"/>
 	</typeAliases>
 </configuration>

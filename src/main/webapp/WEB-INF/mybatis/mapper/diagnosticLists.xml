@@ -38,12 +38,19 @@
 	</select>
 	
 	<update id="updateStateDetail">
-		update diagnostic_lists SET diagnostic_list_state = #{state} 
+		update diagnostic_lists SET diagnostic_list_state = #{state}
+		<if test="state == '검사완료'">
+			,diagnostic_specimen_number = 
+			case
+			<foreach collection="specimenNums" item="item">
+				when diagnostic_list_id = #{item.rowkey} then #{item.num}
+			</foreach>
+			end 
+		</if>
 		where diagnostic_list_id in
 		<foreach collection="rowKeys" item="item" open="(" close=")" separator=",">
 			#{item}
-		</foreach>
-
-	</update> 
+		</foreach>		
+	</update>
 	
 </mapper>

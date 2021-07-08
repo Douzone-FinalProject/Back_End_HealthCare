@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.healthcare.dto.DiagnosticLists;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
+import com.mycompany.healthcare.dto.StateCharts;
 import com.mycompany.healthcare.dto.TestStateDetail;
 import com.mycompany.healthcare.services.TestStateService;
 
@@ -48,5 +49,11 @@ public class TestStateController {
 	@PutMapping("")
 	public void updateStateDetail(@RequestBody Map<String, Object> updateData) {
 		testStateService.updateStateDetail(updateData);
+	}
+	
+	// PieChart
+	@GetMapping("/statechart")
+	public List<StateCharts> getStateChart() {
+		return testStateService.getStateChart();
 	}
 }

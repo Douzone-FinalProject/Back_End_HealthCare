@@ -126,11 +126,18 @@
 			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id
 		</if>
 		<if test="state == 'whole'">
-			and diagnostic_test_state != '검사완료'
+			and diagnostic_test_state != '검사완료' and diagnostic_test_state != ""
 		</if>
 		<if test="state != 'whole'">
 			and diagnostic_test_state = #{state}
 		</if>
+	</select>
+	
+	<select id="selectStateChart" resultType="stateCharts">
+		select count(case when diagnostic_test_state = '검사대기' then 1 end) as waiting,
+			   count(case when diagnostic_test_state = '검사중' then 1 end) as doing,
+			   count(case when diagnostic_test_state = '검사완료' then 1 end) as complete
+		 from receipt_and_opinions
 	</select>
 	
 </mapper>
