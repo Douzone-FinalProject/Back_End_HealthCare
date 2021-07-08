@@ -3,6 +3,7 @@ package com.mycompany.healthcare.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.mycompany.healthcare.dto.ReceiptAndOpinions;
+
+import com.mycompany.healthcare.dto.ReservationSMS;
 import com.mycompany.healthcare.dto.Reservations;
 import com.mycompany.healthcare.services.ReservationService;
 
@@ -101,6 +103,17 @@ public class ReservationController {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	
+	// SMS 발송 
+	@PostMapping("/sms")
+	public void sendSMS(@RequestBody ReservationSMS reservationSMS) {
+		try {
+			logger.info(reservationSMS.toString());
+			reservationService.sendSMS(reservationSMS);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse,java,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java,macos,windows
 
+### CoolSMS KEY ###
+sms.properties
+
 ### Eclipse ###
 target/
 .settings

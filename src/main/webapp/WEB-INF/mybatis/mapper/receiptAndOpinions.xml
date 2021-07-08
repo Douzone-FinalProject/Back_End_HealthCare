@@ -13,6 +13,7 @@
  		 		rao.receipt_id, rao.receipt_state, rao.receipt_datetime
 		from receipt_and_opinions rao, patients p
 		where rao.patient_id = p.patient_id and rao.receipt_state != '완료'
+		order by rao.receipt_datetime
 	</select>
 	
 	<delete id="deleteReceiptById">
