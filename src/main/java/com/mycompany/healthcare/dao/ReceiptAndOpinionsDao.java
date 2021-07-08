@@ -23,6 +23,10 @@ public interface ReceiptAndOpinionsDao {
 	public List<ReceiptAndOpinions> selectSearchPatientNameAndDateList(@Param("patient_name") String patient_name, @Param("receipt_datetime") String receipt_datetime);
 	public List<ReceiptAndOpinions> selectSearchAllList(@Param("patient_id") String patient_id, @Param("patient_name") String patient_name, @Param("receipt_datetime") String receipt_datetime);
 	public void updateReceiptState(int receipt_id);
+	public ReceiptAndOpinions selectOpinion(int receipt_id);
+	public void updateReceiptOpinion(@Param("receipt_id") int receipt_id, @Param("receipt_opinion") String receipt_opinion);
+	public void updateReceiptUniqueness(@Param("receipt_id") int receipt_id, @Param("receipt_uniqueness") String receipt_uniqueness);
+	public void updateTestAndReceiptState(int receipt_id);
 	
 	// 검사상태 환자 리스트
 	public List<ReceiptAndOpinions> selectPatientStateList(@Param("type") String type, @Param("state") String state);
