@@ -1,16 +1,25 @@
 package com.mycompany.healthcare.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.PatientData;
+import com.mycompany.healthcare.dto.Patients;
+import com.mycompany.healthcare.dto.ReceiptAndOpinions;
+import com.mycompany.healthcare.dto.ResultData;
+import com.mycompany.healthcare.services.ResultService;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -19,6 +28,103 @@ public class ResultController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ResultController.class);
 	
+	@Autowired
+	private ResultService resultService;
 	
+	@GetMapping("/getReceiptData")
+	public Map<String, Object> getReceiptData(String patient_name, String receipt_datetime) {
+		logger.info("getReceiptData --- " + receipt_datetime);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<ReceiptAndOpinions> receiptData = resultService.getReceiptData(patient_name, receipt_datetime);
+			map.put("receiptData", receiptData);
+			logger.info("receiptData --- " + receiptData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getDiagnosticData")
+	public Map<String, Object> getDiagnosticData(String patient_name, String receipt_datetime) {
+		logger.info("getDiagnosticData --- " + patient_name);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<DiagnosticData> diagnosticData = resultService.getDiagnosticData(patient_name, receipt_datetime);
+			map.put("diagnosticData", diagnosticData);
+			logger.info("diagnosticData --- " + diagnosticData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 
+	@GetMapping("/getResultDataByReceipt")
+	public Map<String, Object> getResultDataByReceipt(String receipt_id) {
+		logger.info("getResultDataByReceipt --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<ResultData> resultData = resultService.getResultDataByReceipt(receipt_id);
+			map.put("resultData", resultData);
+			logger.info("resultData --- " + resultData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getResultDataBySpecimen")
+	public Map<String, Object> getResultDataBySpecimen(String diagnostic_specimen_number) {
+		logger.info("getResultDataByReceipt --- " + diagnostic_specimen_number);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<ResultData> resultData = resultService.getResultDataBySpecimen(diagnostic_specimen_number);
+			map.put("resultData", resultData);
+			logger.info("resultData --- " + resultData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getPatientData")
+	public Map<String, Object> getPatientData(String receipt_id) {
+		logger.info("getPatientData --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			PatientData patientData = resultService.getPatientData(receipt_id);
+			map.put("patientData", patientData);
+			logger.info("patientData --- " + patientData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getSpecimenData")
+	public Map<String, Object> getSpecimenData(String diagnostic_specimen_number) {
+		logger.info("getSpecimenData --- " + diagnostic_specimen_number);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			DiagnosticData specimenData = resultService.getSpecimenData(diagnostic_specimen_number);
+			map.put("specimenData", specimenData);
+			logger.info("specimenData --- " + specimenData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PutMapping("/updateResultDataBySpecimen")
+	public Map<String, Object> updateResultDataBySpecimen(@RequestBody String result) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		logger.info("updateResultDataBySpecimen --- " + result);
+		try {
+			int row = resultService.updateResultDataBySpecimen(result);
+			map.put("row", row);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 }
