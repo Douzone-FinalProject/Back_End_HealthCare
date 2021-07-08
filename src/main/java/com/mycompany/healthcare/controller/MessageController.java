@@ -109,20 +109,4 @@ public class MessageController {
 		}
 	}
 	
-	@PostMapping("/addPatient")	//나중에 접수 기능 부분으로 옮겨야함.
-	public Map<String, Object> addPatient(@RequestBody Patients patientInfo) {
-		logger.info("addPatient --- " + patientInfo);
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			boolean result = messageService.addPatient(patientInfo);
-			if (result) {
-				map.put("result", "success");
-			} else {
-				map.put("result", "failure");
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return map;
-	}
 }

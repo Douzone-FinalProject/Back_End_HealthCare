@@ -65,6 +65,16 @@ public class ReceiptService {
 		return patient;
 	}
 
+	// 신규 환자 생성 
+	public boolean addPatient(Patients patients) {
+		boolean result = true;
+		int row = patientsDao.insertPatient(patients);
+		if (row != 1) {
+			result = false;
+		}
+		return result;
+	}
+	
 	public int deletePatientById(int patient_id) {
 		return patientsDao.deletePatientById(patient_id);
 	}
