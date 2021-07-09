@@ -75,4 +75,12 @@ public class TestStateService {
 	public List<StateCharts> getStateChart() {
 		return receiptAndOpinionsDao.selectStateChart();
 	}
+
+	public void updatePatientState(Map<String, Object> updateData) {
+		receiptAndOpinionsDao.updatePatientState(String.valueOf(updateData.get("receiptId")));
+	}
+
+	public void updateReceiptStates(Map<String, String> updateData) {
+		receiptAndOpinionsDao.updateReceiptStates(updateData);
+	}
 }

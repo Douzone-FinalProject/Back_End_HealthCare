@@ -1,6 +1,7 @@
 package com.mycompany.healthcare.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -36,4 +37,6 @@ public interface ReceiptAndOpinionsDao {
 	public List<ReceiptAndOpinions> getReceiptDataByDate(String receipt_datetime);
 	public List<ReceiptAndOpinions> getReceiptDataByName(@Param("patient_name") String patient_name,@Param("receipt_datetime") String receipt_datetime);
 	public List<StateCharts> selectStateChart();
+	public void updatePatientState(String receiptId);
+	public void updateReceiptStates(Map<String, String> updateData);
 }

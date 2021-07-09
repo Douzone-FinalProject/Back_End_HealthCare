@@ -49,6 +49,8 @@ public class TestStateController {
 	@PutMapping("")
 	public void updateStateDetail(@RequestBody Map<String, Object> updateData) {
 		testStateService.updateStateDetail(updateData);
+		// testStateDetail -> patientStateList 상태 바뀜
+		testStateService.updatePatientState(updateData);
 	}
 	
 	// PieChart
@@ -56,4 +58,16 @@ public class TestStateController {
 	public List<StateCharts> getStateChart() {
 		return testStateService.getStateChart();
 	}
+	
+	// updateReceiptState
+	@PutMapping("/receiptstate")
+	public void updateReceiptStates(@RequestBody Map<String, String> updateData) {
+		testStateService.updateReceiptStates(updateData);
+	}
+	
+//	@PostMapping("/img")
+//	public void uploadImg(@) {
+//		
+//	}
+
 }
