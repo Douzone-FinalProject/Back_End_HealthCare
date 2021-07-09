@@ -2,19 +2,27 @@ package com.mycompany.healthcare.services;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.healthcare.controller.ResultController;
 import com.mycompany.healthcare.dao.DiagnosticListsDao;
 import com.mycompany.healthcare.dao.DiagnosticResultsDao;
 import com.mycompany.healthcare.dao.ReceiptAndOpinionsDao;
 import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.DiagnosticResults;
 import com.mycompany.healthcare.dto.PatientData;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.ResultData;
 
 @Service
 public class ResultService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ResultController.class);
 
 	@Autowired
 	private ReceiptAndOpinionsDao receiptAndOpinionsDao;
@@ -54,9 +62,44 @@ public class ResultService {
 	public DiagnosticData getSpecimenData(String diagnostic_specimen_number) {
 		return diagnosticListsDao.getSpecimenData(diagnostic_specimen_number);
 	}
-
-	public int updateResultDataBySpecimen(String result) {
-		return diagnosticResultsDao.updateResultDataBySpecimen(result);
+	
+	public List<ResultData> getPreviousResultData(int receipt_id) {
+		return diagnosticResultsDao.getPreviousResultData(receipt_id);
 	}
+	
+	public boolean updateResultDataBySpecimen(JSONArray parseResult) {
+		try {
+			int diagnostic_results_id = 0;
+			for (int index = 0; index < parseResult.length(); index++) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				DiagnosticResults resultInfo = objectMapper.readValue(parseResult.get(index).toString(), DiagnosticResults.class);
+				logger.info("########" + resultInfo);
+				diagnostic_results_id = resultInfo.getDiagnostic_results_id();
+				int rows = diagnosticResultsDao.updateResultDataBySpecimen(resultInfo);
+				if(rows<1) {
+					return false;
+				}
+			}
+			diagnosticListsDao.updateFinishedResultState(diagnostic_results_id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean insertResultData(List<ResultData> resultData) {
+		boolean result = false;
+		int row = diagnosticResultsDao.insertResultData(resultData);
+		if (row != 0) {
+			result = true;
+		}
+		return result;
+	}
+
+	public List<ResultData> getPreviousResultDataByNew(int receipt_id) {
+		return diagnosticResultsDao.getPreviousResultDataByNew(receipt_id);
+	}
+
+	
 	
 }

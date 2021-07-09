@@ -19,12 +19,13 @@
 	
 	<insert id="insertRequestTest" parameterType="java.util.List">
 		insert into diagnostic_lists
-		(receipt_id, search_id)
+		(receipt_id, search_id, doctor_name)
 		values
 		<foreach collection="list" item="item" separator=" , ">
 			(
 				#{item.receipt_id},
-				#{item.search_id}
+				#{item.search_id},
+				#{item.doctor_name}
 			)
 		</foreach>
 	</insert>
@@ -74,7 +75,7 @@
  		select distinct rao.receipt_id, date_format(rao.receipt_datetime, '%Y-%m-%d') as receipt_datetime, p.patient_name, s.symptom_name,
  				p.patient_sex, substring(p.patient_ssn,1,6) as ssn, date_format(rao.receipt_datetime, '%Y-%m-%d') as blood_datetime
 		from patients p, receipt_and_opinions rao, diagnostic_lists dl, searchs s
-		where p.patient_id = rao.patient_id and rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and rao.receipt_id='100007';
+		where p.patient_id = rao.patient_id and rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and rao.receipt_id=#{receipt_id};
 	</select>
 	
 	<select id="getSpecimenData" resultType="diagnosticData">
@@ -84,5 +85,13 @@
 		from receipt_and_opinions rao, patients p, diagnostic_lists dl
 		where rao.patient_id = p.patient_id and dl.receipt_id = rao.receipt_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number}
 	</select>
+	
+	<update id="updateFinishedResultState">
+		update diagnostic_lists SET diagnostic_result_state = 'ⓞ'
+		where diagnostic_list_id in (
+				select diagnostic_list_id
+				from diagnostic_lists dl, diagnostic_results dr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
+	</update>
 	
 </mapper>

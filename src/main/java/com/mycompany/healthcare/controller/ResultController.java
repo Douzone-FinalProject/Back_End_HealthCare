@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.healthcare.dto.DiagnosticData;
 import com.mycompany.healthcare.dto.PatientData;
-import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.ResultData;
 import com.mycompany.healthcare.services.ResultService;
@@ -115,12 +117,58 @@ public class ResultController {
 		return map;
 	}
 	
+	@PostMapping("/insertResultData")
+	public Map<String, Object> insertResultData(@RequestBody String receipt_id) {
+		logger.info("insertResultData --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject jObject = new JSONObject(receipt_id);
+		int ParseReceipt_id = jObject.getInt("receipt_id");
+		logger.info("parseJson --- " + ParseReceipt_id);
+		try {
+			List<ResultData> resultData = resultService.getPreviousResultData(ParseReceipt_id);
+			logger.info("##########resultData ----" + resultData);
+			boolean result = resultService.insertResultData(resultData);
+			if (result) {
+				map.put("result", "success");
+			} else {
+				map.put("result", "failure");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PostMapping("/insertResultDataByNew")
+	public Map<String, Object> insertResultDataByNew(@RequestBody String receipt_id) {
+		logger.info("insertResultDataByNew --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject jObject = new JSONObject(receipt_id);
+		int ParseReceipt_id = jObject.getInt("receipt_id");
+		logger.info("parseJson --- " + ParseReceipt_id);
+		try {
+			List<ResultData> resultData = resultService.getPreviousResultDataByNew(ParseReceipt_id);
+			logger.info("##########resultData ----" + resultData);
+			boolean result = resultService.insertResultData(resultData);
+			if (result) {
+				map.put("result", "success");
+			} else {
+				map.put("result", "failure");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 	@PutMapping("/updateResultDataBySpecimen")
 	public Map<String, Object> updateResultDataBySpecimen(@RequestBody String result) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		logger.info("updateResultDataBySpecimen --- " + result);
+		JSONObject jObject = new JSONObject(result);
+		JSONArray parseResult = jObject.getJSONArray("result");
+		logger.info("updateResultDataBySpecimen --- " + parseResult);
 		try {
-			int row = resultService.updateResultDataBySpecimen(result);
+			boolean row = resultService.updateResultDataBySpecimen(parseResult);
 			map.put("row", row);
 		} catch(Exception e) {
 			e.printStackTrace();
