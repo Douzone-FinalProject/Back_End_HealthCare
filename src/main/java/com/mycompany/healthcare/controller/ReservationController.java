@@ -110,7 +110,7 @@ public class ReservationController {
 	public void sendSMS(@RequestBody ReservationSMS reservationSMS) {
 		try {
 			logger.info(reservationSMS.toString());
-			reservationService.sendSMS(reservationSMS);
+//			reservationService.sendSMS(reservationSMS);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

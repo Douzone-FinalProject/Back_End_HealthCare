@@ -40,7 +40,7 @@ public class ReceiptService {
 		// 최초 진료 기록, 최근 진료 기록 setter 
 		for(int i=0; i<patientList.size(); i++) {
 			String firstReceiptDate = patientsDao.selectFirstReceiptDate(patientList.get(i).getPatient_id());
-			String lastReceiptDate = patientsDao.selectLastReceiptDate(patientList.get(i).getPatient_id());
+			String lastReceiptDate = patientsDao.selectLastReceiptDate(patientList.get(i).getPatient_id());			
 			if(firstReceiptDate == null || lastReceiptDate == null) {
 				firstReceiptDate = "진료 기록 없음";
 				lastReceiptDate = "진료 기록 없음";
