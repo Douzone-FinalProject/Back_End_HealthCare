@@ -1,6 +1,5 @@
 package com.mycompany.healthcare.dto;
 
-import java.util.Date;
 
 public class Patients {
 	private int patient_id;

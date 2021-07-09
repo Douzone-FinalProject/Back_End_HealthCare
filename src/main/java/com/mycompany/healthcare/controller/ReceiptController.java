@@ -56,6 +56,23 @@ public class ReceiptController {
 		return map;
 	}
 	
+	// 신규 환자 생성 
+	@PostMapping("/addPatient")
+	public Map<String, Object> addPatient(@RequestBody Patients patientInfo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			boolean result = receiptService.addPatient(patientInfo);
+			if (result) {
+				map.put("result", "success");
+			} else {
+				map.put("result", "failure");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 	@GetMapping("/patient/{id}")
 	public Map<String, Object> getPatientById(@PathVariable("id") int patient_id) {
 		Map<String, Object> map = new HashMap<String, Object>();
