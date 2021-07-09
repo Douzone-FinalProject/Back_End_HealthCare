@@ -119,11 +119,11 @@
 			end as unsigned) + 1 as patient_age  
 		<if test="type == '전체'">
 			from receipt_and_opinions as rao, patients as p
-			where rao.patient_id = p.patient_id and receipt_state = '검사중'
+			where rao.patient_id = p.patient_id and rao.diagnostic_test_state != "" and date(receipt_datetime) = date(now())
 		</if>
 		<if test="type != '전체'">
 			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b, patients as p
-			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id
+			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id and date(receipt_datetime) = date(now())
 		</if>
 		<if test="state == 'whole'">
 			and diagnostic_test_state != '검사완료' and diagnostic_test_state != ""
@@ -153,4 +153,19 @@
 			   count(case when diagnostic_test_state = '검사완료' then 1 end) as complete
 		 from receipt_and_opinions
 	</select>
+	
+	<update id="updatePatientState" parameterType="String">
+		update receipt_and_opinions set diagnostic_test_state = 
+		case
+		when ((select count(*) from diagnostic_lists where receipt_id = #{receiptId} and diagnostic_list_state = '검사대기' ) = (select count(*) from diagnostic_lists where receipt_id = #{receiptId})) then '검사대기'
+		when ((select count(*) from diagnostic_lists where receipt_id = #{receiptId} and diagnostic_list_state = '검사접수') >= '1') then '검사중'
+		when ((select count(*) from diagnostic_lists where receipt_id = #{receiptId} and diagnostic_list_state = '검사완료') = (select count(*) from diagnostic_lists where receipt_id = #{receiptId})) then '검사완료'
+		end
+		where receipt_id = #{receiptId};
+	</update>
+	
+	<update id="updateReceiptStates" parameterType="String">
+		update receipt_and_opinions set receipt_state = #{state}
+		where receipt_id = #{receiptId}
+	</update>
 </mapper>
