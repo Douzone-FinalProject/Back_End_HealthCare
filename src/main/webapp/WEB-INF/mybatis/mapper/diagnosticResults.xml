@@ -2,21 +2,88 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.healthcare.dao.DiagnosticResultsDao">
 	<select id="getResultDataByReceipt" resultType="resultData">
- 		select dl.diagnostic_list_id,
+		select dl.diagnostic_list_id, dr.diagnostic_results_id, dr.diagnostic_result, date_format(dr.diagnostic_date, '%Y-%m-%d') as diagnostic_date,
+ 				diagnostic_previous_result, date_format(dr.diagnostic_previous_date, '%Y-%m-%d') as diagnostic_previous_date,
  				dl.diagnostic_specimen_number, dl.search_id, pr.prescription_name, pr.prescription_reference_value,
  				pr.prescription_unit, s.symptom_name, b.bundle_id, b.bundle_specimen, pr.prescription_id,
  		 		dl.receipt_id
-		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b
-		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b, diagnostic_results dr
+		where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id 
+				and b.bundle_id = pr.bundle_id and dr.prescription_id = pr.prescription_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '';
 	</select>
 	
 	<select id="getResultDataBySpecimen" resultType="resultData">
- 		select dl.diagnostic_list_id,
+ 		select dl.diagnostic_list_id, dr.diagnostic_results_id, dr.diagnostic_result, date_format(dr.diagnostic_date, '%Y-%m-%d') as diagnostic_date,
+ 				diagnostic_previous_result, date_format(dr.diagnostic_previous_date, '%Y-%m-%d') as diagnostic_previous_date,
  				dl.diagnostic_specimen_number, dl.search_id, pr.prescription_name, pr.prescription_reference_value,
  				pr.prescription_unit, s.symptom_name, b.bundle_id, b.bundle_specimen, pr.prescription_id,
  		 		dl.receipt_id
-		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b
-		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number} and b.bundle_specimen != ''
+		from diagnostic_lists dl, prescriptions pr, searchs s, bundles b, diagnostic_results dr
+		where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and b.bundle_id = pr.bundle_id and dr.prescription_id = pr.prescription_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number} and b.bundle_specimen != ''
 	</select>
+	
+	<select id="getPreviousResultData" resultType="resultData">
+		select diagnostic_result, vd.diagnostic_date, vt.diagnostic_list_id, pr.prescription_id
+		from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
+				select dl.diagnostic_list_id, dl.search_id, pr.prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
+				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '') vt, (
+		        select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date
+				from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+						and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
+							select prescription_id
+							from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
+							where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+							and b.bundle_id = pr.bundle_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+						)
+						group by prescription_id) vd
+		where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
+				select prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao, patients p
+				where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.patient_id = p.patient_id
+				and b.bundle_id = pr.bundle_id and pr.prescription_id = vt.prescription_id and vd.prescription_id = vt.prescription_id
+                and vd.diagnostic_results_id = dr.diagnostic_results_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+		)
+	</select>
+	
+	<select id="getPreviousResultDataByNew" resultType="resultData">
+		select vt.diagnostic_list_id, pr.prescription_id
+		from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
+				select dl.diagnostic_list_id, dl.search_id, pr.prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
+				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '') vt
+		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and b.bundle_id = pr.bundle_id and pr.prescription_id in (
+				select prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao, patients p
+				where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.patient_id = p.patient_id
+				and b.bundle_id = pr.bundle_id and pr.prescription_id = vt.prescription_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+		)
+	</select>
+	
+	<insert id="insertResultData" parameterType="java.util.List">
+		insert into diagnostic_results
+		(diagnostic_previous_result, diagnostic_previous_date, diagnostic_list_id, prescription_id)
+		values
+		<foreach collection="list" item="item" separator=" , ">
+			(
+				#{item.diagnostic_result},
+				#{item.diagnostic_date},
+				#{item.diagnostic_list_id},
+				#{item.prescription_id}
+			)
+		</foreach>
+	</insert>
+	
+	<update id="updateResultDataBySpecimen">
+		update diagnostic_results
+		set diagnostic_result=#{diagnostic_result}
+		where diagnostic_results_id=#{diagnostic_results_id}
+	</update>
 	
 </mapper>
