@@ -40,7 +40,7 @@ public class ReceiptService {
 		// 최초 진료 기록, 최근 진료 기록 setter 
 		for(int i=0; i<patientList.size(); i++) {
 			String firstReceiptDate = patientsDao.selectFirstReceiptDate(patientList.get(i).getPatient_id());
-			String lastReceiptDate = patientsDao.selectLastReceiptDate(patientList.get(i).getPatient_id());
+			String lastReceiptDate = patientsDao.selectLastReceiptDate(patientList.get(i).getPatient_id());			
 			if(firstReceiptDate == null || lastReceiptDate == null) {
 				firstReceiptDate = "진료 기록 없음";
 				lastReceiptDate = "진료 기록 없음";
@@ -65,6 +65,16 @@ public class ReceiptService {
 		return patient;
 	}
 
+	// 신규 환자 생성 
+	public boolean addPatient(Patients patients) {
+		boolean result = true;
+		int row = patientsDao.insertPatient(patients);
+		if (row != 1) {
+			result = false;
+		}
+		return result;
+	}
+	
 	public int deletePatientById(int patient_id) {
 		return patientsDao.deletePatientById(patient_id);
 	}

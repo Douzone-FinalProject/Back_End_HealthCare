@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="selectFirstReceiptDate" resultType="String">
-		select receipt_datetime as firstReceiptDate
+		select date_format(receipt_datetime, '%Y-%m-%d') as firstReceiptDate
 		from receipt_and_opinions
 		where patient_id=#{patient_Id}
 		order by receipt_datetime
@@ -35,7 +35,7 @@
 	</select>
 	
 	<select id="selectLastReceiptDate" resultType="String">
-		select receipt_datetime as lastReceiptDate
+		select date_format(receipt_datetime, '%Y-%m-%d') as lastReceiptDate
 		from receipt_and_opinions
 		where patient_id=#{patient_Id}
 		order by receipt_datetime desc

@@ -19,8 +19,6 @@ public class MessageService {
 	private MessagesDao messagesDao;
 	@Autowired
 	private StaffsDao staffsDao;
-	@Autowired
-	private PatientsDao patientsDao;
 	
 	public List<Messages> getMessageList(String staff_login_id) {
 		return messagesDao.getMessageList(staff_login_id);
@@ -48,15 +46,6 @@ public class MessageService {
 		} else {
 			return true;
 		}
-	}
-
-	public boolean addPatient(Patients patients) {	//나중에 접수기능으로 옮겨야함.
-		boolean result = true;
-		int row = patientsDao.insertPatient(patients);
-		if (row != 1) {
-			result = false;
-		}
-		return result;
 	}
 	
 }
