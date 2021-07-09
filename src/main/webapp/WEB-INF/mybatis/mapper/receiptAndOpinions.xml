@@ -70,7 +70,7 @@
 	
 	<update id="updateReceiptState">
 		update receipt_and_opinions
-		set receipt_state = '검사중', diagnostic_test_state='검사대기', receipt_opinion='검사 완료 후 소견 작성 필요'
+		set receipt_state = '검사중', diagnostic_test_state='검사대기', receipt_opinion='검사 완료 후 소견 작성 필요', receipt_result_state='ⓧ' 
 		where receipt_id = #{receipt_id}
 	</update>
 	

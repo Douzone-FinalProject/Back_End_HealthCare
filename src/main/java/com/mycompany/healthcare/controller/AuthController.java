@@ -58,7 +58,7 @@ public class AuthController {
 			//스태프 이름, 권한 가져오기
 			String staffName = authService.getStaffName(staff_login_id);
 			String staffRole = authService.getStaffRole(staff_login_id);
-			
+			logger.info("aaaaaaaaaaaaaaa---"+hospital_name);
 			//DB에서 병원코드, 권한 비교
 			int hospitalCount = authService.compareHospitalCode(staff_login_id, hospital_id);
 			int roleCount = authService.compareRole(staff_login_id, staff_role);
