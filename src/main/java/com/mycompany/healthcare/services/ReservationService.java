@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.healthcare.dao.ReservationsDao;
+import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.ReservationSMS;
 import com.mycompany.healthcare.dto.Reservations;
 
@@ -71,6 +72,11 @@ public class ReservationService {
 	      System.out.println(e.getMessage());
 	      System.out.println(e.getCode());
 	    }
+	}
+
+	public Integer checkPatientVisited(String reservation_name, String reservation_phone) {
+		return reservationsDao.checkPatientVisited(reservation_name, reservation_phone);
+
 	}
 
    

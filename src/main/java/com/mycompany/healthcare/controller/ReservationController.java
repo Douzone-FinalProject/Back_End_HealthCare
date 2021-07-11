@@ -71,6 +71,7 @@ public class ReservationController {
 	public Map<String, Object> insertReservation(@RequestBody Reservations reservation) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			logger.info(reservation.toString());
 			int row = reservationService.insertReservation(reservation);
 			map.put("row", row);
 		} catch(Exception e) {
@@ -110,10 +111,24 @@ public class ReservationController {
 	public void sendSMS(@RequestBody ReservationSMS reservationSMS) {
 		try {
 			logger.info(reservationSMS.toString());
-//			reservationService.sendSMS(reservationSMS);
+			reservationService.sendSMS(reservationSMS);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 예약시에 기존 환자인지 체크 
+	@GetMapping("/checkPatient/{name}/{phone}")
+	public Map<String, Object> checkPatientVisited(@PathVariable("name") String reservation_name, @PathVariable("phone") String reservation_phone){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			Integer patient_id = reservationService.checkPatientVisited(reservation_name, reservation_phone);
+			logger.info("patient_id: " + String.valueOf(patient_id)); // null 
+			map.put("patient_id", patient_id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
 	}
 	
 	
