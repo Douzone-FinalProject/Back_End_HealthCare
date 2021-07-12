@@ -169,4 +169,12 @@
 		update receipt_and_opinions set receipt_state = #{state}
 		where receipt_id = #{receiptId}
 	</update>
+	
+	<update id="updateFinishedResultStateByReceipt">
+		update receipt_and_opinions SET receipt_result_state = 'ⓞ'
+		where receipt_id in (
+				select dl.receipt_id
+				from diagnostic_lists dl, diagnostic_results dr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
+	</update>
 </mapper>

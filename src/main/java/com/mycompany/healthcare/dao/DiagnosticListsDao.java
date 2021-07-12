@@ -26,10 +26,13 @@ public interface DiagnosticListsDao {
 	public List<DiagnosticData> getDiagnosticDataByDate(String receipt_datetime);
 
 	public PatientData getPatientData(String receipt_id);
+	
+	public PatientData getPatientDataBySpecimen(String diagnostic_specimen_number);
 
 	public DiagnosticData getSpecimenData(String diagnostic_specimen_number);
 
 	public void updateFinishedResultState(int diagnostic_results_id);
 
+	public void updateAllFinishedResultStateByReceipt(int diagnostic_results_id);
 
 }
