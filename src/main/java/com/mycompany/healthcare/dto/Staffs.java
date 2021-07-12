@@ -9,6 +9,7 @@ public class Staffs {
 	private String staff_role;
 	private int staff_enabled;
 	private int hospital_id;
+	private String hospital_name;
 	
 	public int getStaff_id() {
 		return staff_id;
@@ -58,11 +59,18 @@ public class Staffs {
 	public void setHospital_id(int hospital_id) {
 		this.hospital_id = hospital_id;
 	}
-	
+	public String getHospital_name() {
+		return hospital_name;
+	}
+	public void setHospital_name(String hospital_name) {
+		this.hospital_name = hospital_name;
+	}
 	@Override
 	public String toString() {
 		return "Staffs [staff_id=" + staff_id + ", staff_name=" + staff_name + ", staff_phone=" + staff_phone
 				+ ", staff_login_id=" + staff_login_id + ", staff_login_pwd=" + staff_login_pwd + ", staff_role="
-				+ staff_role + ", staff_enabled=" + staff_enabled + ", hospital_id=" + hospital_id + "]";
+				+ staff_role + ", staff_enabled=" + staff_enabled + ", hospital_id=" + hospital_id + ", hospital_name="
+				+ hospital_name + "]";
 	}
+	
 }

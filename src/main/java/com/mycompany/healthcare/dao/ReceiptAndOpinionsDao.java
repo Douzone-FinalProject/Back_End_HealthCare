@@ -29,6 +29,7 @@ public interface ReceiptAndOpinionsDao {
 	public void updateReceiptOpinion(@Param("receipt_id") int receipt_id, @Param("receipt_opinion") String receipt_opinion);
 	public void updateReceiptUniqueness(@Param("receipt_id") int receipt_id, @Param("receipt_uniqueness") String receipt_uniqueness);
 	public void updateTestAndReceiptState(int receipt_id);
+	public int selectReceiptCount();
 	
 	// 검사상태 환자 리스트
 	public List<ReceiptAndOpinions> selectPatientStateList(@Param("type") String type, @Param("state") String state);

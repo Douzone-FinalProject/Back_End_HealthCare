@@ -33,8 +33,11 @@ public interface DiagnosticListsDao {
 	public DiagnosticData getSpecimenData(String diagnostic_specimen_number);
 
 	public void updateFinishedResultState(int diagnostic_results_id);
-
+	
 	public void updateAllFinishedResultStateByReceipt(int diagnostic_results_id);
 	public List<LabCharts> countLabPatient();
+
+	public int selectTestCount();
+
 
 }

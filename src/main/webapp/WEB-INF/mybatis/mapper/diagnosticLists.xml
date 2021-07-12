@@ -119,4 +119,11 @@
 			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b
 			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and dl.diagnostic_list_state != '검사완료' and date(receipt_datetime) = date(now());
 	</select>
+	
+	
+	<select id="selectTestCount" resultType="int">
+      	select count(*)
+		from diagnostic_lists
+    </select>
+	
 </mapper>

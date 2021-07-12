@@ -26,13 +26,5 @@ public class TestController {
 	@Autowired
 	private StaffsService staffsService;
 	
-	@GetMapping("")
-	public Map<String, Object> getStaffsList() {
-		logger.info("#########");
-		
-		List<Staffs> staffList = staffsService.getStaffList();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", staffList);
-		return map;
-	}
+
 }
