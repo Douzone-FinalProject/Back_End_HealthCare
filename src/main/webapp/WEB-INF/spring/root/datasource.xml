@@ -8,7 +8,7 @@
 		 class="org.apache.commons.dbcp2.BasicDataSource"
 		 destroy-method="close">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://kosa3.iptime.org:3306/team3_douzone?characterEncoding=UTF-8"/>
+		<property name="url" value="jdbc:mysql://kosa3.iptime.org:3306/team3_douzone?characterEncoding=UTF-8&amp;allowMultiQueries=true"/>
 		<property name="username" value="team3_douzone"/>
 		<property name="password" value="team3_douzone_kosa"/>
 		<property name="initialSize" value="2"/>

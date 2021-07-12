@@ -20,16 +20,16 @@
 	</select>
 	
 	<insert id="insertReservation">
-		<!-- <if test='patient_id != null'>
+		<if test='patient_id != 0'>
 			insert into reservations 
 			(reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id)
-			values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason}, #{patient_id})
-		</if> -->
-		
+			 values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason}, #{patient_id})
+		</if>
+		<if test='patient_id == 0'>
 			insert into reservations 
 			(reservation_datetime, reservation_name, reservation_phone, reservation_reason)
-			values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason})
-	
+			 values (#{reservation_datetime}, #{reservation_name}, #{reservation_phone}, #{reservation_reason})
+		</if>
 	</insert>
 	
 	<delete id="deleteReservationById">
@@ -38,19 +38,27 @@
 	</delete>
 	
 	<update id="updateReservation">
-		update reservations
-		set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
-			reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason}
-		where reservation_id=#{reservation_id}
+		<if test='patient_id != 0'>
+			update reservations
+			set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
+				reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason},
+				patient_id=#{patient_id}
+			where reservation_id=#{reservation_id}
+		</if>
+		<if test='patient_id == 0'>
+			update reservations
+			set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
+				reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason}
+			where reservation_id=#{reservation_id}
+		</if>
+	
 		
-		<!--
-		update reservations
-		set reservation_datetime=#{reservation_datetime},reservation_name=#{reservation_name},
-			reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason},
-			patient_id=#{patient_id}
-		where reservation_id=#{reservation_id}
-		
-		  -->
 	</update>
+	
+	<select id="checkPatientVisited" resultType="int">
+		select patient_id
+		from patients
+		where patient_name=#{reservation_name} and patient_phone=#{reservation_phone}
+	</select>
 	
 </mapper>

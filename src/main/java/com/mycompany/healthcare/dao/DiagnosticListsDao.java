@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.mycompany.healthcare.dto.DiagnosticData;
 import com.mycompany.healthcare.dto.DiagnosticLists;
+import com.mycompany.healthcare.dto.LabCharts;
 import com.mycompany.healthcare.dto.PatientData;
 import com.mycompany.healthcare.dto.Staffs;
 import com.mycompany.healthcare.dto.TestStateDetail;
@@ -26,10 +27,15 @@ public interface DiagnosticListsDao {
 	public List<DiagnosticData> getDiagnosticDataByDate(String receipt_datetime);
 
 	public PatientData getPatientData(String receipt_id);
+	
+	public PatientData getPatientDataBySpecimen(String diagnostic_specimen_number);
 
 	public DiagnosticData getSpecimenData(String diagnostic_specimen_number);
 
 	public void updateFinishedResultState(int diagnostic_results_id);
+	
+	public void updateAllFinishedResultStateByReceipt(int diagnostic_results_id);
+	public List<LabCharts> countLabPatient();
 
 	public int selectTestCount();
 

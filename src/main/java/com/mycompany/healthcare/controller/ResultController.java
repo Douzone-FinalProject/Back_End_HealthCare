@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.DiagnosticResults;
 import com.mycompany.healthcare.dto.PatientData;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.ResultData;
@@ -103,6 +104,20 @@ public class ResultController {
 		return map;
 	}
 	
+	@GetMapping("/getPatientDataBySpecimen")
+	public Map<String, Object> getPatientDataBySpecimen(String diagnostic_specimen_number) {
+		logger.info("getPatientDataBySpecimen --- " + diagnostic_specimen_number);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			PatientData patientData = resultService.getPatientDataBySpecimen(diagnostic_specimen_number);
+			map.put("patientData", patientData);
+			logger.info("patientData --- " + patientData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 	@GetMapping("/getSpecimenData")
 	public Map<String, Object> getSpecimenData(String diagnostic_specimen_number) {
 		logger.info("getSpecimenData --- " + diagnostic_specimen_number);
@@ -127,7 +142,10 @@ public class ResultController {
 		try {
 			List<ResultData> resultData = resultService.getPreviousResultData(ParseReceipt_id);
 			logger.info("##########resultData ----" + resultData);
-			boolean result = resultService.insertResultData(resultData);
+			List<ResultData> resultData2 = resultService.getPreviousResultDataByNew(ParseReceipt_id);
+			logger.info("##########resultData2 ----" + resultData2);
+			resultService.insertResultData(resultData2);
+			boolean result = resultService.updateinsertResultData(resultData);
 			if (result) {
 				map.put("result", "success");
 			} else {
@@ -170,6 +188,35 @@ public class ResultController {
 		try {
 			boolean row = resultService.updateResultDataBySpecimen(parseResult);
 			map.put("row", row);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@PutMapping("/updateResultDataByReceipt")
+	public Map<String, Object> updateResultDataByReceipt(@RequestBody String result) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONObject jObject = new JSONObject(result);
+		JSONArray parseResult = jObject.getJSONArray("result");
+		logger.info("updateResultDataByReceipt --- " + parseResult);
+		try {
+			boolean row = resultService.updateResultDataByReceipt(parseResult);
+			map.put("row", row);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getCheckPreviousResult")
+	public Map<String, Object> getCheckPreviousResult(String receipt_id) {
+		logger.info("getCheckPreviousResult --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<DiagnosticResults> PrevResultData = resultService.getCheckPreviousResult(receipt_id);
+			map.put("PrevResultData", PrevResultData);
+			logger.info("PrevResultData --- " + PrevResultData);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

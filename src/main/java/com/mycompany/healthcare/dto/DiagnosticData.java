@@ -13,6 +13,7 @@ public class DiagnosticData {
 	private String receipt_datetime;
 	private String patient_name;
 	private int patient_id;
+	private String doctor_name;
 	
 	public int getPatient_id() {
 		return patient_id;
@@ -86,6 +87,13 @@ public class DiagnosticData {
 	public void setDiagnostic_result_state(String diagnostic_result_state) {
 		this.diagnostic_result_state = diagnostic_result_state;
 	}
+	public String getDoctor_name() {
+		return doctor_name;
+	}
+	public void setDoctor_name(String doctor_name) {
+		this.doctor_name = doctor_name;
+	}
+	
 	@Override
 	public String toString() {
 		return "DiagnosticLists [diagnostic_list_id=" + diagnostic_list_id + ", diagnostic_list_barcode="

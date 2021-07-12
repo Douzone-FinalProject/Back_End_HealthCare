@@ -58,6 +58,10 @@ public class ResultService {
 	public PatientData getPatientData(String receipt_id) {
 		return diagnosticListsDao.getPatientData(receipt_id);
 	}
+	
+	public PatientData getPatientDataBySpecimen(String diagnostic_specimen_number) {
+		return diagnosticListsDao.getPatientDataBySpecimen(diagnostic_specimen_number);
+	}
 
 	public DiagnosticData getSpecimenData(String diagnostic_specimen_number) {
 		return diagnosticListsDao.getSpecimenData(diagnostic_specimen_number);
@@ -65,6 +69,19 @@ public class ResultService {
 	
 	public List<ResultData> getPreviousResultData(int receipt_id) {
 		return diagnosticResultsDao.getPreviousResultData(receipt_id);
+	}
+
+	public boolean insertResultData(List<ResultData> resultData) {
+		boolean result = false;
+		int row = diagnosticResultsDao.insertResultData(resultData);
+		if (row != 0) {
+			result = true;
+		}
+		return result;
+	}
+
+	public List<ResultData> getPreviousResultDataByNew(int receipt_id) {
+		return diagnosticResultsDao.getPreviousResultDataByNew(receipt_id);
 	}
 	
 	public boolean updateResultDataBySpecimen(JSONArray parseResult) {
@@ -80,6 +97,7 @@ public class ResultService {
 					return false;
 				}
 			}
+			logger.info("aaaaadddd"+diagnostic_results_id);
 			diagnosticListsDao.updateFinishedResultState(diagnostic_results_id);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -87,19 +105,38 @@ public class ResultService {
 		return true;
 	}
 
-	public boolean insertResultData(List<ResultData> resultData) {
+	public boolean updateResultDataByReceipt(JSONArray parseResult) {
+		try {
+			int diagnostic_results_id = 0;
+			for (int index = 0; index < parseResult.length(); index++) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				DiagnosticResults resultInfo = objectMapper.readValue(parseResult.get(index).toString(), DiagnosticResults.class);
+				logger.info("########" + resultInfo);
+				diagnostic_results_id = resultInfo.getDiagnostic_results_id();
+				int rows = diagnosticResultsDao.updateResultDataByReceipt(resultInfo);
+				if(rows<1) {
+					return false;
+				}
+			}
+			receiptAndOpinionsDao.updateFinishedResultStateByReceipt(diagnostic_results_id);
+			diagnosticListsDao.updateAllFinishedResultStateByReceipt(diagnostic_results_id);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public List<DiagnosticResults> getCheckPreviousResult(String receipt_id) {
+		return diagnosticResultsDao.getCheckPreviousResult(receipt_id);
+	}
+
+	public boolean updateinsertResultData(List<ResultData> resultData) {
 		boolean result = false;
-		int row = diagnosticResultsDao.insertResultData(resultData);
+		int row = diagnosticResultsDao.updateinsertResultData(resultData);
 		if (row != 0) {
 			result = true;
 		}
 		return result;
 	}
-
-	public List<ResultData> getPreviousResultDataByNew(int receipt_id) {
-		return diagnosticResultsDao.getPreviousResultDataByNew(receipt_id);
-	}
-
-	
 	
 }

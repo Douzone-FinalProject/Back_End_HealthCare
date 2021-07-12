@@ -158,6 +158,7 @@
 			   count(case when diagnostic_test_state = '검사중' then 1 end) as doing,
 			   count(case when diagnostic_test_state = '검사완료' then 1 end) as complete
 		 from receipt_and_opinions
+		 where date(receipt_datetime) = date(now());
 	</select>
 	
 	<update id="updatePatientState" parameterType="String">
@@ -173,5 +174,13 @@
 	<update id="updateReceiptStates" parameterType="String">
 		update receipt_and_opinions set receipt_state = #{state}
 		where receipt_id = #{receiptId}
+	</update>
+
+	<update id="updateFinishedResultStateByReceipt">
+		update receipt_and_opinions SET receipt_result_state = 'ⓞ'
+		where receipt_id in (
+				select dl.receipt_id
+				from diagnostic_lists dl, diagnostic_results dr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
 	</update>
 </mapper>
