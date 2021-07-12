@@ -23,5 +23,6 @@
 		<typeAlias type="com.mycompany.healthcare.dto.ResultData" alias="resultData"/>
 		<typeAlias type="com.mycompany.healthcare.dto.PatientData" alias="patientData"/>
 		<typeAlias type="com.mycompany.healthcare.dto.StateCharts" alias="stateCharts"/>
+		<typeAlias type="com.mycompany.healthcare.dto.LabCharts" alias="labCharts"/>
 	</typeAliases>
 </configuration>

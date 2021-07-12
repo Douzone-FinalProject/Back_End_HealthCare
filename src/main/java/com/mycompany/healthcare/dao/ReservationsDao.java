@@ -2,6 +2,7 @@ package com.mycompany.healthcare.dao;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.mycompany.healthcare.dto.Reservations;
 
 
@@ -14,5 +15,7 @@ public interface ReservationsDao {
 	public int insertReservation(Reservations reservation);
 	public int deleteReservationById(int reserve_id);
 	public int updateReservation(Reservations reservation);
+	public Integer checkPatientVisited(@Param("reservation_name") String reservation_name, 
+										@Param("reservation_phone") String reservation_phone);
 	
 }
