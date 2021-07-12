@@ -19,6 +19,14 @@
 		where reservation_name=#{reservation_name}
 	</select>
 	
+	<select id="selectNextReservation" resultType="reservations">
+		select reservation_id, reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id
+		from reservations
+		where patient_id=#{patient_id}
+		order by reservation_datetime desc
+		limit 1
+	</select>
+	
 	<insert id="insertReservation">
 		<if test='patient_id != 0'>
 			insert into reservations 
