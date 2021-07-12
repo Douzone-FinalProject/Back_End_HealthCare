@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.healthcare.dto.DiagnosticImgs;
 import com.mycompany.healthcare.dto.DiagnosticLists;
+import com.mycompany.healthcare.dto.LabCharts;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
+import com.mycompany.healthcare.dto.SaveImgs;
 import com.mycompany.healthcare.dto.StateCharts;
 import com.mycompany.healthcare.dto.TestStateDetail;
 import com.mycompany.healthcare.services.TestStateService;
@@ -65,9 +69,24 @@ public class TestStateController {
 		testStateService.updateReceiptStates(updateData);
 	}
 	
-//	@PostMapping("/img")
-//	public void uploadImg(@) {
-//		
-//	}
+	@PostMapping("/img")
+	public void uploadImg(@RequestBody SaveImgs saveImgs) {
+		logger.info(saveImgs.getBase64());
+		logger.info("요기" + saveImgs.getReceiptId());
+		testStateService.uploadImg(saveImgs);
+	}
+	
+	// testStateDetail 환자이름 불러오기
+	@GetMapping("/patientname/{receiptId}")
+	public String getPatientName(@PathVariable int receiptId) {
+		return testStateService.getPatientName(receiptId);
+	}
+	
+	// LabChart
+	@GetMapping("/labchart")
+	public List<LabCharts> getLabChart() {
+		return testStateService.getLabChart();
+	}
+	
 
 }
