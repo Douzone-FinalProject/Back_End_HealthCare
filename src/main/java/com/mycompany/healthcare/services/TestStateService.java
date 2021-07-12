@@ -1,23 +1,32 @@
 package com.mycompany.healthcare.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mycompany.healthcare.dao.DiagnosticImgsDao;
 import com.mycompany.healthcare.dao.DiagnosticListsDao;
+import com.mycompany.healthcare.dao.PatientsDao;
 import com.mycompany.healthcare.dao.ReceiptAndOpinionsDao;
 import com.mycompany.healthcare.dao.StaffsDao;
+import com.mycompany.healthcare.dto.DiagnosticImgs;
 import com.mycompany.healthcare.dto.DiagnosticLists;
+import com.mycompany.healthcare.dto.LabCharts;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
+import com.mycompany.healthcare.dto.SaveImgs;
 import com.mycompany.healthcare.dto.StateCharts;
 import com.mycompany.healthcare.dto.TestStateDetail;
 
@@ -32,6 +41,12 @@ public class TestStateService {
 	
 	@Autowired
 	private StaffsDao staffsDao;
+	
+	@Autowired
+	private DiagnosticImgsDao diagnosticImgsDao;
+	
+	@Autowired
+	private PatientsDao patientsDao;
 	
 	public List<ReceiptAndOpinions> getPatientStateList(String type, String state) {
 		return receiptAndOpinionsDao.selectPatientStateList(type, state);
@@ -82,5 +97,42 @@ public class TestStateService {
 
 	public void updateReceiptStates(Map<String, String> updateData) {
 		receiptAndOpinionsDao.updateReceiptStates(updateData);
+	}
+
+	public void uploadImg(SaveImgs saveImgs) {
+		// base64에 붙어있는 파일 정보들을 떼어서 저장하기 위해
+		String[] base64Str = saveImgs.getBase64().split(",");
+		
+		// base64로 인코딩되어 있는 데이터를 디코딩하여 byte[]로 받음
+		byte[] decodeBytes = Base64.getDecoder().decode(base64Str[1]);
+		
+		String defaultPath = System.getProperty("user.home") + "/images/";
+		
+		try {
+			// 지정된 경로에 byte 배열로 받은 이미지를 만들어준다
+			FileUtils.writeByteArrayToFile(new File(defaultPath + new Date().getTime() + saveImgs.getFilename() + ".jpeg"), decodeBytes);
+			
+			// 이미지의 정보를 보내기 위해 DTO에 정보를 넣어준다
+			DiagnosticImgs diagnosticImgs = new DiagnosticImgs();
+			diagnosticImgs.setDiagnostic_img(new Date().getTime() + saveImgs.getFilename() + ".jpeg");
+			diagnosticImgs.setImg_type("image/jpeg");
+			diagnosticImgs.setReceipt_id(saveImgs.getReceiptId());
+			
+			// 테이블의 정보를 삽입
+			diagnosticImgsDao.insertDiagnosticImg(diagnosticImgs);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		saveImgs.setBase64("");
+	}
+
+	public String getPatientName(int receiptId) {
+		return patientsDao.selectPatientNameByReceiptId(receiptId);
+	}
+
+	public List<LabCharts> getLabChart() {
+		return diagnosticListsDao.countLabPatient();
 	}
 }

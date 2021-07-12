@@ -20,4 +20,6 @@ public interface PatientsDao {
 	public List<Patients> selectPatientsByName(String patient_name);
 	public String selectFirstReceiptDate(int patient_id);
 	public String selectLastReceiptDate(int patient_id);
+
+	public String selectPatientNameByReceiptId(int receiptId);
 }
