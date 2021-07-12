@@ -94,4 +94,11 @@
 				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
 	</update>
 	
+	<select id="countLabPatient" resultType="labCharts">
+		select count(case when b.bundle_lab = '검사실1' then 1 end) as lab1,
+			   count(case when b.bundle_lab = '검사실2' then 1 end) as lab2,
+			   count(case when b.bundle_lab = '검사실3' then 1 end) as lab3
+			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b
+			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and dl.diagnostic_list_state != '검사완료' and date(receipt_datetime) = date(now());
+	</select>
 </mapper>

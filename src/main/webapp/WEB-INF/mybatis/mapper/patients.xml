@@ -66,5 +66,11 @@
 		where patient_id=#{patient_id}
 	</update>
 	
+	<select id="selectPatientNameByReceiptId" parameterType="int" resultType="String">
+		select patient_name
+		from patients as p, receipt_and_opinions as rao
+		where p.patient_id = rao.patient_id and rao.receipt_id = #{receiptId}
+	</select>
+	
 	
 </mapper>
