@@ -7,16 +7,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
 import com.mycompany.healthcare.dto.StateCharts;
 
 @Mapper
 public interface ReceiptAndOpinionsDao {
-	public int insertReceipt(ReceiptAndOpinions receipt);
+	public int insertReceipt(int patient_id);
 	public List<ReceiptAndOpinions> selectAllReceipt();
 	public int deleteReceiptById(int receipt_id);
 	public int updateReceipt(@Param("receipt_id")int receipt_id, @Param("nextState")String nextState);
- 
+	public int selectReceiptId(int patient_id);
+	
 	public List<ReceiptAndOpinions> selectSearchPatientIdOpinionList(String patient_id);
 	public List<ReceiptAndOpinions> selectSearchDateOpinionList(String receipt_datetime);
 	public List<ReceiptAndOpinions> selectSearchPatientNameOpinionList(String patient_name);
@@ -41,4 +43,5 @@ public interface ReceiptAndOpinionsDao {
 	public void updatePatientState(String receiptId);
 	public void updateReceiptStates(Map<String, String> updateData);
 	public void updateFinishedResultStateByReceipt(int diagnostic_results_id);
+	
 }
