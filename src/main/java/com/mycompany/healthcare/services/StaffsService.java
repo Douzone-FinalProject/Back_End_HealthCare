@@ -3,6 +3,7 @@ package com.mycompany.healthcare.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.healthcare.dao.DiagnosticListsDao;
@@ -57,5 +58,17 @@ public class StaffsService {
 	public int getMedicinePresCount() {
 		int medicinePresCounts = medicinePresDao.selectMedicinePresCount();
 		return medicinePresCounts;
+	}
+
+	public void updateStaffNoPassword(Staffs nowStaff) {
+		staffsDao.updateStaffNoPassword(nowStaff);
+		
+	}
+
+	public void updateStaff(Staffs nowStaff) {
+		BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+		nowStaff.setStaff_login_pwd(bpe.encode(nowStaff.getStaff_login_pwd()));
+		staffsDao.updateStaff(nowStaff);
+		
 	}
 }

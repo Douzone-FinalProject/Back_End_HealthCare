@@ -19,5 +19,7 @@ public interface StaffsDao {
 	public void insertStaff(Staffs employee);
 	public Staffs selectStaff(int staff_id);
 	public void deletetStaff(int staff_id);
+	public void updateStaffNoPassword(Staffs nowStaff);
+	public void updateStaff(Staffs nowStaff);
 	
 }

@@ -3,9 +3,9 @@
 <mapper namespace="com.mycompany.healthcare.dao.StaffsDao">
 	<insert id="insertStaff" parameterType="staffs">
 		insert into staffs
-		(staff_id, staff_name, staff_phone, staff_login_id, staff_login_pwd, hospital_id, staff_role)
+		(staff_name, staff_phone, staff_login_id, staff_login_pwd, hospital_id, staff_role)
 		values
-		(#{staff_id}, #{staff_name}, #{staff_phone}, #{staff_login_id}, #{staff_login_pwd}, #{hospital_id}, 'ROLE_NURSE')
+		(#{staff_name}, #{staff_phone}, #{staff_login_id}, #{staff_login_pwd}, #{hospital_id}, 'ROLE_NURSE')
 	</insert>
 	
 	<select id="selectStaff" resultType="staffs">
@@ -55,6 +55,18 @@
 		from staffs
 		where staff_login_id=#{staff_login_id}
 	</select>
+	
+	<update id="updateStaffNoPassword">
+		update staffs
+		set staff_name=#{staff_name}, staff_phone=#{staff_phone}, staff_enabled=#{staff_enabled}, staff_login_id=#{staff_login_id}
+		where staff_id=#{staff_id}
+	</update>
+	
+	<update id="updateStaff">
+		update staffs
+		set staff_name=#{staff_name}, staff_phone=#{staff_phone}, staff_enabled=#{staff_enabled}, staff_login_id=#{staff_login_id}, staff_login_pwd=#{staff_login_pwd}
+		where staff_id=#{staff_id}
+	</update>
 	
 	<delete id="deletetStaff">
 		delete from staffs
