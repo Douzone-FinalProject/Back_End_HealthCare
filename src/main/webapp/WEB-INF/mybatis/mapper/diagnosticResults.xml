@@ -30,7 +30,9 @@
 				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
 				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
 				and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '') vt, (
-				select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date, diagnostic_result
+				select vdt.diagnostic_results_id, vdt.prescription_id, vdt.diagnostic_date, dr.diagnostic_result
+				from diagnostic_results dr, (
+				select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date
 				from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
 				where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.receipt_id = dl.receipt_id
 				and dr.prescription_id = pr.prescription_id and rao.patient_id in (
@@ -42,7 +44,8 @@
 					from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
 					where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
 					and b.bundle_id = pr.bundle_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != '')
-				group by prescription_id) vd
+				group by prescription_id) vdt
+				where dr.diagnostic_results_id = vdt.diagnostic_results_id) vd
 		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and vd.prescription_id = vt.prescription_id
 				and pr.prescription_id in (
 				select distinct dr.prescription_id
