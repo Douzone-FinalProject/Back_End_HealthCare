@@ -72,4 +72,15 @@
 		delete from staffs
 		where staff_id=#{staff_id}
 	</delete>
+	
+	<select id="selectStaffCount" resultType="int">
+      	select count(*)
+		from staffs
+    </select>
+    
+    <select id="selectDisableStaffCount" resultType="int">
+      	select count(*)
+		from staffs
+		where staff_enabled = 0
+    </select>
 </mapper>

@@ -21,5 +21,7 @@ public interface StaffsDao {
 	public void deletetStaff(int staff_id);
 	public void updateStaffNoPassword(Staffs nowStaff);
 	public void updateStaff(Staffs nowStaff);
+	public int selectStaffCount();
+	public int selectDisableStaffCount();
 	
 }
