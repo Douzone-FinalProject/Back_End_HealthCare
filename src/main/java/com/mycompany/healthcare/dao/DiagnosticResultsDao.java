@@ -13,6 +13,9 @@ public interface DiagnosticResultsDao {
 	public List<ResultData> getResultDataBySpecimen(String diagnostic_specimen_number);
 	public List<ResultData> getPreviousResultData(int receipt_id);
 	public int insertResultData(List<ResultData> resultData);
-	public int updateResultDataBySpecimen(DiagnosticResults resultInfo);
 	public List<ResultData> getPreviousResultDataByNew(int receipt_id);
+	public int updateResultDataBySpecimen(DiagnosticResults resultInfo);
+	public int updateResultDataByReceipt(DiagnosticResults resultInfo);
+	public List<DiagnosticResults> getCheckPreviousResult(String receipt_id);
+	public int updateinsertResultData(List<ResultData> resultData);
 }

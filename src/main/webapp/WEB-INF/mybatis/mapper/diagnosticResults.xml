@@ -24,34 +24,40 @@
 	</select>
 	
 	<select id="getPreviousResultData" resultType="resultData">
-		select diagnostic_result, vd.diagnostic_date, vt.diagnostic_list_id, pr.prescription_id
-		from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
+		select distinct vd.diagnostic_result, vd.diagnostic_date, vt.diagnostic_list_id, pr.prescription_id
+		from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
 				select dl.diagnostic_list_id, dl.search_id, pr.prescription_id
 				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
 				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
 				and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '') vt, (
-		        select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date
-				from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr
-				where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
-						and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
-							select prescription_id
-							from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
-							where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
-							and b.bundle_id = pr.bundle_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
-						)
-						group by prescription_id) vd
-		where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
-				and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
-				select prescription_id
-				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao, patients p
-				where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.patient_id = p.patient_id
-				and b.bundle_id = pr.bundle_id and pr.prescription_id = vt.prescription_id and vd.prescription_id = vt.prescription_id
-                and vd.diagnostic_results_id = dr.diagnostic_results_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
-		)
+				select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date, diagnostic_result
+				from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.receipt_id = dl.receipt_id
+				and dr.prescription_id = pr.prescription_id and rao.patient_id in (
+					select p.patient_id
+					from receipt_and_opinions rao, patients p
+					where rao.patient_id = p.patient_id and rao.receipt_id = #{receipt_id})
+				and dr.prescription_id in (
+					select prescription_id
+					from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
+					where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+					and b.bundle_id = pr.bundle_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != '')
+				group by prescription_id) vd
+		where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_id = pr.bundle_id and vd.prescription_id = vt.prescription_id
+				and pr.prescription_id in (
+				select distinct dr.prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, receipt_and_opinions rao, diagnostic_results dr
+				where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and dr.prescription_id = vt.prescription_id and dr.diagnostic_list_id = dl.diagnostic_list_id
+				and vd.diagnostic_results_id = dr.diagnostic_results_id and b.bundle_specimen != ''
+				and rao.patient_id in (select p.patient_id
+										from receipt_and_opinions rao, patients p
+										where rao.patient_id = p.patient_id and rao.receipt_id = #{receipt_id})
+				)
 	</select>
 	
 	<select id="getPreviousResultDataByNew" resultType="resultData">
-		select vt.diagnostic_list_id, pr.prescription_id
+		select distinct vt.diagnostic_list_id, pr.prescription_id
 		from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
 				select dl.diagnostic_list_id, dl.search_id, pr.prescription_id
 				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
@@ -84,6 +90,47 @@
 		update diagnostic_results
 		set diagnostic_result=#{diagnostic_result}
 		where diagnostic_results_id=#{diagnostic_results_id}
+	</update>
+	
+	<update id="updateResultDataByReceipt">
+		update diagnostic_results
+		set diagnostic_result=#{diagnostic_result}
+		where diagnostic_results_id=#{diagnostic_results_id}
+	</update>
+	
+	<select id="getCheckPreviousResult" resultType="diagnosticResults">
+		select diagnostic_result, vd.diagnostic_date, vt.diagnostic_list_id, pr.prescription_id
+		from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr, (
+				select dl.diagnostic_list_id, dl.search_id, pr.prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr
+				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and b.bundle_id = pr.bundle_id and dl.receipt_id = #{receipt_id} and b.bundle_specimen != '') vt, (
+		        select Max(dr.diagnostic_results_id) as diagnostic_results_id, dr.prescription_id, Max(diagnostic_date) as diagnostic_date
+				from diagnostic_results dr, diagnostic_lists dl, searchs s, bundles b, prescriptions pr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+						and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
+							select prescription_id
+							from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao
+							where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+							and b.bundle_id = pr.bundle_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+						)
+						group by prescription_id) vd
+		where dl.diagnostic_list_id = dr.diagnostic_list_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id
+				and dr.prescription_id = pr.prescription_id and dr.prescription_id in (
+				select prescription_id
+				from diagnostic_lists dl, searchs s, bundles b, prescriptions pr, receipt_and_opinions rao, patients p
+				where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and rao.patient_id = p.patient_id
+				and b.bundle_id = pr.bundle_id and pr.prescription_id = vt.prescription_id and vd.prescription_id = vt.prescription_id
+                and vd.diagnostic_results_id = dr.diagnostic_results_id and rao.receipt_id = #{receipt_id} and b.bundle_specimen != ''
+		)
+	</select>
+	
+	<update id="updateinsertResultData" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=";">
+			update diagnostic_results
+			set diagnostic_previous_result=#{item.diagnostic_result}, diagnostic_previous_date=#{item.diagnostic_date}
+			where diagnostic_list_id=#{item.diagnostic_list_id} and prescription_id=#{item.prescription_id}
+		</foreach>
 	</update>
 	
 </mapper>
