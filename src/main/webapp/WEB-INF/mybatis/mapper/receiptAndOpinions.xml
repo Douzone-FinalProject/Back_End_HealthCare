@@ -112,6 +112,11 @@
 		where receipt_id = #{receipt_id}
 	</update>
 	
+	<select id="selectReceiptCount" resultType="int">
+      	select count(*)
+		from receipt_and_opinions
+    </select>
+	
 	<select id="selectPatientStateList" parameterType="string" resultType="receiptAndOpinions">
 		select distinct rao.receipt_id, rao.receipt_state, rao.diagnostic_test_state, p.patient_id, p.patient_name, p.patient_sex, 
 		cast(date_format(now(), '%Y') as unsigned) - cast(case 

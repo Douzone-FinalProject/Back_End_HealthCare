@@ -94,4 +94,9 @@
 				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
 	</update>
 	
+	<select id="selectTestCount" resultType="int">
+      	select count(*)
+		from diagnostic_lists
+    </select>
+	
 </mapper>

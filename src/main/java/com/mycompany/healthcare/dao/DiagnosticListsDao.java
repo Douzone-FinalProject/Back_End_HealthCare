@@ -31,5 +31,7 @@ public interface DiagnosticListsDao {
 
 	public void updateFinishedResultState(int diagnostic_results_id);
 
+	public int selectTestCount();
+
 
 }
