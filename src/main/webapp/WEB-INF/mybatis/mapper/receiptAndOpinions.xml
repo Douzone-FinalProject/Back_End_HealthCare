@@ -131,11 +131,11 @@
 			end as unsigned) + 1 as patient_age  
 		<if test="type == '전체'">
 			from receipt_and_opinions as rao, patients as p
-			where rao.patient_id = p.patient_id and rao.diagnostic_test_state != "" and date(receipt_datetime) = date(now())
+			where rao.patient_id = p.patient_id and rao.diagnostic_test_state not in ('', '처방완료') and date(receipt_datetime) = date(now())
 		</if>
 		<if test="type != '전체'">
 			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b, patients as p
-			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id and date(receipt_datetime) = date(now())
+			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id and rao.diagnostic_test_state not in ('', '처방완료') and date(receipt_datetime) = date(now())
 		</if>
 		<if test="state == 'whole'">
 			and diagnostic_test_state != '검사완료' and diagnostic_test_state != ""
