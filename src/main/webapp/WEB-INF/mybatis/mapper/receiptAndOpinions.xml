@@ -189,4 +189,11 @@
 				from diagnostic_lists dl, diagnostic_results dr
 				where dl.diagnostic_list_id = dr.diagnostic_list_id and diagnostic_results_id = #{diagnostic_results_id})
 	</update>
+	
+	<select id="getReceiptDataByRecieptId" resultType="receiptAndOpinions">
+ 		select p.patient_id, p.patient_name, p.patient_sex, p.patient_phone, 
+ 		 		rao.receipt_id, date_format(rao.receipt_datetime, '%y-%m-%d') as receipt_datetime, rao.receipt_result_state
+		from receipt_and_opinions rao, patients p
+		where rao.patient_id = p.patient_id and rao.receipt_id = #{receipt_id} and receipt_result_state in ('ⓞ', 'ⓧ')
+	</select>
 </mapper>
