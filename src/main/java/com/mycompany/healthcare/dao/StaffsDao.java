@@ -19,5 +19,8 @@ public interface StaffsDao {
 	public void insertStaff(Staffs employee);
 	public Staffs selectStaff(int staff_id);
 	public void deletetStaff(int staff_id);
+	public String getSenderLoginId(int staff_id);
+	public int getSenderByLogin(String staff_login_id);
+	public int getStaffId(String staff_login_id);
 	
 }

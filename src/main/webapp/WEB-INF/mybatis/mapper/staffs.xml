@@ -60,4 +60,22 @@
 		delete from staffs
 		where staff_id=#{staff_id}
 	</delete>
+	
+	<select id="getSenderLoginId" resultType="string">
+		select staff_login_id
+		from staffs
+		where staff_id=#{staff_id}
+	</select>
+	
+	<select id="getSenderByLogin" resultType="int">
+		select staff_id
+		from staffs
+		where staff_login_id=#{staff_login_id}
+	</select>
+	
+	<select id="getStaffId" resultType="int">
+		select staff_id
+		from staffs
+		where staff_login_id=#{staff_login_id}
+	</select>
 </mapper>

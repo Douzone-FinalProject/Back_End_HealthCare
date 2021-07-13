@@ -11,5 +11,7 @@ import com.mycompany.healthcare.dto.Staffs;
 public interface DiagnosticImgsDao {
 
 	void insertDiagnosticImg(DiagnosticImgs diagnosticImgs);
+
+	List<DiagnosticImgs> getImagePath(String receipt_id);
 	
 }
