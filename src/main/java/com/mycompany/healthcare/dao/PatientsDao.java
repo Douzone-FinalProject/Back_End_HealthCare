@@ -22,4 +22,13 @@ public interface PatientsDao {
 	public String selectLastReceiptDate(int patient_id);
 
 	public String selectPatientNameByReceiptId(int receiptId);
+
+	public int selectACount();
+	public int selectBCount();
+	public int selectABCount();
+	public int selectOCount();
+	public int selectRH_ACount();
+	public int selectRH_BCount();
+	public int selectRH_ABCount();
+	public int selectRH_OCount();
 }
