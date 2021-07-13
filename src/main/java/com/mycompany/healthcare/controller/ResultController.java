@@ -237,4 +237,32 @@ public class ResultController {
 		}
 		return map;
 	}
+	
+	@GetMapping("/getReceiptDataByRecieptId")
+	public Map<String, Object> getReceiptDataByRecieptId(int receipt_id) {
+		logger.info("getReceiptDataByRecieptId --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<ReceiptAndOpinions> receiptData = resultService.getReceiptDataByRecieptId(receipt_id);
+			map.put("receiptData", receiptData);
+			logger.info("receiptData --- " + receiptData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getDiagnosticDataByReceiptId")
+	public Map<String, Object> getDiagnosticDataByReceiptId(int receipt_id) {
+		logger.info("getDiagnosticDataByReceiptId --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<DiagnosticData> diagnosticData = resultService.getDiagnosticDataByReceiptId(receipt_id);
+			map.put("diagnosticData", diagnosticData);
+			logger.info("diagnosticData --- " + diagnosticData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 }
