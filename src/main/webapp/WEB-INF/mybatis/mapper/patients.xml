@@ -72,5 +72,53 @@
 		where p.patient_id = rao.patient_id and rao.receipt_id = #{receiptId}
 	</select>
 	
+	<select id="selectACount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'A'
+    </select>
+    
+    <select id="selectBCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'B'
+    </select>
+    
+    <select id="selectABCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'AB'
+    </select>
+    
+    <select id="selectOCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'O'
+    </select>
+    
+    <select id="selectRH_ACount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'RH-A'
+    </select>
+    
+    <select id="selectRH_BCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'RH-B'
+    </select>
+    
+    <select id="selectRH_ABCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'RH-AB'
+    </select>
+    
+    <select id="selectRH_OCount" resultType="int">
+      	select count(*)
+		from patients
+		where patient_blood_type = 'RH-O'
+    </select>
+	
 	
 </mapper>
