@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.healthcare.controller.ResultController;
+import com.mycompany.healthcare.dao.DiagnosticImgsDao;
 import com.mycompany.healthcare.dao.DiagnosticListsDao;
 import com.mycompany.healthcare.dao.DiagnosticResultsDao;
 import com.mycompany.healthcare.dao.ReceiptAndOpinionsDao;
 import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.DiagnosticImgs;
 import com.mycompany.healthcare.dto.DiagnosticResults;
 import com.mycompany.healthcare.dto.PatientData;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
@@ -30,6 +32,8 @@ public class ResultService {
 	private DiagnosticListsDao diagnosticListsDao;
 	@Autowired
 	private DiagnosticResultsDao diagnosticResultsDao;
+	@Autowired
+	private DiagnosticImgsDao diagnosticImgsDao;
 	
 	public List<ReceiptAndOpinions> getReceiptData(String patient_name, String receipt_datetime) {
 		if(!patient_name.equals("")) {
@@ -137,6 +141,10 @@ public class ResultService {
 			result = true;
 		}
 		return result;
+	}
+
+	public List<DiagnosticImgs> getImagePath(String receipt_id) {
+		return diagnosticImgsDao.getImagePath(receipt_id);
 	}
 	
 }

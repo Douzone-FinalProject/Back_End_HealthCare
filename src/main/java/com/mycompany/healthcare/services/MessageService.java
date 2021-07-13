@@ -47,5 +47,19 @@ public class MessageService {
 			return true;
 		}
 	}
+
+	public List<Messages> getChatList(int staff_id, String staff_login_id) {
+		String sender_login_id = staffsDao.getSenderLoginId(staff_id);
+		int senderByLogin = staffsDao.getSenderByLogin(staff_login_id);
+		return messagesDao.getChatList(staff_id, staff_login_id, sender_login_id, senderByLogin);
+	}
+
+	public int getStaffId(String staff_login_id) {
+		return staffsDao.getStaffId(staff_login_id);
+	}
+
+	public String getStaffLoginId(int staff_id) {
+		return staffsDao.getSenderLoginId(staff_id);
+	}
 	
 }

@@ -13,16 +13,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.healthcare.dto.Messages;
-import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.Staffs;
 import com.mycompany.healthcare.services.MessageService;
 
@@ -100,7 +99,7 @@ public class MessageController {
 		return map;
 	}
 	
-	@DeleteMapping("/{message_id}")
+	@PutMapping("/{message_id}")
 	public void deleteMessage(@PathVariable int message_id, HttpServletResponse response) {
 		boolean result = messageService.deleteMessage(message_id);
 		
@@ -109,4 +108,42 @@ public class MessageController {
 		}
 	}
 	
+	@GetMapping("/getChatList")
+	public Map<String, Object> getChatList(int staff_id, String staff_login_id) {
+		logger.info("getChatList --- " +staff_id+"##"+ staff_login_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Messages> messageList = messageService.getChatList(staff_id, staff_login_id);
+			map.put("chatList", messageList);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getStaffId")
+	public Map<String, Object> getStaffId(String staff_login_id) {
+		logger.info("getStaffId --- " + staff_login_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			int staffId = messageService.getStaffId(staff_login_id);
+			map.put("staffId", staffId);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getStaffLoginId")
+	public Map<String, Object> getStaffLoginId(int staff_id) {
+		logger.info("getStaffLoginId --- " + staff_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String staffLoginId = messageService.getStaffLoginId(staff_id);
+			map.put("staffLoginId", staffLoginId);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
 }

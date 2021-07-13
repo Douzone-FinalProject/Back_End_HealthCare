@@ -7,4 +7,10 @@
 		values
 		(#{diagnostic_img}, #{img_type}, #{receipt_id})
 	</insert>
+	
+	<select id="getImagePath" resultType="diagnosticImgs">
+		select diagnostic_img_id, diagnostic_img, img_type, receipt_id
+		from diagnostic_imgs
+		where receipt_id = #{receipt_id}
+	</select>
 </mapper>
