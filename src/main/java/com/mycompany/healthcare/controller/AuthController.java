@@ -1,8 +1,9 @@
 package com.mycompany.healthcare.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mycompany.healthcare.dto.Staffs;
 import com.mycompany.healthcare.security.JwtUtil;
 import com.mycompany.healthcare.services.AuthService;
 
@@ -29,8 +29,9 @@ public class AuthController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 	
-	@Autowired
+	@Resource(name="daoAuthenticationManager")
 	private AuthenticationManager authenticationManager;
+	
 	@Autowired
 	private AuthService authService;
 	
