@@ -79,5 +79,10 @@ public class ReservationService {
 
 	}
 
+	// 다음 예약 날짜
+	public Reservations getNextReservation(int patient_id) {
+		return reservationsDao.selectNextReservation(patient_id);
+	}
+
    
 }

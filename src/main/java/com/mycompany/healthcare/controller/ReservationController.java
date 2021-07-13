@@ -67,6 +67,19 @@ public class ReservationController {
 		return map;
 	}
 	
+	// 다음 예약 날짜 알아내기 - patient_id
+	@GetMapping("/next/{patient_id}")
+	public Map<String, Object> geNextReservation(@PathVariable("patient_id") int patient_id){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			Reservations reservation = reservationService.getNextReservation(patient_id);
+			map.put("reservation", reservation); // 프론트에서 날짜만 뽑아서 쓰기 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 	@PostMapping("")
 	public Map<String, Object> insertReservation(@RequestBody Reservations reservation) {
 		Map<String, Object> map = new HashMap<String, Object>();

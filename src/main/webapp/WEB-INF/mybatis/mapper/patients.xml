@@ -31,7 +31,7 @@
 		from receipt_and_opinions
 		where patient_id=#{patient_Id}
 		order by receipt_datetime
-		limit 1;
+		limit 1
 	</select>
 	
 	<select id="selectLastReceiptDate" resultType="String">

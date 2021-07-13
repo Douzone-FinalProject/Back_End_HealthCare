@@ -90,8 +90,8 @@ public class ReceiptService {
 		return patientsDao.updatePatient(patient);
 	}
 
-	public int insertReceipt(ReceiptAndOpinions receipt) {
-		return receiptDao.insertReceipt(receipt);
+	public int insertReceipt(int patient_id) {
+		return receiptDao.insertReceipt(patient_id);
 	}
 
 	public List<ReceiptAndOpinions> getReceiptList() {
@@ -104,6 +104,10 @@ public class ReceiptService {
 
 	public int updateReceipt(int receipt_id, String nextState) {
 		return receiptDao.updateReceipt(receipt_id, nextState);
+	}
+
+	public int getReceiptIdByPatientId(int patient_id) {
+		return receiptDao.selectReceiptId(patient_id);
 	}
 
 
