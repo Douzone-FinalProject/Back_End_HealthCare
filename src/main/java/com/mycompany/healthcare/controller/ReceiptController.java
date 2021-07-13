@@ -113,11 +113,13 @@ public class ReceiptController {
 	
 	// 접수 
 	@PostMapping("")
-	public Map<String, Object> insertReceipt(@RequestBody ReceiptAndOpinions receipt) {
+	public Map<String, Object> insertReceipt(@RequestBody Patients patient) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			int row = receiptService.insertReceipt(receipt);
+			int row = receiptService.insertReceipt(patient.getPatient_id());
 			map.put("row", row);
+			int receipt_id = receiptService.getReceiptIdByPatientId(patient.getPatient_id()); // 차트번호로 접수번호 뽑아오기 
+			map.put("receipt_id", receipt_id);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

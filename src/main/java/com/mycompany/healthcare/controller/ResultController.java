@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.healthcare.dto.DiagnosticData;
+import com.mycompany.healthcare.dto.DiagnosticImgs;
 import com.mycompany.healthcare.dto.DiagnosticResults;
 import com.mycompany.healthcare.dto.PatientData;
 import com.mycompany.healthcare.dto.ReceiptAndOpinions;
@@ -217,6 +218,20 @@ public class ResultController {
 			List<DiagnosticResults> PrevResultData = resultService.getCheckPreviousResult(receipt_id);
 			map.put("PrevResultData", PrevResultData);
 			logger.info("PrevResultData --- " + PrevResultData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getImagePath")
+	public Map<String, Object> getImagePath(String receipt_id) {
+		logger.info("getImagePath --- " + receipt_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<DiagnosticImgs> pathData = resultService.getImagePath(receipt_id);
+			map.put("pathData", pathData);
+			logger.info("pathData --- " + pathData);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

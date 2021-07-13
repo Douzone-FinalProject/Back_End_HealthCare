@@ -16,6 +16,12 @@
 		order by rao.receipt_datetime
 	</select>
 	
+	<select id="selectReceiptId" parameterType="int" resultType="int">
+		select receipt_id
+		from receipt_and_opinions
+		where patient_id = #{patient_id} and receipt_state='대기'
+	</select>
+	
 	<delete id="deleteReceiptById">
 		delete from receipt_and_opinions
 		where receipt_id = #{receipt_id}

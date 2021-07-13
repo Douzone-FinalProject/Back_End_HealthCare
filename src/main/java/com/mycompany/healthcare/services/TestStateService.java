@@ -110,11 +110,12 @@ public class TestStateService {
 		
 		try {
 			// 지정된 경로에 byte 배열로 받은 이미지를 만들어준다
-			FileUtils.writeByteArrayToFile(new File(defaultPath + new Date().getTime() + saveImgs.getFilename() + ".jpeg"), decodeBytes);
+			String time = ""+new Date().getTime();
+			FileUtils.writeByteArrayToFile(new File(defaultPath + time + saveImgs.getFilename() + ".jpeg"), decodeBytes);
 			
 			// 이미지의 정보를 보내기 위해 DTO에 정보를 넣어준다
 			DiagnosticImgs diagnosticImgs = new DiagnosticImgs();
-			diagnosticImgs.setDiagnostic_img(new Date().getTime() + saveImgs.getFilename() + ".jpeg");
+			diagnosticImgs.setDiagnostic_img(time + saveImgs.getFilename() + ".jpeg");
 			diagnosticImgs.setImg_type("image/jpeg");
 			diagnosticImgs.setReceipt_id(saveImgs.getReceiptId());
 			

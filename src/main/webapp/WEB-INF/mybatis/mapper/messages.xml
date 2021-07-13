@@ -4,7 +4,7 @@
 	<select id="getMessageList" resultType="messages">
 		select message_id, message_content, staff_login_id, date_format(message_date, '%Y-%m-%d %H:%i') as message_date, staff_id, message_sender
 		from messages
-		where staff_login_id=#{staff_login_id}
+		where staff_login_id=#{staff_login_id} and date(message_date) = date(now())
 		order by message_id desc
 	</select>
 	
@@ -15,8 +15,16 @@
 		(#{message_content}, #{staff_login_id}, #{staff_id},#{message_sender})
 	</insert>
 	
-	<delete id="deleteByMessgeId" parameterType="int">
-		delete from messages
+	<update id="deleteByMessgeId" parameterType="int">
+		update messages
+		set message_content="삭제된 메시지입니다."
 		where message_id=#{message_id}
-	</delete>
+	</update>
+	
+	<select id="getChatList" resultType="messages">
+		select message_id, message_content, staff_login_id, date_format(message_date, '%Y-%m-%d %H:%i') as message_date, staff_id, message_sender
+		from messages
+		where (staff_id = #{senderByLogin} and staff_login_id = #{sender_login_id}) or (staff_id = #{staff_id} and staff_login_id = #{staff_login_id})
+		order by message_date asc
+	</select>
 </mapper>
