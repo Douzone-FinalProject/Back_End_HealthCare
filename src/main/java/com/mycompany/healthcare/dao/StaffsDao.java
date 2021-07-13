@@ -22,5 +22,9 @@ public interface StaffsDao {
 	public String getSenderLoginId(int staff_id);
 	public int getSenderByLogin(String staff_login_id);
 	public int getStaffId(String staff_login_id);
+	public void updateStaffNoPassword(Staffs nowStaff);
+	public void updateStaff(Staffs nowStaff);
+	public int selectStaffCount();
+	public int selectDisableStaffCount();
 	
 }

@@ -17,5 +17,6 @@ public interface ReservationsDao {
 	public int updateReservation(Reservations reservation);
 	public Integer checkPatientVisited(@Param("reservation_name") String reservation_name, 
 										@Param("reservation_phone") String reservation_phone);
+	public Reservations selectNextReservation(int patient_id);
 	
 }
