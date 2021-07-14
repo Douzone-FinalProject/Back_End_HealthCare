@@ -146,5 +146,13 @@ public class ResultService {
 	public List<DiagnosticImgs> getImagePath(String receipt_id) {
 		return diagnosticImgsDao.getImagePath(receipt_id);
 	}
+
+	public List<ReceiptAndOpinions> getReceiptDataByRecieptId(int receipt_id) {
+		return receiptAndOpinionsDao.getReceiptDataByRecieptId(receipt_id);
+	}
+
+	public List<DiagnosticData> getDiagnosticDataByReceiptId(int receipt_id) {
+		return diagnosticListsDao.getDiagnosticDataByReceiptId(receipt_id);
+	}
 	
 }

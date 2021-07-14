@@ -39,5 +39,7 @@ public interface DiagnosticListsDao {
 
 	public int selectTestCount();
 
+	public List<DiagnosticData> getDiagnosticDataByReceiptId(int receipt_id);
+
 
 }
