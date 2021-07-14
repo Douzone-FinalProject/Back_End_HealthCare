@@ -104,24 +104,24 @@ public class TestStateService {
 		String[] base64Str = saveImgs.getBase64().split(",");
 		
 		// base64로 인코딩되어 있는 데이터를 디코딩하여 byte[]로 받음
-		byte[] decodeBytes = Base64.getDecoder().decode(base64Str[1]);
+//		byte[] decodeBytes = Base64.getDecoder().decode(base64Str[1]);
 		
-		String defaultPath = System.getProperty("user.home") + "/images/";
+//		String defaultPath = System.getProperty("user.home") + "/images/";
 		
 		try {
 			// 지정된 경로에 byte 배열로 받은 이미지를 만들어준다
-			String time = ""+new Date().getTime();
-			FileUtils.writeByteArrayToFile(new File(defaultPath + time + saveImgs.getFilename() + ".jpeg"), decodeBytes);
+//			String time = ""+new Date().getTime();
+//			FileUtils.writeByteArrayToFile(new File(defaultPath + time + saveImgs.getFilename() + ".jpeg"), decodeBytes);
 			
 			// 이미지의 정보를 보내기 위해 DTO에 정보를 넣어준다
 			DiagnosticImgs diagnosticImgs = new DiagnosticImgs();
-			diagnosticImgs.setDiagnostic_img(time + saveImgs.getFilename() + ".jpeg");
+			diagnosticImgs.setDiagnostic_img(saveImgs.getBase64());
 			diagnosticImgs.setImg_type("image/jpeg");
 			diagnosticImgs.setReceipt_id(saveImgs.getReceiptId());
 			
 			// 테이블의 정보를 삽입
 			diagnosticImgsDao.insertDiagnosticImg(diagnosticImgs);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

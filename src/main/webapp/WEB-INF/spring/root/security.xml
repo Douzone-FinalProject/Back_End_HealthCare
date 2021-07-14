@@ -29,13 +29,14 @@
 		<security:custom-filter ref="jwtAuthenticationFilter" before="BASIC_AUTH_FILTER" />		
 	
 		<!-- 요청 경로 권한 설정 -->
+
 		<security:intercept-url pattern="/diagnostic/*" access="hasAnyRole('ROLE_DOCTOR')"/>
 		<security:intercept-url pattern="/receipt/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
 		<security:intercept-url pattern="/reserve/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
 		<security:intercept-url pattern="/manage/*" access="hasAnyRole('ROLE_DOCTOR')"/>
 		<security:intercept-url pattern="/teststate/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
 		<security:intercept-url pattern="/result/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
-		
+
 		<security:intercept-url pattern="/**" access="permitAll"/>
 	</security:http>
 	
@@ -112,27 +113,3 @@
 		</constructor-arg>
 	</bean>
 </beans>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
