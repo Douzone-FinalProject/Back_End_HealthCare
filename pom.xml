@@ -169,7 +169,7 @@
 		    <version>1.4</version>
 		</dependency>
 		
-		<!-- @Resource -->
+		<!--@Resource -->
 		<dependency>
 		    <groupId>javax.annotation</groupId>
 		    <artifactId>javax.annotation-api</artifactId>

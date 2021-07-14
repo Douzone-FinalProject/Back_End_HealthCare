@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<!-- 보안을 체크할 필요가 없는 경로 설정 -->
-	<security:http pattern="/resources/**" security="none"/>
+	<!-- <security:http pattern="/resources/**" security="none"/> -->
 	
 	<!-- 보안 필터 체인(프로세싱) 설정 -->
 	<security:http create-session="stateless">	
@@ -29,17 +29,12 @@
 		<security:custom-filter ref="jwtAuthenticationFilter" before="BASIC_AUTH_FILTER" />		
 	
 		<!-- 요청 경로 권한 설정 -->
-		<security:intercept-url pattern="/receipt" access="hasRole('ROLE_DOCTOR')" method="GET"/>
-		
-		<!-- 
-		<security:intercept-url pattern="/boards" access="hasRole('ROLE_USER')" method="POST"/>
-		<security:intercept-url pattern="/boards" access="hasRole('ROLE_USER')" method="PUT"/>
-		<security:intercept-url pattern="/boards/*" access="hasRole('ROLE_USER')" method="DELETE"/>
-		
-		<security:intercept-url pattern="/products" access="hasRole('ROLE_ADMIN')" method="POST"/>
-		<security:intercept-url pattern="/products" access="hasRole('ROLE_ADMIN')" method="PUT"/>
-		<security:intercept-url pattern="/products/*" access="hasRole('ROLE_ADMIN')" method="DELETE"/>
-		 -->
+		<security:intercept-url pattern="/diagnostic/*" access="hasAnyRole('ROLE_DOCTOR')"/>
+		<security:intercept-url pattern="/receipt/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
+		<security:intercept-url pattern="/reserve/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
+		<security:intercept-url pattern="/manage/*" access="hasAnyRole('ROLE_DOCTOR')"/>
+		<security:intercept-url pattern="/teststate/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
+		<security:intercept-url pattern="/result/*" access="hasAnyRole('ROLE_DOCTOR, ROLE_NURSE')"/>
 		
 		<security:intercept-url pattern="/**" access="permitAll"/>
 	</security:http>
@@ -96,12 +91,13 @@
 	
 	<bean id="bCryptPasswordEncoder" 
 	  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	  
 	
 
 	<security:jdbc-user-service id="jdbcUserService"
          data-source-ref="dataSource"
-         users-by-username-query="select staff_login_id as username, staff_login_pwd as password, staff_enabled as enabled from staffs where staff_login_id=?"
-         authorities-by-username-query="select staff_login_id as username, staff_role as authority from staffs where staff_login_id=?"/>
+         users-by-username-query="select staff_login_id, staff_login_pwd, staff_enabled from staffs where staff_login_id=?"
+         authorities-by-username-query="select staff_login_id, staff_role from staffs where staff_login_id=?"/>
 															
 	<bean id="roleHierarchyAuthoritiesMapper" 
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper">
