@@ -42,10 +42,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		if(jwtToken != null) {
 			if(JwtUtil.validateToken(jwtToken)) {
 				// JWT에서 EMAIL 얻기
-				String email = JwtUtil.getEmail(jwtToken);
+				String uid = JwtUtil.getEmail(jwtToken);
 				
 				// DB에서 EMAIL에 해당하는 정보를 가져오기(이름, 비밀번호, 권한들)
-				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+				UserDetails userDetails = userDetailsService.loadUserByUsername(uid);
 				
 				// 인증 성공시 인증 객체를 만든다.
 				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
