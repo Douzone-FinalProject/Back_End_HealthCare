@@ -15,6 +15,7 @@ public class TestStateDetail {
 	private String bundle_specimen;
 	private String bundle_bottle;
 	private String bundle_lab;
+	private String doctor_name;
 	public int getDiagnostic_list_id() {
 		return diagnostic_list_id;
 	}
@@ -99,6 +100,13 @@ public class TestStateDetail {
 	public void setBundle_lab(String bundle_lab) {
 		this.bundle_lab = bundle_lab;
 	}
+	public String getDoctor_name() {
+		return doctor_name;
+	}
+	public void setDoctor_name(String doctor_name) {
+		this.doctor_name = doctor_name;
+	}
+	
 	
 	
 }

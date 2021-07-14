@@ -31,6 +31,11 @@
 		<!-- 요청 경로 권한 설정 -->
 		<security:intercept-url pattern="/receipt" access="hasRole('ROLE_DOCTOR')" method="GET"/>
 		
+		<security:intercept-url pattern="/diagnosis/*" access="hasRole('ROLE_DOCTOR')" method="GET"/>
+		<security:intercept-url pattern="/diagnosis/*" access="hasRole('ROLE_DOCTOR')" method="POST"/>
+		<security:intercept-url pattern="/diagnosis/*" access="hasRole('ROLE_DOCTOR')" method="PUT"/>
+		<security:intercept-url pattern="/diagnosis/*" access="hasRole('ROLE_DOCTOR')" method="DELETE"/>
+		
 		<!-- 
 		<security:intercept-url pattern="/boards" access="hasRole('ROLE_USER')" method="POST"/>
 		<security:intercept-url pattern="/boards" access="hasRole('ROLE_USER')" method="PUT"/>
@@ -116,27 +121,3 @@
 		</constructor-arg>
 	</bean>
 </beans>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

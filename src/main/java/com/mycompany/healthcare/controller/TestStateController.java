@@ -39,6 +39,8 @@ public class TestStateController {
 	// patientStateList
 	@GetMapping("")
 	public List<ReceiptAndOpinions> getPatientStateList(@RequestParam(defaultValue="전체") String type, @RequestParam(defaultValue="whole") String state) {
+		logger.info(type);
+		logger.info(state);
 		return testStateService.getPatientStateList(type, state);
 	}
 	
