@@ -44,5 +44,6 @@ public interface ReceiptAndOpinionsDao {
 	public void updateReceiptStates(Map<String, String> updateData);
 	public void updateFinishedResultStateByReceipt(int diagnostic_results_id);
 	public List<ReceiptAndOpinions> getReceiptDataByRecieptId(int receipt_id);
+	public String selectReceiptState(int receiptId);
 	
 }

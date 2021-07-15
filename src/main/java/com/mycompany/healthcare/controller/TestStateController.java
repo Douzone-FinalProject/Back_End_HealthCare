@@ -73,8 +73,6 @@ public class TestStateController {
 	
 	@PostMapping("/img")
 	public void uploadImg(@RequestBody SaveImgs saveImgs) {
-		logger.info(saveImgs.getBase64());
-		logger.info("요기" + saveImgs.getReceiptId());
 		testStateService.uploadImg(saveImgs);
 	}
 	
@@ -89,6 +87,13 @@ public class TestStateController {
 	public List<LabCharts> getLabChart() {
 		return testStateService.getLabChart();
 	}
+	
+	// testStateDetail에 환자의 receipt_state 얻어오기
+	@GetMapping("/receiptstate/{receiptId}")
+	public String getReceiptState(@PathVariable int receiptId) {
+		return testStateService.getReceiptState(receiptId);
+	}
+	
 	
 
 }

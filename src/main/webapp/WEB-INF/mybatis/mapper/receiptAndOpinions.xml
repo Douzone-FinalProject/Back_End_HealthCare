@@ -201,4 +201,10 @@
 		from receipt_and_opinions rao, patients p
 		where rao.patient_id = p.patient_id and rao.receipt_id = #{receipt_id} and receipt_result_state in ('ⓞ', 'ⓧ')
 	</select>
+	
+	<select id="selectReceiptState" parameterType="int" resultType="String">
+		select receipt_state
+		from receipt_and_opinions
+		where receipt_id = #{receiptId}
+	</select>
 </mapper>
