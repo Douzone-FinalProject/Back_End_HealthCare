@@ -102,6 +102,28 @@
 				where diagnostic_results_id = #{diagnostic_results_id})
 	</update>
 	
+	<update id="updateReceiptResultStateByDiag">
+		update receipt_and_opinions
+		set receipt_result_state = 'ⓞ'
+		where 'ⓧ' not in (
+			select diagnostic_result_state
+			from (
+				select dl.diagnostic_result_state
+				from diagnostic_lists dl, searchs s, bundles b
+				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_specimen != "" and dl.receipt_id in (
+					select receipt_id
+					from (
+						select receipt_id
+						from diagnostic_lists dl, diagnostic_results dr
+						where dl.diagnostic_list_id = dr.diagnostic_list_id and dr.diagnostic_results_id = #{diagnostic_results_id}) as temp3)) as temp)
+		and receipt_id in (
+			select receipt_id
+			from (
+				select receipt_id
+				from diagnostic_lists dl, diagnostic_results dr
+				where dl.diagnostic_list_id = dr.diagnostic_list_id and dr.diagnostic_results_id = #{diagnostic_results_id}) as temp2);
+	</update>
+	
 	<update id="updateAllFinishedResultStateByReceipt">
 		update diagnostic_lists SET diagnostic_result_state = 'ⓞ'
 		where receipt_id in (
