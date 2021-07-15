@@ -103,6 +103,7 @@ public class ResultService {
 			}
 			logger.info("aaaaadddd"+diagnostic_results_id);
 			diagnosticListsDao.updateFinishedResultState(diagnostic_results_id);
+			diagnosticListsDao.updateReceiptResultStateByDiag(diagnostic_results_id);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
