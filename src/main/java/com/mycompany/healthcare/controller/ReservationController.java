@@ -1,9 +1,9 @@
 package com.mycompany.healthcare.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.ReservationSMS;
 import com.mycompany.healthcare.dto.Reservations;
+import com.mycompany.healthcare.services.ReceiptService;
 import com.mycompany.healthcare.services.ReservationService;
 
 @CrossOrigin(origins="*")
@@ -59,8 +60,13 @@ public class ReservationController {
 	public Map<String, Object> getReservationByName(@PathVariable("name") String reservation_name){
 		Map<String, Object> map = new HashMap<>();
 		try {
-			List<Reservations> reservations = reservationService.getReservationByName(reservation_name);
-			map.put("reservations", reservations);
+			/*
+			 지금 출력하는 것은 한 사람의 과거 예약 기록까지 나오기 때문에 
+			 과거 기록은 싹 없애고 가장 마지막 예약 날짜만 출력하도록 해야 한다. 
+			*/
+			List<Reservations> reservations = reservationService.getReservationByName(reservation_name);			
+			map.put("reservations", reservations); // 여기에 다음 예약 날짜가 포함되어야 한다. 
+				
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

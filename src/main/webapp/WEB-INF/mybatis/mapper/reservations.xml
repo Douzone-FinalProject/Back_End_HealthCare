@@ -16,7 +16,8 @@
 	<select id="selectReservationByName" resultType="reservations">
 		select reservation_id, reservation_datetime, reservation_name, reservation_phone, reservation_reason, patient_id
 		from reservations
-		where reservation_name=#{reservation_name}
+		where reservation_name=#{reservation_name} and reservation_datetime > now()
+		order by reservation_datetime
 	</select>
 	
 	<select id="selectNextReservation" resultType="reservations">
