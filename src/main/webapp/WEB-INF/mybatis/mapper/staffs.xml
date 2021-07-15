@@ -41,7 +41,7 @@
 	<select id="getStaffListByHospitalId" resultType="staffs">
 		select staff_id, staff_name, staff_phone, staff_login_id, staff_role, hospital_id
 		from staffs
-		where hospital_id=#{hospital_id}
+		where hospital_id=#{hospital_id} and staff_enabled=1
 	</select>
 	
 	<select id="selectStaffName" resultType="string">
