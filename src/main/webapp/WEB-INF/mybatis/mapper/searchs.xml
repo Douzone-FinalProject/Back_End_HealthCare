@@ -5,6 +5,7 @@
 		select s.search_id, s.symptom_name, s.symptom_id, s.bundle_id, s.bundle_name, b.bundle_specimen, b.bundle_bottle, b.bundle_lab
 		from searchs s, bundles b
 		where s.bundle_id = b.bundle_id and s.symptom_name REGEXP #{symptom_name}
+		order by s.symptom_name
 	</select>
 	
 	
