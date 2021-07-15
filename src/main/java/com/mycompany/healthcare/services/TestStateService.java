@@ -136,4 +136,8 @@ public class TestStateService {
 	public List<LabCharts> getLabChart() {
 		return diagnosticListsDao.countLabPatient();
 	}
+
+	public String getReceiptState(int receiptId) {
+		return receiptAndOpinionsDao.selectReceiptState(receiptId);
+	}
 }
