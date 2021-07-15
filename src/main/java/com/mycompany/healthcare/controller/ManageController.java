@@ -101,71 +101,28 @@ public class ManageController {
 	}
 	
 	//혈액형 수 
-	@GetMapping("/aCount")
-	public Map<String, Object> aCount() {
+	@GetMapping("/bloodCount")
+	public Map<String, Object> bloodCount() {
 		int acount = staffsService.getACount();
-		logger.info(""+acount);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("acount", acount);
-		return map;
-	}
-	
-	@GetMapping("/bCount")
-	public Map<String, Object> bCount() {
 		int bcount = staffsService.getBCount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("bcount", bcount);
-		return map;
-	}
-	
-	@GetMapping("/abCount")
-	public Map<String, Object> abCount() {
 		int abcount = staffsService.getABCount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("abcount", abcount);
-		return map;
-	}
-	
-	@GetMapping("/oCount")
-	public Map<String, Object> oCount() {
 		int ocount = staffsService.getOCount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ocount", ocount);
-		return map;
-	}
-	
-	@GetMapping("/rh_aCount")
-	public Map<String, Object> rh_aCount() {
 		int rh_acount = staffsService.getRH_ACount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("rh_acount", rh_acount);
-		return map;
-	}
-	
-	@GetMapping("/rh_bCount")
-	public Map<String, Object> rh_bCount() {
 		int rh_bcount = staffsService.getRH_BCount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("rh_bcount", rh_bcount);
-		return map;
-	}
-	
-	@GetMapping("/rh_abCount")
-	public Map<String, Object> rh_abCount() {
 		int rh_abcount = staffsService.getRH_ABCount();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("rh_abcount", rh_abcount);
-		return map;
-	}
-	
-	@GetMapping("/rh_oCount")
-	public Map<String, Object> rh_oCount() {
 		int rh_ocount = staffsService.getRH_OCount();
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("acount", acount);
+		map.put("bcount", bcount);
+		map.put("abcount", abcount);
+		map.put("ocount", ocount);
+		map.put("rh_acount", rh_acount);
+		map.put("rh_bcount", rh_bcount);
+		map.put("rh_abcount", rh_abcount);
 		map.put("rh_ocount", rh_ocount);
 		return map;
 	}
-
+	
 	//직원, 비활성화 수
 	@GetMapping("/staffCount")
 	public Map<String, Object> staffCount() {
