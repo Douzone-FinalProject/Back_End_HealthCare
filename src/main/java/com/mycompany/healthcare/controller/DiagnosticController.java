@@ -123,6 +123,7 @@ public class DiagnosticController {
 	@GetMapping("/fatientOpinions")
 	public Map<String, Object> fatientOpinions(String patient_id) {
 		List<ReceiptAndOpinions> fatientOpinionsList = diagnosticsService.getFatientOpinionsList(patient_id);
+		logger.info(fatientOpinionsList+"");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("fatientOpinionsList", fatientOpinionsList);
 
@@ -183,6 +184,14 @@ public class DiagnosticController {
 		diagnosticsService.updateTestAndReceiptState(receipt_id);
 		
 	}
+	
+	@PutMapping("/paymentBefore/{receipt_id}")
+	public void paymentBefore(@PathVariable("receipt_id") int receipt_id) {
+		logger.info(""+receipt_id);
+		diagnosticsService.updatePaymentBeforeState(receipt_id);
+		
+	}
+	
 	
 
 

@@ -125,4 +125,8 @@ public class StaffsService {
 		int disablestaffcount = staffsDao.selectDisableStaffCount();
 		return disablestaffcount;
 	}
+
+	public List<Staffs> getSearchStaffList(String nameId, int hospital_id) {
+		return staffsDao.selectSearchStaffList(nameId, hospital_id);
+	}
 }

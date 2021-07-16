@@ -139,4 +139,12 @@ public class ManageController {
 		map.put("disablestaffcount", disablestaffcount);
 		return map;
 	}
+	
+	@GetMapping("/getSearchStaffList")
+	public Map<String, Object> getSearchStaffList(String nameId, int hospital_id) {
+		List<Staffs> searchStaffList = staffsService.getSearchStaffList(nameId, hospital_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchStaffList", searchStaffList);
+		return map;
+	}
 }

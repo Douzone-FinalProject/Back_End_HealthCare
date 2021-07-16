@@ -26,5 +26,6 @@ public interface StaffsDao {
 	public void updateStaff(Staffs nowStaff);
 	public int selectStaffCount();
 	public int selectDisableStaffCount();
+	public List<Staffs> selectSearchStaffList(@Param("nameId") String nameId, @Param("hospital_id") int hospital_id);
 	
 }
