@@ -125,9 +125,28 @@
 		where receipt_id = #{receipt_id}
 	</update>
 	
-	<select id="selectReceiptCount" resultType="int">
+	<select id="selectReadyCount" resultType="int">
       	select count(*)
 		from receipt_and_opinions
+		where receipt_state = '대기'
+    </select>
+    
+    <select id="selectTreatmentCount" resultType="int">
+      	select count(*)
+		from receipt_and_opinions
+		where receipt_state = '진료중'
+    </select>
+    
+    <select id="selectInspectionCount" resultType="int">
+      	select count(*)
+		from receipt_and_opinions
+		where receipt_state = '검사중'
+    </select>
+    
+    <select id="selectPaymentCount" resultType="int">
+      	select count(*)
+		from receipt_and_opinions
+		where receipt_state = '수납전'
     </select>
 	
 	<select id="selectPatientStateList" parameterType="string" resultType="receiptAndOpinions">

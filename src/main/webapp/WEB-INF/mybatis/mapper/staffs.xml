@@ -103,9 +103,10 @@
     </select>
     
     <select id="selectSearchStaffList" resultType="staffs">
-		select s.hospital_id, s.staff_id, s.staff_login_pwd, s.staff_name, s.staff_phone, s.staff_login_id, s.staff_role, s.staff_enabled, h.hospital_name
-		from staffs s, hospitals h
-		where s.hospital_id = h.hospital_id and s.hospital_id = #{hospital_id} and s.staff_role = 'ROLE_NURSE' and s.staff_login_id = #{nameId} or s.staff_name = #{nameId}
+    	select s.staff_id, s.staff_login_pwd, s.staff_name, s.staff_phone, s.staff_login_id, s.staff_role, s.staff_enabled, h.hospital_name
+		from hospitals h, (select staff_id, staff_login_pwd, staff_name, staff_phone, staff_login_id, staff_role, hospital_id, staff_enabled from staffs where staff_role = 'ROLE_NURSE') s
+		where s.hospital_id = h.hospital_id and s.hospital_id = #{hospital_id} and s.staff_login_id = #{nameId} or s.staff_name = #{nameId}
+		
 	</select>
     
 </mapper>
