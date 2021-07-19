@@ -64,9 +64,13 @@ public class ReservationController {
 			 지금 출력하는 것은 한 사람의 과거 예약 기록까지 나오기 때문에 
 			 과거 기록은 싹 없애고 가장 마지막 예약 날짜만 출력하도록 해야 한다. 
 			*/
-			List<Reservations> reservations = reservationService.getReservationByName(reservation_name);			
-			map.put("reservations", reservations); // 여기에 다음 예약 날짜가 포함되어야 한다. 
-				
+			logger.info("123: "+reservation_name);
+			if(!reservation_name.equals("")) {
+				List<Reservations> reservations = reservationService.getReservationByName(reservation_name);			
+				map.put("reservations", reservations); // 여기에 다음 예약 날짜가 포함되어야 한다. 
+			}else {
+				map.put("reservations", new ArrayList<>());
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -130,7 +134,9 @@ public class ReservationController {
 	public void sendSMS(@RequestBody ReservationSMS reservationSMS) {
 		try {
 			logger.info(reservationSMS.toString());
-			reservationService.sendSMS(reservationSMS);
+			if(reservationSMS.getName() != null && reservationSMS.getContent() != null && reservationSMS.getPhone() != null) {
+				reservationService.sendSMS(reservationSMS);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
