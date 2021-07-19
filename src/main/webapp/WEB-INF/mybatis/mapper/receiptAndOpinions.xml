@@ -130,8 +130,8 @@
 			when substring(patient_ssn, 8, 1) in ('3', '4', '7', '8') then '2000' + substring(patient_ssn, 1, 2)
 			end as unsigned) + 1 as patient_age  
 		<if test="type == '전체'">
-			from receipt_and_opinions as rao, patients as p
-			where rao.patient_id = p.patient_id and rao.diagnostic_test_state != '' and date(receipt_datetime) = date(now())
+			from receipt_and_opinions as rao, patients as p, diagnostic_lists as dl
+			where rao.patient_id = p.patient_id and rao.receipt_id = dl.receipt_id and rao.diagnostic_test_state != '' and date(receipt_datetime) = date(now())
 		</if>
 		<if test="type != '전체'">
 			from receipt_and_opinions as rao, diagnostic_lists as dl, searchs as s, bundles as b, patients as p
@@ -167,9 +167,12 @@
 	<select id="selectStateChart" resultType="stateCharts">
 		select count(case when diagnostic_test_state = '검사대기' then 1 end) as waiting,
 			   count(case when diagnostic_test_state = '검사중' then 1 end) as doing,
-			   count(case when diagnostic_test_state = '검사완료' then 1 end) as complete
-		 from receipt_and_opinions
-		 where date(receipt_datetime) = date(now());
+			   count(case when diagnostic_test_state in ('검사완료', '처방완료') then 1 end) as complete
+		       from (
+		       select distinct rao.receipt_id, rao.diagnostic_test_state
+					 from receipt_and_opinions as rao, diagnostic_lists as dl
+					 where rao.receipt_id = dl.receipt_id and date(receipt_datetime) = date(now())
+		       ) as rad
 	</select>
 	
 	<update id="updatePatientState" parameterType="String">

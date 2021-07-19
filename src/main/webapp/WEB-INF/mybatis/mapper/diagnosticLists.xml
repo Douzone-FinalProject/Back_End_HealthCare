@@ -43,6 +43,9 @@
 		<if test="state != '검사취소'">
 			staff_name = #{staffName}
 		</if>
+		<if test="state == '검사취소'">
+			staff_name = ""
+		</if>
 		<if test="state == '검사완료'">
 			,diagnostic_specimen_number = 
 			case
