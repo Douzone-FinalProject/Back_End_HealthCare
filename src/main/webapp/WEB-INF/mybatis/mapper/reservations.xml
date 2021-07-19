@@ -28,6 +28,12 @@
 		limit 1
 	</select>
 	
+	<select id="isAlreadyReserved" resultType="int">
+		select count(*)
+		from reservations
+		where reservation_datetime=#{reservation_datetime}
+	</select>
+	
 	<insert id="insertReservation">
 		<if test='patient_id != 0'>
 			insert into reservations 
@@ -60,8 +66,6 @@
 				reservation_phone=#{reservation_phone}, reservation_reason=#{reservation_reason}
 			where reservation_id=#{reservation_id}
 		</if>
-	
-		
 	</update>
 	
 	<select id="checkPatientVisited" resultType="int">

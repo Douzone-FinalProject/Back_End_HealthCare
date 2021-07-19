@@ -1,9 +1,13 @@
 package com.mycompany.healthcare.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.mycompany.healthcare.dto.Patients;
+
 import com.mycompany.healthcare.dto.ReservationSMS;
 import com.mycompany.healthcare.dto.Reservations;
-import com.mycompany.healthcare.services.ReceiptService;
 import com.mycompany.healthcare.services.ReservationService;
 
 @CrossOrigin(origins="*")
@@ -95,8 +98,36 @@ public class ReservationController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			logger.info(reservation.toString());
-			int row = reservationService.insertReservation(reservation);
-			map.put("row", row);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+			Date targetDate = dateFormat.parse(reservation.getReservation_datetime());
+			String currentDate = dateFormat.format(new Date());
+			
+			String time = reservation.getReservation_datetime().substring(11, 16);
+			int hour = Integer.parseInt(time.split(":")[0]);
+			int minute = Integer.parseInt(time.split(":")[1]);
+			boolean isReserved = reservationService.isAlreadyReserved(reservation.getReservation_datetime());
+			
+			// 날짜를 통해서 요일을 뽑아오기 
+			String date = reservation.getReservation_datetime().substring(0,11);
+			String dayOfWeek = reservationService.getDayOfWeek(date);
+			
+			if(targetDate.before(dateFormat.parse(currentDate))){
+				map.put("errorMessage", "현재시각 이후에 예약이 가능합니다.");
+	        }else if(isReserved) {
+				map.put("errorMessage", "이 시간대에 예약이 이미 존재합니다.");
+	        }else if(dayOfWeek.equals("SAT") && hour >= 12) {
+				map.put("errorMessage", "토요일은 오전만 운영합니다.");
+			}else if(hour < 8 || hour > 18 || dayOfWeek.equals("SUN")) { 	
+				map.put("errorMessage", "병원을 운영하지 않아 예약이 불가능합니다.");
+			}else if(hour == 12) { 
+				map.put("errorMessage", "병원 점심시간입니다.");
+			}else if(minute != 0 && minute != 30) {
+				map.put("errorMessage", "예약은 30분 단위로 이루어집니다.");
+			}else {
+				int row = reservationService.insertReservation(reservation);
+				logger.info("insert: " + row); 	
+				map.put("row", row);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -121,8 +152,37 @@ public class ReservationController {
 	public Map<String, Object> updateReserve(@RequestBody Reservations reservation) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			int row = reservationService.updateReservation(reservation);
-			map.put("row", row);
+			logger.info(reservation.toString());
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+			Date targetDate = dateFormat.parse(reservation.getReservation_datetime());
+			String currentDate = dateFormat.format(new Date());
+			
+			String time = reservation.getReservation_datetime().substring(11, 16);
+			int hour = Integer.parseInt(time.split(":")[0]);
+			int minute = Integer.parseInt(time.split(":")[1]);
+			boolean isReserved = reservationService.isAlreadyReserved(reservation.getReservation_datetime());
+			
+			// 날짜를 통해서 요일을 뽑아오기 
+			String date = reservation.getReservation_datetime().substring(0,11);
+			String dayOfWeek = reservationService.getDayOfWeek(date);
+			
+			if(targetDate.before(dateFormat.parse(currentDate))){
+				map.put("errorMessage", "현재시각 이후에 예약이 가능합니다.");
+	        }else if(isReserved) {
+				map.put("errorMessage", "이 시간대에 예약이 이미 존재합니다.");
+	        }else if(dayOfWeek.equals("SAT") && hour >= 12) {
+				map.put("errorMessage", "토요일은 오전만 운영합니다.");
+			}else if(hour < 8 || hour > 18 || dayOfWeek.equals("SUN")) { 	
+				map.put("errorMessage", "병원을 운영하지 않아 예약이 불가능합니다.");
+			}else if(hour == 12) { 
+				map.put("errorMessage", "병원 점심시간입니다.");
+			}else if(minute != 0 && minute != 30) {
+				map.put("errorMessage", "예약은 30분 단위로 이루어집니다.");
+			}else {
+				int row = reservationService.updateReservation(reservation); 
+				logger.info("update: " + row); 	
+				map.put("row", row);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

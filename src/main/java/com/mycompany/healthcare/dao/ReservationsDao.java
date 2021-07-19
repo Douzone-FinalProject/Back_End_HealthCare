@@ -12,11 +12,12 @@ public interface ReservationsDao {
 	public List<Reservations> selectAllReservation();
 	public Reservations selectReservationById(int reservation_id);
 	public List<Reservations> selectReservationByName(String reservation_name);
+	public int isAlreadyReserved(String reservation_date);
 	public int insertReservation(Reservations reservation);
 	public int deleteReservationById(int reserve_id);
 	public int updateReservation(Reservations reservation);
 	public Integer checkPatientVisited(@Param("reservation_name") String reservation_name, 
 										@Param("reservation_phone") String reservation_phone);
 	public Reservations selectNextReservation(int patient_id);
-	
+
 }

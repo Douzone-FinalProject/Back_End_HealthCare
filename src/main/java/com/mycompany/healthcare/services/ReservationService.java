@@ -1,5 +1,10 @@
 package com.mycompany.healthcare.services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +15,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.healthcare.dao.ReservationsDao;
-import com.mycompany.healthcare.dto.Patients;
 import com.mycompany.healthcare.dto.ReservationSMS;
 import com.mycompany.healthcare.dto.Reservations;
 
@@ -42,6 +46,12 @@ public class ReservationService {
 		return reservationsDao.selectReservationByName(reservation_name);
 	}
 
+	public Boolean isAlreadyReserved(String reservation_date) {
+		int result = reservationsDao.isAlreadyReserved(reservation_date);
+		if(result > 0) {return true;}
+		return false;
+	}
+	
 	public int insertReservation(Reservations reservation) {
 		return reservationsDao.insertReservation(reservation);
 	}
@@ -82,6 +92,46 @@ public class ReservationService {
 	// 다음 예약 날짜
 	public Reservations getNextReservation(int patient_id) {
 		return reservationsDao.selectNextReservation(patient_id);
+	}
+
+	// 특정 날짜의 요일 구하기 
+	public String getDayOfWeek(String inputDate) {
+		DateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String result = "";
+		try {
+			Date date = dataFormat.parse(inputDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			int dayNum = calendar.get(Calendar.DAY_OF_WEEK);
+			
+			switch(dayNum) {
+				case 1:
+					result = "SUN";
+					break;
+				case 2:
+					result = "MON";
+					break;
+				case 3:
+					result = "TUE";
+					break;
+				case 4:
+					result = "WED";
+					break;
+				case 5:
+					result = "TUR";
+					break;
+				case 6:
+					result = "FRI";
+					break;
+				case 7:
+					result = "SAT";
+					break;
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
    
