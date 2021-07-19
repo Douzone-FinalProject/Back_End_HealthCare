@@ -97,6 +97,13 @@
 		where rao.patient_id = p.patient_id and dl.receipt_id = rao.receipt_id and dl.diagnostic_specimen_number = #{diagnostic_specimen_number}
 	</select>
 	
+	<select id="getSpecimenDataByNull" resultType="diagnosticData">
+ 		select diagnostic_list_id, diagnostic_list_barcode, diagnostic_list_state,
+ 				diagnostic_specimen_number, staff_id, staff_name, diagnostic_result_state, doctor_name
+		from diagnostic_lists
+		where diagnostic_list_id=#{diagnostic_list_id}
+	</select>
+	
 	<update id="updateFinishedResultState">
 		update diagnostic_lists SET diagnostic_result_state = 'ⓞ'
 		where diagnostic_list_id in (
@@ -113,7 +120,7 @@
 			from (
 				select dl.diagnostic_result_state
 				from diagnostic_lists dl, searchs s, bundles b
-				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_specimen != "" and dl.receipt_id in (
+				where dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_name not in ('MRI', 'CT') and dl.receipt_id in (
 					select receipt_id
 					from (
 						select receipt_id

@@ -69,7 +69,11 @@ public class ResultController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<ResultData> resultData = resultService.getResultDataByReceipt(receipt_id);
+			PatientData patientData = resultService.getPatientData(receipt_id);
+			List<DiagnosticImgs> pathData = resultService.getImagePath(receipt_id);
 			map.put("resultData", resultData);
+			map.put("patientData", patientData);
+			map.put("pathData", pathData);
 			logger.info("resultData --- " + resultData);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -125,6 +129,20 @@ public class ResultController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			DiagnosticData specimenData = resultService.getSpecimenData(diagnostic_specimen_number);
+			map.put("specimenData", specimenData);
+			logger.info("specimenData --- " + specimenData);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	@GetMapping("/getSpecimenDataByNull")
+	public Map<String, Object> getSpecimenDataByNull(int diagnostic_list_id) {
+		logger.info("getSpecimenDataByNull --- " + diagnostic_list_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			DiagnosticData specimenData = resultService.getSpecimenDataByNull(diagnostic_list_id);
 			map.put("specimenData", specimenData);
 			logger.info("specimenData --- " + specimenData);
 		} catch(Exception e) {

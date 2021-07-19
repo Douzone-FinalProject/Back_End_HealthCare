@@ -155,5 +155,9 @@ public class ResultService {
 	public List<DiagnosticData> getDiagnosticDataByReceiptId(int receipt_id) {
 		return diagnosticListsDao.getDiagnosticDataByReceiptId(receipt_id);
 	}
+
+	public DiagnosticData getSpecimenDataByNull(int diagnostic_list_id) {
+		return diagnosticListsDao.getSpecimenDataByNull(diagnostic_list_id);
+	}
 	
 }
