@@ -31,7 +31,10 @@ public interface ReceiptAndOpinionsDao {
 	public void updateReceiptOpinion(@Param("receipt_id") int receipt_id, @Param("receipt_opinion") String receipt_opinion);
 	public void updateReceiptUniqueness(@Param("receipt_id") int receipt_id, @Param("receipt_uniqueness") String receipt_uniqueness);
 	public void updateTestAndReceiptState(int receipt_id);
-	public int selectReceiptCount();
+	public int selectReadyCount();
+	public int selectTreatmentCount();
+	public int selectInspectionCount();
+	public int selectPaymentCount();
 	
 	// 검사상태 환자 리스트
 	public List<ReceiptAndOpinions> selectPatientStateList(@Param("type") String type, @Param("state") String state);
@@ -45,5 +48,10 @@ public interface ReceiptAndOpinionsDao {
 	public void updateFinishedResultStateByReceipt(int diagnostic_results_id);
 	public List<ReceiptAndOpinions> getReceiptDataByRecieptId(int receipt_id);
 	public String selectReceiptState(int receiptId);
+	public void updatePaymentBeforeState(int receipt_id);
+	
+	
+	
+	
 	
 }

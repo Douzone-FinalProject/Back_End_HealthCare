@@ -145,12 +145,6 @@
 			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and dl.diagnostic_list_state != '검사완료' and date(receipt_datetime) = date(now());
 	</select>
 	
-	
-	<select id="selectTestCount" resultType="int">
-      	select count(*)
-		from diagnostic_lists
-    </select>
-	
 	<select id="getDiagnosticDataByReceiptId" resultType="diagnosticData">
  		select p.patient_id, p.patient_name, dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
  				dl.diagnostic_specimen_number, dl.staff_id, dl.search_id, dl.staff_name, dl.diagnostic_result_state,

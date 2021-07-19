@@ -66,27 +66,35 @@ public class ManageController {
 		staffsService.deleteStaff(staff_id);
 	}
 	
-	@GetMapping("/receiptCount")
-	public Map<String, Object> receiptCount() {
-		int receiptCounts = staffsService.getReceiptCount();
+	@GetMapping("/readyCount")
+	public Map<String, Object> readyCount() {
+		int readyCounts = staffsService.getReadyCount();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("receiptCounts", receiptCounts);
+		map.put("readyCounts", readyCounts);
 		return map;
 	}
 	
-	@GetMapping("/testCount")
-	public Map<String, Object> testCount() {
-		int testCounts = staffsService.getTestCount();
+	@GetMapping("/treatmentCount")
+	public Map<String, Object> treatmentCount() {
+		int treatmentCounts = staffsService.getTreatmentCount();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("testCounts", testCounts);
+		map.put("treatmentCounts", treatmentCounts);
 		return map;
 	}
 	
-	@GetMapping("/medicinePresCount")
-	public Map<String, Object> medicinePrestCount() {
-		int medicinePresCounts = staffsService.getMedicinePresCount();
+	@GetMapping("/inspectionCount")
+	public Map<String, Object> inspectionCount() {
+		int inspectionCounts = staffsService.getInspectionCount();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("medicinePresCounts", medicinePresCounts);
+		map.put("inspectionCounts", inspectionCounts);
+		return map;
+	}
+	
+	@GetMapping("/paymentCount")
+	public Map<String, Object> paymentCount() {
+		int paymentCounts = staffsService.getPaymentCount();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("paymentCounts", paymentCounts);
 		return map;
 	}
 	
@@ -137,6 +145,14 @@ public class ManageController {
 		int disablestaffcount = staffsService.getDisableStaffCount();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("disablestaffcount", disablestaffcount);
+		return map;
+	}
+	
+	@GetMapping("/getSearchStaffList")
+	public Map<String, Object> getSearchStaffList(String nameId, int hospital_id) {
+		List<Staffs> searchStaffList = staffsService.getSearchStaffList(nameId, hospital_id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchStaffList", searchStaffList);
 		return map;
 	}
 }

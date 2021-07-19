@@ -140,6 +140,11 @@ public class DiagnosticsService {
 		
 	}
 
+	public void updatePaymentBeforeState(int receipt_id) {
+		receiptAndOpinionsDao.updatePaymentBeforeState(receipt_id);
+		
+	}
+
 
 
 	
