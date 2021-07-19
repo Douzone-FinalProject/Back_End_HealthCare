@@ -40,6 +40,8 @@ public interface DiagnosticListsDao {
 	public List<DiagnosticData> getDiagnosticDataByReceiptId(int receipt_id);
 
 	public void updateReceiptResultStateByDiag(int diagnostic_results_id);
+
+	public DiagnosticData getSpecimenDataByNull(int diagnostic_list_id);
 	
 
 }
