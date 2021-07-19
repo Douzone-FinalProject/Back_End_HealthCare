@@ -78,6 +78,7 @@ public class ReceiptController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Patients patient = receiptService.getPatientById(patient_id);
+			logger.info("hello: " + patient.toString());
 			map.put("patient", patient);
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -49,21 +49,6 @@ public class StaffsService {
 		
 	}
 
-	public int getReceiptCount() {
-		int receiptCounts = receiptAndOpinionsDao.selectReceiptCount();
-		return receiptCounts;
-	}
-
-	public int getTestCount() {
-		int testCounts = diagnosticListsDao.selectTestCount();
-		return testCounts;
-	}
-
-	public int getMedicinePresCount() {
-		int medicinePresCounts = medicinePresDao.selectMedicinePresCount();
-		return medicinePresCounts;
-	}
-
 	public void updateStaffNoPassword(Staffs nowStaff) {
 		staffsDao.updateStaffNoPassword(nowStaff);
 		
@@ -125,4 +110,29 @@ public class StaffsService {
 		int disablestaffcount = staffsDao.selectDisableStaffCount();
 		return disablestaffcount;
 	}
+
+	public List<Staffs> getSearchStaffList(String nameId, int hospital_id) {
+		return staffsDao.selectSearchStaffList(nameId, hospital_id);
+	}
+
+	public int getReadyCount() {
+		int readyCounts = receiptAndOpinionsDao.selectReadyCount();
+		return readyCounts;
+	}
+
+	public int getTreatmentCount() {
+		int treatmentCounts = receiptAndOpinionsDao.selectTreatmentCount();
+		return treatmentCounts;
+	}
+
+	public int getInspectionCount() {
+		int inspectionCounts = receiptAndOpinionsDao.selectInspectionCount();
+		return inspectionCounts;
+	}
+
+	public int getPaymentCount() {
+		int paymentCounts = receiptAndOpinionsDao.selectPaymentCount();
+		return paymentCounts;
+	}
+	
 }
