@@ -47,12 +47,17 @@ public class ReceiptController {
 	@GetMapping("/patients/name/{name}")
 	public Map<String, Object> getPatientList(@PathVariable("name") String patient_name) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			List<Patients> patientList = receiptService.getPatientListByName(patient_name);
-			map.put("patientList", patientList);
-		} catch(Exception e) {
-			e.printStackTrace();
+		if(patient_name != null && patient_name.equals("")) {
+			try {
+				List<Patients> patientList = receiptService.getPatientListByName(patient_name);
+				map.put("patientList", patientList);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			logger.info("check patient_name");
 		}
+		
 		return map;
 	}
 	
