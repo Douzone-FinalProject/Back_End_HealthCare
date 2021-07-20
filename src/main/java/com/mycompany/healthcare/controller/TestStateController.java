@@ -28,7 +28,7 @@ import com.mycompany.healthcare.services.TestStateService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/teststate")
+@RequestMapping("/api/teststate")
 public class TestStateController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TestStateController.class);

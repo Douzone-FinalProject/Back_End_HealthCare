@@ -18,7 +18,7 @@ import com.mycompany.healthcare.services.StaffsService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);

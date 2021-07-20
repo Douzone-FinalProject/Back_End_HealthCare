@@ -27,7 +27,7 @@ import com.mycompany.healthcare.services.MessageService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/message")
 public class MessageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
