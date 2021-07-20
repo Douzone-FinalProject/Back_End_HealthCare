@@ -39,12 +39,9 @@
 	</select>
 	
 	<update id="updateStateDetail">
-		update diagnostic_lists SET diagnostic_list_state = #{state}, 
-		<if test="state != '검사취소'">
-			staff_name = #{staffName}
-		</if>
-		<if test="state == '검사취소'">
-			staff_name = ""
+		update diagnostic_lists SET diagnostic_list_state = #{state}, staff_name = #{staffName}
+		<if test="state == '검사대기'">
+			,diagnostic_specimen_number = ""
 		</if>
 		<if test="state == '검사완료'">
 			,diagnostic_specimen_number = 
