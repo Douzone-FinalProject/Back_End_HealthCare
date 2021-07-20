@@ -118,7 +118,7 @@ public class ReservationController {
 	        }else if(dayOfWeek.equals("SAT") && hour >= 12) {
 				map.put("errorMessage", "토요일은 오전만 운영합니다.");
 			}else if(hour < 8 || hour > 18 || dayOfWeek.equals("SUN")) { 	
-				map.put("errorMessage", "병원을 운영하지 않아 예약이 불가능합니다.");
+				map.put("errorMessage", "병원을 운영하지 않는 시간대입니다.");
 			}else if(hour == 12) { 
 				map.put("errorMessage", "병원 점심시간입니다.");
 			}else if(minute != 0 && minute != 30) {
@@ -173,7 +173,7 @@ public class ReservationController {
 	        }else if(dayOfWeek.equals("SAT") && hour >= 12) {
 				map.put("errorMessage", "토요일은 오전만 운영합니다.");
 			}else if(hour < 8 || hour > 18 || dayOfWeek.equals("SUN")) { 	
-				map.put("errorMessage", "병원을 운영하지 않아 예약이 불가능합니다.");
+				map.put("errorMessage", "병원을 운영하지 않는 시간대입니다.");
 			}else if(hour == 12) { 
 				map.put("errorMessage", "병원 점심시간입니다.");
 			}else if(minute != 0 && minute != 30) {
