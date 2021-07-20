@@ -27,7 +27,7 @@ import com.mycompany.healthcare.services.StaffsService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/manage")
+@RequestMapping("/api/manage")
 public class ManageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ManageController.class);
