@@ -24,7 +24,7 @@ import com.mycompany.healthcare.services.AuthService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);

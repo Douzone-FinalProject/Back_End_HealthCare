@@ -26,7 +26,7 @@ import com.mycompany.healthcare.services.DiagnosticsService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/diagnostic")
+@RequestMapping("/api/diagnostic")
 public class DiagnosticController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DiagnosticController.class);
