@@ -34,49 +34,49 @@
 	</update>
 	
 	<select id="selectSearchPatientIdOpinionList" resultType="receiptAndOpinions">
-		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id, receipt_result_state
 		from receipt_and_opinions
 		where patient_id = #{patient_id}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchDateOpinionList" resultType="receiptAndOpinions">
-		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id, receipt_result_state
 		from receipt_and_opinions
 		where receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%')
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchPatientNameOpinionList" resultType="receiptAndOpinions">
-		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id
+		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id, r.receipt_result_state
 		from receipt_and_opinions r, patients p
 		where r.patient_id = p.patient_id and p.patient_name = #{patient_name}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchPatientIdAndDateList"  resultType="receiptAndOpinions">
-		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id, receipt_result_state
 		from receipt_and_opinions
 		where receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%') and patient_id = #{patient_id}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchPatientIdAndNameList"  resultType="receiptAndOpinions">
-		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id
+		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id, r.receipt_result_state
 		from receipt_and_opinions r, patients p
 		where r.patient_id = p.patient_id and p.patient_name = #{patient_name} and r.patient_id = #{patient_id}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchPatientNameAndDateList"  resultType="receiptAndOpinions">
-		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id
+		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id, r.receipt_result_state
 		from receipt_and_opinions r, patients p
 		where r.patient_id = p.patient_id and receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%') and p.patient_name = #{patient_name}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectSearchAllList"  resultType="receiptAndOpinions">
-		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id
+		select r.receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, r.receipt_state, r.diagnostic_test_state, r.receipt_opinion, r.receipt_uniqueness, r.patient_id, r.receipt_result_state
 		from receipt_and_opinions r, patients p
 		where r.patient_id = p.patient_id and receipt_datetime Like CONCAT('%', #{receipt_datetime}, '%') and p.patient_name = #{patient_name} and r.patient_id = #{patient_id}
 		order by receipt_id DESC
@@ -89,14 +89,14 @@
 	</update>
 	
 	<select id="selectFatientOpinionsList" resultType="receiptAndOpinions">
-		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id, receipt_result_state
 		from receipt_and_opinions
 		where patient_id = #{patient_id}
 		order by receipt_id DESC
 	</select>
 	
 	<select id="selectOpinion" resultType="receiptAndOpinions">
-		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id
+		select receipt_id, date_format(receipt_datetime, '%Y-%m-%d') as receipt_datetime, receipt_state, diagnostic_test_state, receipt_opinion, receipt_uniqueness, patient_id, receipt_result_state
 		from receipt_and_opinions
 		where receipt_id = #{receipt_id}
 	</select>
@@ -164,7 +164,7 @@
 			where rao.receipt_id = dl.receipt_id and dl.search_id = s.search_id and s.bundle_id = b.bundle_id and b.bundle_lab = #{type} and rao.patient_id = p.patient_id and rao.diagnostic_test_state != '' and date(receipt_datetime) = date(now())
 		</if>
 		<if test="state == 'whole'">
-			and diagnostic_test_state != '검사완료' and diagnostic_test_state != "" and diagnostic_test_state != '처방완료'
+			and diagnostic_test_state not in ('검사완료', "", '처방완료')
 		</if>
 		<if test="state != 'whole'">
 			<if test="state != '검사완료'">
