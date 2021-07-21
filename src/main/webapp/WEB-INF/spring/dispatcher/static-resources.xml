@@ -11,7 +11,7 @@
 
 
 	<!-- Handles HTTP GET requests fservlet-context.xmlor /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
-
+	<resources mapping="/**" location="/resources/build/" />
+	<resources mapping="/static/**" location="/resources/build/static/" />
 
 </beans:beans>
