@@ -17,5 +17,4 @@ public interface MedicinePresDao {
 
 	void updateMedicinesList(List<MedicinePres> handleMedicines);
 
-
 }
