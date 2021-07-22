@@ -145,9 +145,5 @@ public class DiagnosticsService {
 		
 	}
 
-
-
-	
-
 	
 }
