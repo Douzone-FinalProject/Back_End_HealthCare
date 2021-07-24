@@ -22,7 +22,7 @@ import com.mycompany.healthcare.services.ReceiptService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/receipt")
+@RequestMapping("/api/receipt")
 public class ReceiptController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReceiptController.class);

@@ -27,7 +27,7 @@ import com.mycompany.healthcare.services.ReservationService;
 
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/reserve")
+@RequestMapping("/api/reserve")
 public class ReservationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
