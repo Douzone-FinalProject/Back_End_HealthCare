@@ -53,9 +53,9 @@ public class TestStateService {
 	}
 
 	public List<TestStateDetail> getTestStateDetailList(int receiptId) {
-		List<TestStateDetail> d = diagnosticListsDao.selectTestStateDetailLIst(receiptId);
-		System.out.println(d.get(0));
-		return diagnosticListsDao.selectTestStateDetailLIst(receiptId);
+//		List<TestStateDetail> d = diagnosticListsDao.selectTestStateDetailLIst(receiptId);
+//		System.out.println(d.get(0));
+		return diagnosticListsDao.selectTestStateDetailList(receiptId);
 	}
 
 	public void updateStateDetail(Map<String, Object> updateData) {
@@ -100,9 +100,6 @@ public class TestStateService {
 	}
 
 	public void uploadImg(SaveImgs saveImgs) {
-		// base64에 붙어있는 파일 정보들을 떼어서 저장하기 위해
-		String[] base64Str = saveImgs.getBase64().split(",");
-		
 		// base64로 인코딩되어 있는 데이터를 디코딩하여 byte[]로 받음
 //		byte[] decodeBytes = Base64.getDecoder().decode(base64Str[1]);
 		
@@ -114,19 +111,25 @@ public class TestStateService {
 //			FileUtils.writeByteArrayToFile(new File(defaultPath + time + saveImgs.getFilename() + ".jpeg"), decodeBytes);
 			
 			// 이미지의 정보를 보내기 위해 DTO에 정보를 넣어준다
-			DiagnosticImgs diagnosticImgs = new DiagnosticImgs();
-			diagnosticImgs.setDiagnostic_img(saveImgs.getBase64());
-			diagnosticImgs.setImg_type("image/jpeg");
-			diagnosticImgs.setReceipt_id(saveImgs.getReceiptId());
-			
-			// 테이블의 정보를 삽입
-			diagnosticImgsDao.insertDiagnosticImg(diagnosticImgs);
+			for (Map<String, String> saveimg : saveImgs.getBase64()) {
+				// base64에 붙어있는 파일 정보들을 떼어서 저장하기 위해
+				String[] base64Str = saveimg.get("base64").split(",");
+				String[] splitType = base64Str[0].split(":");
+				String[] type = splitType[1].split(";");
+				System.out.println(type[0]);
+				DiagnosticImgs diagnosticImgs = new DiagnosticImgs();
+				diagnosticImgs.setDiagnostic_img(saveimg.get("base64"));
+				diagnosticImgs.setImg_type(type[0]);
+				diagnosticImgs.setReceipt_id(saveImgs.getReceiptId());
+				// 테이블의 정보를 삽입
+				diagnosticImgsDao.insertDiagnosticImg(diagnosticImgs);
+			} 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		saveImgs.setBase64("");
+//		saveImgs.setBase64("");
 	}
 
 	public String getPatientName(int receiptId) {
