@@ -93,13 +93,13 @@
 	
 	<select id="selectStaffCount" resultType="int">
       	select count(*)
-		from staffs
+		from staff_enabled = 1 and staff_role = 'ROLE_NURSE'
     </select>
     
     <select id="selectDisableStaffCount" resultType="int">
       	select count(*)
 		from staffs
-		where staff_enabled = 0
+		where staff_enabled = 0 and staff_role = 'ROLE_NURSE'
     </select>
     
     <select id="selectSearchStaffList" resultType="staffs">
