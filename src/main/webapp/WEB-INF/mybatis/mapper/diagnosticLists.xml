@@ -30,7 +30,7 @@
 		</foreach>
 	</insert>
 	
-	<select id="selectTestStateDetailLIst" parameterType="int" resultType="testStateDetail">
+	<select id="selectTestStateDetailList" parameterType="int" resultType="testStateDetail">
 		select dl.diagnostic_list_id, dl.diagnostic_list_barcode, dl.diagnostic_list_state,
 			   dl.diagnostic_specimen_number, dl.receipt_id, dl.staff_id, dl.staff_name, s.search_id,
 			   s.symptom_id, b.bundle_id, b.bundle_name, b.bundle_specimen, b.bundle_bottle, b.bundle_lab, doctor_name
