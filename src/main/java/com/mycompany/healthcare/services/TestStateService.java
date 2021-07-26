@@ -140,7 +140,7 @@ public class TestStateService {
 		return diagnosticListsDao.countLabPatient();
 	}
 
-	public String getReceiptState(int receiptId) {
-		return receiptAndOpinionsDao.selectReceiptState(receiptId);
+	public ReceiptAndOpinions getPatientStates(int receiptId) {
+		return receiptAndOpinionsDao.selectOpinion(receiptId);
 	}
 }

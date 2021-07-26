@@ -89,9 +89,9 @@ public class TestStateController {
 	}
 	
 	// testStateDetail에 환자의 receipt_state 얻어오기
-	@GetMapping("/receiptstate/{receiptId}")
-	public String getReceiptState(@PathVariable int receiptId) {
-		return testStateService.getReceiptState(receiptId);
+	@GetMapping("/patientstates/{receiptId}")
+	public ReceiptAndOpinions getPatientStates(@PathVariable int receiptId) {
+		return testStateService.getPatientStates(receiptId);
 	}
 	
 	
