@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -123,7 +124,6 @@ public class DiagnosticController {
 	@GetMapping("/fatientOpinions")
 	public Map<String, Object> fatientOpinions(String patient_id) {
 		List<ReceiptAndOpinions> fatientOpinionsList = diagnosticsService.getFatientOpinionsList(patient_id);
-		logger.info(fatientOpinionsList+"");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("fatientOpinionsList", fatientOpinionsList);
 
@@ -132,20 +132,16 @@ public class DiagnosticController {
 	
 	@PostMapping("/createOpinion")
 	public void createOpinion(@RequestBody ReceiptAndOpinions newOpinion) {
-		
 		diagnosticsService.getCreateOpinion(newOpinion);
 	}
 	
 	@PostMapping("/createMedicines")
 	public void createMedicines(@RequestBody List<MedicinePres> cmlist) {
-		
 		diagnosticsService.createMedicinesList(cmlist);
-		
 	}
 	
 	@GetMapping("/readOpinion")
 	public Map<String, Object> readOpinion(@RequestParam int receipt_id) {
-		
 		ReceiptAndOpinions readReceiptOpinion = diagnosticsService.getReadOpinion(receipt_id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("readReceiptOpinion", readReceiptOpinion);
@@ -155,7 +151,6 @@ public class DiagnosticController {
 	
 	@GetMapping("/receiptMedicines")
 	public Map<String, Object> receiptMedicines(@RequestParam int receipt_id) {
-		
 		List<Medicines> readReceiptMedicines = diagnosticsService.getReadReceiptMedicines(receipt_id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("readReceiptMedicines", readReceiptMedicines);
@@ -165,31 +160,29 @@ public class DiagnosticController {
 	
 	@PutMapping("/updateOpinion")
 	public void updateOpinion(@RequestBody ReceiptAndOpinions handleOpinion) {
-		
 		diagnosticsService.updateOpinion(handleOpinion);
-		
 	}
 	
 	@PostMapping("/updateOpinionOfMedicines")
 	public void updateOpinionOfMedicines(@RequestBody List<MedicinePres> handleMedicines, @RequestParam int receipt_id) {
-		
 		diagnosticsService.deleteMedicinePres(receipt_id);
 		diagnosticsService.updateMedicinePres(handleMedicines);
-
 	}
 	
 	@PutMapping("/updateTestAndReceiptState/{receipt_id}")
 	public void updateTestAndReceiptState(@PathVariable("receipt_id") int receipt_id) {
-		logger.info(""+receipt_id);
 		diagnosticsService.updateTestAndReceiptState(receipt_id);
 		
 	}
 	
 	@PutMapping("/paymentBefore/{receipt_id}")
 	public void paymentBefore(@PathVariable("receipt_id") int receipt_id) {
-		logger.info(""+receipt_id);
 		diagnosticsService.updatePaymentBeforeState(receipt_id);
-		
+	}
+	
+	@DeleteMapping("/deleteReceiptMedic/{receipt_id}")
+	public void deleteStaff(@PathVariable("receipt_id") int receipt_id) {
+		diagnosticsService.deleteMedicinePres(receipt_id);
 	}
 	
 	

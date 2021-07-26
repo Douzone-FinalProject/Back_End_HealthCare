@@ -18,7 +18,7 @@ public interface DiagnosticListsDao {
 
 	public void insertRequestTest(List<DiagnosticLists> keyword);
 
-	public List<TestStateDetail> selectTestStateDetailLIst(int receiptId);
+	public List<TestStateDetail> selectTestStateDetailList(int receiptId);
 
 	public void updateStateDetail(Object updateData);
 
